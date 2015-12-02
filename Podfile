@@ -12,3 +12,5 @@ pod 'OpenSSL', '~> 1.0.204'
 
 # Github page: https://github.com/steipete/Aspects
 pod 'Aspects','~>1.4.1'
+pod 'BlocksKit', '~> 2.2.5'
+pod 'UIImage-Helpers', '~> 0.0.3'

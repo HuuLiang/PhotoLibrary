@@ -10,12 +10,25 @@
 #import "PLPhotoViewController.h"
 #import "PLVideoViewController.h"
 #import "PLSettingViewController.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "AlipayManager.h"
+#import "WeChatPayManager.h"
+//#import "PLActivateModel.h"
+//#import "PLPaymentModel.h"
+#import "WXApi.h"
+//#import "PLAlipayOrderQueryRequest.h"
+//#import "PLWeChatPayQueryOrderRequest.h"
+//#import "PLUserAccessModel.h"
 
-@interface PLAppDelegate ()
-
+@interface PLAppDelegate () <WXApiDelegate>
+//@property (nonatomic,retain) PLAlipayOrderQueryRequest *alipayOrderQueryRequest;
+//@property (nonatomic,retain) PLWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 @end
 
 @implementation PLAppDelegate
+
+//DefineLazyPropertyInitialization(PLAlipayOrderQueryRequest, alipayOrderQueryRequest)
+//DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
 - (UIWindow *)window {
     if (_window) {
@@ -26,26 +39,30 @@
     _window.backgroundColor              = [UIColor whiteColor];
     
     PLPhotoViewController *photoVC       = [[PLPhotoViewController alloc] init];
+    photoVC.title = @"图库";
     UINavigationController *photoNav     = [[UINavigationController alloc] initWithRootViewController:photoVC];
-    photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:@"首页"
-                                                                         image:[UIImage imageNamed:@"btm_home"]
-                                                                 selectedImage:[UIImage imageNamed:@"btm_home_sel"]];
+    photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:photoVC.title
+                                                                         image:[UIImage imageNamed:@"normal_photo_bar"]
+                                                                 selectedImage:[UIImage imageNamed:@"selected_photo_bar"]];
     
     PLVideoViewController *videoVC     = [[PLVideoViewController alloc] init];
+    videoVC.title = @"视频";
     UINavigationController *videoNav   = [[UINavigationController alloc] initWithRootViewController:videoVC];
-    videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
-                                                                         image:[UIImage imageNamed:@"btm_c"]
-                                                                 selectedImage:[UIImage imageNamed:@"btm_c_sel"]];
+    videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
+                                                                         image:[UIImage imageNamed:@"normal_video_bar"]
+                                                                 selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
     
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
+    settingVC.title = @"设置";
     UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
-    settingNav.tabBarItem              = [[UITabBarItem alloc] initWithTitle:@"设置"
-                                                                    image:[UIImage imageNamed:@"btm_more"]
-                                                            selectedImage:[UIImage imageNamed:@"btm_more_sel"]];
+    settingNav.tabBarItem              = [[UITabBarItem alloc] initWithTitle:settingVC.title
+                                                                    image:[UIImage imageNamed:@"normal_setting_bar"]
+                                                            selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
     tabBarController.tabBar.translucent  = NO;
+    tabBarController.tabBar.tintColor = [UIColor blackColor];
     _window.rootViewController           = tabBarController;
     return _window;
 }
@@ -108,6 +125,22 @@
     // Override point for customization after application launch.
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
+//    
+//    if (![PLUtil isRegistered]) {
+//        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+//            if (success) {
+//                [PLUtil setRegisteredWithUserId:userId];
+//                [[PLUserAccessModel sharedModel] requestUserAccess];
+//            }
+//        }];
+//    } else {
+//        [[PLUserAccessModel sharedModel] requestUserAccess];
+//    }
+//    
+//    NSArray *order = [PLUtil orderForSavePending];
+//    if (order.count == PLPendingOrderItemCount) {
+//        [self paidWithOrderId:order[PLPendingOrderId] price:order[PLPendingOrderPrice] result:PAYRESULT_SUCCESS forProgramId:order[PLPendingOrderProgramId] programType:order[PLPendingOrderProgramType] payPointType:order[PLPendingOrderPayPointType] paymentType:((NSNumber *)order[PLPendingOrderPaymentType]).unsignedIntegerValue];
+//    }
     return YES;
 }
 
@@ -127,10 +160,74 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self checkPayment];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        [[AlipayManager shareInstance] sendNotificationByResult:resultDic];
+    }];
+    [WXApi handleOpenURL:url delegate:self];
+    
+    return YES;
+}
+
+- (void)checkPayment {
+//    NSString *payingOrderNo = [PLUtil payingOrderNo];
+//    PLPaymentType payingType = [PLUtil payingOrderPaymentType];
+//    if (![PLUtil isPaid] && payingOrderNo && payingType != PLPaymentTypeNone) {
+//        if (payingType == PLPaymentTypeWeChatPay) {
+//            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+//                if ([trade_state isEqualToString:@"SUCCESS"]) {
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName
+//                                                                        object:nil
+//                                                                      userInfo:@{kPaidNotificationOrderNoKey:payingOrderNo,
+//                                                                                 kPaidNotificationPriceKey:@(total_fee).stringValue,
+//                                                                                 kPaidNotificationPaymentType:@(PLPaymentTypeWeChatPay)}];
+//                }
+//            }];
+//        }
+//        
+//    }
+}
+
+- (void)paidWithOrderId:(NSString *)orderId
+                  price:(NSString *)price
+                 result:(NSInteger)result
+           forProgramId:(NSString *)programId
+            programType:(NSString *)programType
+           payPointType:(NSString *)payPointType
+            paymentType:(PLPaymentType)paymentType {
+
+//    
+//    [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType paymentType:paymentType completionHandler:^(BOOL success){
+//        if (success && result == PAYRESULT_SUCCESS) {
+//            [KbUtil setPaid];
+//        }
+//    }];
+}
+
+#pragma mark - WeChat delegate
+
+- (void)onReq:(BaseReq *)req {
+    
+}
+
+- (void)onResp:(BaseResp *)resp {
+    if([resp isKindOfClass:[PayResp class]]){
+        PAYRESULT payResult;
+        if (resp.errCode == WXErrCodeUserCancel) {
+            payResult = PAYRESULT_ABANDON;
+        } else if (resp.errCode == WXSuccess) {
+            payResult = PAYRESULT_SUCCESS;
+        } else {
+            payResult = PAYRESULT_FAIL;
+        }
+        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
+    }
+}
 @end

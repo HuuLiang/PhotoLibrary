@@ -11,5 +11,8 @@
 
 #import "RACEXTScope.h"
 #import "NSString+md5.h"
+#import "UIColor+hexColor.h"
+#import "UIView+PLLoading.h"
+#import "UIView+PLDim.h"
 
 #endif /* PLExtensions_h */

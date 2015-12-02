@@ -59,6 +59,15 @@
 		BCB1B03C1C0D71D3008AA006 /* PLErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0391C0D71D3008AA006 /* PLErrorHandler.m */; };
 		BCB1B03D1C0D71D3008AA006 /* PLHudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B03B1C0D71D3008AA006 /* PLHudManager.m */; };
 		BCB1B0441C0D7711008AA006 /* PLPaymentPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0431C0D7711008AA006 /* PLPaymentPopView.m */; };
+		BCB1B0481C0D802E008AA006 /* PLPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0471C0D802E008AA006 /* PLPhotoCell.m */; };
+		BCB1B04C1C0D82BD008AA006 /* PLPhotoChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B04B1C0D82BD008AA006 /* PLPhotoChannelModel.m */; };
+		BCB1B04F1C0D9333008AA006 /* PLPhotoChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B04E1C0D9333008AA006 /* PLPhotoChannel.m */; };
+		BCB1B0511C0D9488008AA006 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB1B0501C0D9488008AA006 /* config.plist */; };
+		BCB1B0531C0D95F2008AA006 /* config-back.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB1B0521C0D95F2008AA006 /* config-back.plist */; };
+		BCB1B05C1C0D9EAD008AA006 /* UIView+PLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B05B1C0D9EAD008AA006 /* UIView+PLLoading.m */; };
+		BCB1B0621C0DA151008AA006 /* PLPopupMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0611C0DA151008AA006 /* PLPopupMenuButton.m */; };
+		BCB1B0651C0DA943008AA006 /* UIView+PLDim.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0641C0DA943008AA006 /* UIView+PLDim.m */; };
+		BCB1B06B1C0DBC51008AA006 /* PLPopupMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B06A1C0DBC51008AA006 /* PLPopupMenuController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +195,22 @@
 		BCB1B03B1C0D71D3008AA006 /* PLHudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLHudManager.m; sourceTree = "<group>"; };
 		BCB1B0421C0D7711008AA006 /* PLPaymentPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentPopView.h; sourceTree = "<group>"; };
 		BCB1B0431C0D7711008AA006 /* PLPaymentPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentPopView.m; sourceTree = "<group>"; };
+		BCB1B0461C0D802E008AA006 /* PLPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoCell.h; sourceTree = "<group>"; };
+		BCB1B0471C0D802E008AA006 /* PLPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoCell.m; sourceTree = "<group>"; };
+		BCB1B04A1C0D82BD008AA006 /* PLPhotoChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoChannelModel.h; sourceTree = "<group>"; };
+		BCB1B04B1C0D82BD008AA006 /* PLPhotoChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoChannelModel.m; sourceTree = "<group>"; };
+		BCB1B04D1C0D9333008AA006 /* PLPhotoChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoChannel.h; sourceTree = "<group>"; };
+		BCB1B04E1C0D9333008AA006 /* PLPhotoChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoChannel.m; sourceTree = "<group>"; };
+		BCB1B0501C0D9488008AA006 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		BCB1B0521C0D95F2008AA006 /* config-back.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-back.plist"; sourceTree = "<group>"; };
+		BCB1B05A1C0D9EAD008AA006 /* UIView+PLLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PLLoading.h"; sourceTree = "<group>"; };
+		BCB1B05B1C0D9EAD008AA006 /* UIView+PLLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PLLoading.m"; sourceTree = "<group>"; };
+		BCB1B0601C0DA151008AA006 /* PLPopupMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPopupMenuButton.h; sourceTree = "<group>"; };
+		BCB1B0611C0DA151008AA006 /* PLPopupMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPopupMenuButton.m; sourceTree = "<group>"; };
+		BCB1B0631C0DA943008AA006 /* UIView+PLDim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PLDim.h"; sourceTree = "<group>"; };
+		BCB1B0641C0DA943008AA006 /* UIView+PLDim.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PLDim.m"; sourceTree = "<group>"; };
+		BCB1B0691C0DBC51008AA006 /* PLPopupMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPopupMenuController.h; sourceTree = "<group>"; };
+		BCB1B06A1C0DBC51008AA006 /* PLPopupMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPopupMenuController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +308,8 @@
 		BCB1AF501C0D51E6008AA006 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BCB1B0501C0D9488008AA006 /* config.plist */,
+				BCB1B0521C0D95F2008AA006 /* config-back.plist */,
 				BCB1AF611C0D51E6008AA006 /* Info.plist */,
 				BCB1AF511C0D51E6008AA006 /* main.m */,
 				BCB1AF851C0D529A008AA006 /* PLPrefixHeader.pch */,
@@ -355,7 +382,9 @@
 		BCB1AF8A1C0D5347008AA006 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
+				BCB1B0451C0D7FFD008AA006 /* View */,
 				BCB1AFE31C0D66AC008AA006 /* Controller */,
+				BCB1B0491C0D8260008AA006 /* Model */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -465,6 +494,8 @@
 			children = (
 				BCB1AF8D1C0D538D008AA006 /* PLPhotoViewController.h */,
 				BCB1AF8E1C0D538D008AA006 /* PLPhotoViewController.m */,
+				BCB1B0691C0DBC51008AA006 /* PLPopupMenuController.h */,
+				BCB1B06A1C0DBC51008AA006 /* PLPopupMenuController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -530,6 +561,10 @@
 				BCB1B0271C0D6E93008AA006 /* NSString+md5.m */,
 				BCB1B0281C0D6E93008AA006 /* UIColor+hexColor.h */,
 				BCB1B0291C0D6E93008AA006 /* UIColor+hexColor.m */,
+				BCB1B05A1C0D9EAD008AA006 /* UIView+PLLoading.h */,
+				BCB1B05B1C0D9EAD008AA006 /* UIView+PLLoading.m */,
+				BCB1B0631C0DA943008AA006 /* UIView+PLDim.h */,
+				BCB1B0641C0DA943008AA006 /* UIView+PLDim.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -541,6 +576,28 @@
 				BCB1B0431C0D7711008AA006 /* PLPaymentPopView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BCB1B0451C0D7FFD008AA006 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCB1B0461C0D802E008AA006 /* PLPhotoCell.h */,
+				BCB1B0471C0D802E008AA006 /* PLPhotoCell.m */,
+				BCB1B0601C0DA151008AA006 /* PLPopupMenuButton.h */,
+				BCB1B0611C0DA151008AA006 /* PLPopupMenuButton.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BCB1B0491C0D8260008AA006 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BCB1B04D1C0D9333008AA006 /* PLPhotoChannel.h */,
+				BCB1B04E1C0D9333008AA006 /* PLPhotoChannel.m */,
+				BCB1B04A1C0D82BD008AA006 /* PLPhotoChannelModel.h */,
+				BCB1B04B1C0D82BD008AA006 /* PLPhotoChannelModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -649,6 +706,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB1B0511C0D9488008AA006 /* config.plist in Resources */,
+				BCB1B0531C0D95F2008AA006 /* config-back.plist in Resources */,
 				BCB1AFC01C0D53C0008AA006 /* AlipaySDK.bundle in Resources */,
 				BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */,
 				BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */,
@@ -724,6 +783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB1B04F1C0D9333008AA006 /* PLPhotoChannel.m in Sources */,
 				BCB1B01C1C0D6ACC008AA006 /* PLUserAccessModel.m in Sources */,
 				BCB1B0441C0D7711008AA006 /* PLPaymentPopView.m in Sources */,
 				BCB1AFCF1C0D53C0008AA006 /* WXUtil.mm in Sources */,
@@ -731,6 +791,7 @@
 				BCB1AFCD1C0D53C0008AA006 /* payRequsestHandler.mm in Sources */,
 				BCB1AFC81C0D53C0008AA006 /* openssl_wrapper.m in Sources */,
 				BCB1AFC31C0D53C0008AA006 /* base64.m in Sources */,
+				BCB1B0481C0D802E008AA006 /* PLPhotoCell.m in Sources */,
 				BCB1B0201C0D6C89008AA006 /* PLUtil.m in Sources */,
 				BCB1AFC71C0D53C0008AA006 /* NSDataEx.m in Sources */,
 				BCB1AFC61C0D53C0008AA006 /* MD5DataSigner.m in Sources */,
@@ -740,6 +801,7 @@
 				BCB1B02C1C0D6E93008AA006 /* NSString+md5.m in Sources */,
 				BCB1AFEC1C0D684F008AA006 /* PLSettingViewController.m in Sources */,
 				BCB1AFDF1C0D656A008AA006 /* PLConfig.m in Sources */,
+				BCB1B0651C0DA943008AA006 /* UIView+PLDim.m in Sources */,
 				BCB1B03C1C0D71D3008AA006 /* PLErrorHandler.m in Sources */,
 				BCB1B01B1C0D6ACC008AA006 /* PLURLResponse.m in Sources */,
 				BCB1B01A1C0D6ACC008AA006 /* PLURLRequest.m in Sources */,
@@ -753,15 +815,19 @@
 				BCB1AFCC1C0D53C0008AA006 /* ApiXml.mm in Sources */,
 				BCB1AFE81C0D6795008AA006 /* PLBaseViewController.m in Sources */,
 				BCB1AFCB1C0D53C0008AA006 /* RACEXTRuntimeExtensions.m in Sources */,
+				BCB1B06B1C0DBC51008AA006 /* PLPopupMenuController.m in Sources */,
 				BCB1B0171C0D6ACC008AA006 /* PLProgram.m in Sources */,
 				BCB1B02D1C0D6E93008AA006 /* UIColor+hexColor.m in Sources */,
+				BCB1B04C1C0D82BD008AA006 /* PLPhotoChannelModel.m in Sources */,
 				BCB1B0191C0D6ACC008AA006 /* PLSystemConfigModel.m in Sources */,
 				BCB1AF8F1C0D538D008AA006 /* PLPhotoViewController.m in Sources */,
 				BCB1AF521C0D51E6008AA006 /* main.m in Sources */,
 				BCB1AFC41C0D53C0008AA006 /* DataSigner.m in Sources */,
 				BCB1AFC51C0D53C0008AA006 /* DataVerifier.m in Sources */,
 				BCB1B03D1C0D71D3008AA006 /* PLHudManager.m in Sources */,
+				BCB1B0621C0DA151008AA006 /* PLPopupMenuButton.m in Sources */,
 				BCB1AFCE1C0D53C0008AA006 /* WeChatPayManager.m in Sources */,
+				BCB1B05C1C0D9EAD008AA006 /* UIView+PLLoading.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
