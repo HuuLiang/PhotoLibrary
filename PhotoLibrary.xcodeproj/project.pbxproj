@@ -12,6 +12,7 @@
 		BC1A2D6A1C0ED66D003D9138 /* PLChannelProgramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D691C0ED66D003D9138 /* PLChannelProgramModel.m */; };
 		BC1A2D6D1C0ED6FC003D9138 /* PLChannelProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6C1C0ED6FC003D9138 /* PLChannelProgram.m */; };
 		BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */; };
+		BC1A2D731C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -103,6 +104,8 @@
 		BC1A2D6C1C0ED6FC003D9138 /* PLChannelProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLChannelProgram.m; sourceTree = "<group>"; };
 		BC1A2D6E1C0EDDD4003D9138 /* PLProgramUrlModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLProgramUrlModel.h; sourceTree = "<group>"; };
 		BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLProgramUrlModel.m; sourceTree = "<group>"; };
+		BC1A2D711C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoChannelPopupMenuController.h; sourceTree = "<group>"; };
+		BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoChannelPopupMenuController.m; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -508,6 +511,8 @@
 				BCB1AF8E1C0D538D008AA006 /* PLPhotoViewController.m */,
 				BCB1B0691C0DBC51008AA006 /* PLPopupMenuController.h */,
 				BCB1B06A1C0DBC51008AA006 /* PLPopupMenuController.m */,
+				BC1A2D711C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.h */,
+				BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -825,6 +830,7 @@
 				BCB1AFDF1C0D656A008AA006 /* PLConfig.m in Sources */,
 				BCB1B0651C0DA943008AA006 /* UIView+PLDim.m in Sources */,
 				BCB1B03C1C0D71D3008AA006 /* PLErrorHandler.m in Sources */,
+				BC1A2D731C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m in Sources */,
 				BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */,
 				BCB1B01B1C0D6ACC008AA006 /* PLURLResponse.m in Sources */,
 				BCB1B01A1C0D6ACC008AA006 /* PLURLRequest.m in Sources */,

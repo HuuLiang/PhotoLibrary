@@ -95,9 +95,20 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
     }];
 }
 
+- (void)showInWindowInPosition:(CGPoint)pos {
+    UIView *maskView = [[UIApplication sharedApplication].keyWindow pl_dimView];
+    [self showInView:maskView inPosition:pos];
+}
+
 - (void)hide {
     if (!self.view.superview) {
         return ;
+    }
+    
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    if ([keyWindow.pl_maskView.subviews containsObject:self.view]) {
+        [keyWindow pl_restoreView];
     }
     
     [UIView animateWithDuration:kAnimationDuration animations:^{

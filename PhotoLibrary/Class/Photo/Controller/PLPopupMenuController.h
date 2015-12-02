@@ -26,6 +26,7 @@ typedef void (^PLPopupMenuSelectAction)(NSUInteger index, id sender);
 
 - (instancetype)initWithMenuItems:(NSArray<PLPopupMenuItem *> *)menuItems;
 - (void)showInView:(UIView *)view inPosition:(CGPoint)pos; // pos: left-bottom point
+- (void)showInWindowInPosition:(CGPoint)pos;
 - (void)hide;
 
 @end

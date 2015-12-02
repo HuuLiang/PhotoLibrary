@@ -10,7 +10,7 @@
 #import "PLPhotoCell.h"
 #import "PLPhotoChannelModel.h"
 #import "PLChannelProgramModel.h"
-#import "PLPopupMenuController.h"
+#import "PLPhotoChannelPopupMenuController.h"
 #import "PLProgram.h"
 #import "PLPhotoNavigationTitleView.h"
 
@@ -25,7 +25,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 }
 @property (nonatomic,retain) PLPhotoChannelModel *channelModel;
 @property (nonatomic,retain) PLChannelProgramModel *channelProgramModel;
-@property (nonatomic,retain) PLPopupMenuController *popupMenuController;
+@property (nonatomic,retain) PLPhotoChannelPopupMenuController *popupMenuController;
 
 @property (nonatomic,retain) PLPhotoChannel *currentPhotoChannel;
 @end
@@ -35,17 +35,15 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 
-- (PLPopupMenuController *)popupMenuController {
+- (PLPhotoChannelPopupMenuController *)popupMenuController {
     if (_popupMenuController) {
         return _popupMenuController;
     }
     
     @weakify(self);
-    _popupMenuController = [[PLPopupMenuController alloc] init];
-    _popupMenuController.selectAction = ^(NSUInteger index, id sender) {
+    _popupMenuController = [[PLPhotoChannelPopupMenuController alloc] init];
+    _popupMenuController.photoChannelSelAction = ^(PLPhotoChannel *selectedChannel, id sender) {
         @strongify(self);
-        PLPhotoChannel *selectedChannel = self.channelModel.fetchedChannels[index];
-        
         self.currentPhotoChannel = selectedChannel;
     };
     return _popupMenuController;
@@ -55,12 +53,17 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumInteritemSpacing = 10;
+    layout.minimumLineSpacing = 10;
+
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     _layoutCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _layoutCollectionView.delegate = self;
     _layoutCollectionView.dataSource = self;
     [_layoutCollectionView registerClass:[PLPhotoCell class] forCellWithReuseIdentifier:kPhotoCellReusableIdentifier];
     _layoutCollectionView.backgroundColor = self.view.backgroundColor;
+
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,12 +86,10 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         @strongify(self);
         
         UIButton *button = sender;
-        
-        UIView *containerView = [self.view.window pl_dimView];
         CGPoint point = [self.view convertPoint:CGPointMake(button.frame.origin.x,
                                                              button.frame.origin.y+button.frame.size.height) toView:self.view.window];
-        [self.popupMenuController showInView:containerView inPosition:point];
-        [self loadPhotoChannels];
+        self.popupMenuController.selectedPhotoChannel = self.currentPhotoChannel;
+        [self.popupMenuController showInWindowInPosition:point];
     } forControlEvents:UIControlEventTouchUpInside];
     
     _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
@@ -101,19 +102,6 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
         @strongify(self);
         
-        if (success) {
-            NSMutableArray *menuItems = [NSMutableArray array];
-            [channels enumerateObjectsUsingBlock:^(PLPhotoChannel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (obj.type.unsignedIntegerValue == PLProgramTypePicture) {
-                    PLPopupMenuItem *item = [PLPopupMenuItem menuItemWithTitle:obj.name imageUrlString:obj.columnImg];
-                    item.selected = [self.currentPhotoChannel isSameChannel:obj];
-                    [menuItems addObject:item];
-                }
-            }];
-            [self.popupMenuController setMenuItems:menuItems];
-        } else {
-            [self.view.window performSelector:@selector(pl_restoreView) withObject:nil afterDelay:1.0];
-        }
         
     }];
 }
