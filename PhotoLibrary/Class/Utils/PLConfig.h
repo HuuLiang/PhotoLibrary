@@ -14,10 +14,13 @@
 
 @property (nonatomic,readonly) NSString *baseURL;
 @property (nonatomic,readonly) NSString *photoChannelURLPath;
+@property (nonatomic,readonly) NSString *photoChannelProgramURLPath;
+@property (nonatomic,readonly) NSString *photoUrlListURLPath;
+
 //@property (nonatomic,readonly) NSString *bannerURLPath;
 //@property (nonatomic,readonly) NSString *homeProgramURLPath;
 //@property (nonatomic,readonly) NSString *channelURLPath;
-//@property (nonatomic,readonly) NSString *channelProgramURLPath;
+
 //@property (nonatomic,readonly) NSString *moreURLPath;
 @property (nonatomic,readonly) NSString *registerURLPath;
 @property (nonatomic,readonly) NSString *systemConfigURLPath;

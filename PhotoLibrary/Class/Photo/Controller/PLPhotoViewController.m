@@ -9,6 +9,7 @@
 #import "PLPhotoViewController.h"
 #import "PLPhotoCell.h"
 #import "PLPhotoChannelModel.h"
+#import "PLChannelProgramModel.h"
 #import "PLPopupMenuController.h"
 #import "PLProgram.h"
 #import "PLPhotoNavigationTitleView.h"
@@ -23,6 +24,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
     PLPhotoNavigationTitleView *_navTitleView;
 }
 @property (nonatomic,retain) PLPhotoChannelModel *channelModel;
+@property (nonatomic,retain) PLChannelProgramModel *channelProgramModel;
 @property (nonatomic,retain) PLPopupMenuController *popupMenuController;
 
 @property (nonatomic,retain) PLPhotoChannel *currentPhotoChannel;
@@ -31,6 +33,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 @implementation PLPhotoViewController
 
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
+DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 
 - (PLPopupMenuController *)popupMenuController {
     if (_popupMenuController) {
@@ -115,11 +118,19 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
     }];
 }
 
+- (void)loadPhotosInChannel:(NSNumber *)channelId {
+    [self.channelProgramModel fetchProgramsWithColumnId:channelId pageNo:1 pageSize:10 completionHandler:^(BOOL success, PLChannelPrograms *programs) {
+        
+    }];
+}
+
 - (void)setCurrentPhotoChannel:(PLPhotoChannel *)currentPhotoChannel {
     _currentPhotoChannel = currentPhotoChannel;
     
     _navTitleView.title = currentPhotoChannel.name;
     _navTitleView.imageURL = [NSURL URLWithString:currentPhotoChannel.columnImg];
+    
+    [self loadPhotosInChannel:currentPhotoChannel.columnId];
 }
 
 - (void)didReceiveMemoryWarning {

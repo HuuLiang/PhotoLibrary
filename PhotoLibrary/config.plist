@@ -6,12 +6,14 @@
 	<string>http://120.24.252.114:8093</string>
 	<key>PhotoChannelURLPath</key>
 	<string>/video/channelRanking.htm</string>
+	<key>PhotoChannelProgramURLPath</key>
+	<string>/video/program.htm</string>
+	<key>PhotoUrlListURLPath</key>
+	<string>/video/programUrl.htm</string>
 	<key>BannerURLPath</key>
 	<string>/video/banner.htm</string>
 	<key>HomeProgramURLPath</key>
 	<string>/video/homePage.htm</string>
-	<key>ChannelProgramURLPath</key>
-	<string>/video/program.htm</string>
 	<key>ChannelNo</key>
 	<string>QB_ATLAS_TEST_T0000001</string>
 	<key>MoreURLPath</key>

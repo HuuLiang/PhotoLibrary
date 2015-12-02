@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1E7191C12321BBD3A2FB1628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 131FE8C3406C9435454CC243 /* libPods.a */; };
 		BC1A2D671C0E9F86003D9138 /* PLPhotoNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D661C0E9F86003D9138 /* PLPhotoNavigationTitleView.m */; };
+		BC1A2D6A1C0ED66D003D9138 /* PLChannelProgramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D691C0ED66D003D9138 /* PLChannelProgramModel.m */; };
+		BC1A2D6D1C0ED6FC003D9138 /* PLChannelProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6C1C0ED6FC003D9138 /* PLChannelProgram.m */; };
+		BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -94,6 +97,12 @@
 		6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1A2D651C0E9F86003D9138 /* PLPhotoNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoNavigationTitleView.h; sourceTree = "<group>"; };
 		BC1A2D661C0E9F86003D9138 /* PLPhotoNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoNavigationTitleView.m; sourceTree = "<group>"; };
+		BC1A2D681C0ED66D003D9138 /* PLChannelProgramModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLChannelProgramModel.h; sourceTree = "<group>"; };
+		BC1A2D691C0ED66D003D9138 /* PLChannelProgramModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLChannelProgramModel.m; sourceTree = "<group>"; };
+		BC1A2D6B1C0ED6FC003D9138 /* PLChannelProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLChannelProgram.h; sourceTree = "<group>"; };
+		BC1A2D6C1C0ED6FC003D9138 /* PLChannelProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLChannelProgram.m; sourceTree = "<group>"; };
+		BC1A2D6E1C0EDDD4003D9138 /* PLProgramUrlModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLProgramUrlModel.h; sourceTree = "<group>"; };
+		BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLProgramUrlModel.m; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -601,6 +610,12 @@
 				BCB1B04E1C0D9333008AA006 /* PLPhotoChannel.m */,
 				BCB1B04A1C0D82BD008AA006 /* PLPhotoChannelModel.h */,
 				BCB1B04B1C0D82BD008AA006 /* PLPhotoChannelModel.m */,
+				BC1A2D681C0ED66D003D9138 /* PLChannelProgramModel.h */,
+				BC1A2D691C0ED66D003D9138 /* PLChannelProgramModel.m */,
+				BC1A2D6B1C0ED6FC003D9138 /* PLChannelProgram.h */,
+				BC1A2D6C1C0ED6FC003D9138 /* PLChannelProgram.m */,
+				BC1A2D6E1C0EDDD4003D9138 /* PLProgramUrlModel.h */,
+				BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -788,6 +803,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1A2D6A1C0ED66D003D9138 /* PLChannelProgramModel.m in Sources */,
 				BCB1B04F1C0D9333008AA006 /* PLPhotoChannel.m in Sources */,
 				BCB1B01C1C0D6ACC008AA006 /* PLUserAccessModel.m in Sources */,
 				BCB1B0441C0D7711008AA006 /* PLPaymentPopView.m in Sources */,
@@ -809,10 +825,12 @@
 				BCB1AFDF1C0D656A008AA006 /* PLConfig.m in Sources */,
 				BCB1B0651C0DA943008AA006 /* UIView+PLDim.m in Sources */,
 				BCB1B03C1C0D71D3008AA006 /* PLErrorHandler.m in Sources */,
+				BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */,
 				BCB1B01B1C0D6ACC008AA006 /* PLURLResponse.m in Sources */,
 				BCB1B01A1C0D6ACC008AA006 /* PLURLRequest.m in Sources */,
 				BCB1B0161C0D6ACC008AA006 /* PLEncryptedURLRequest.m in Sources */,
 				BCB1B0301C0D6EC3008AA006 /* NSDictionary+PLSign.m in Sources */,
+				BC1A2D6D1C0ED6FC003D9138 /* PLChannelProgram.m in Sources */,
 				BCB1AFC21C0D53C0008AA006 /* Order.m in Sources */,
 				BCB1B02B1C0D6E93008AA006 /* NSString+crypt.m in Sources */,
 				BCB1AFC91C0D53C0008AA006 /* RSADataSigner.m in Sources */,
