@@ -10,6 +10,7 @@
 #import "PLPhotoViewController.h"
 #import "PLVideoViewController.h"
 #import "PLSettingViewController.h"
+#import "PLErrorHandler.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "AlipayManager.h"
 #import "WeChatPayManager.h"
@@ -74,6 +75,7 @@
                                    UIViewController *thisVC = [aspectInfo instance];
                                    thisVC.navigationController.navigationBar.translucent = NO;
                                    thisVC.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+                                   thisVC.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"#99003b"];
                                } error:nil];
     
     [UINavigationController aspect_hookSelector:@selector(preferredStatusBarStyle)
@@ -123,6 +125,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[PLErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
 //    

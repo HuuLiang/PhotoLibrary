@@ -11,6 +11,7 @@
 #import "PLPhotoChannelModel.h"
 #import "PLPopupMenuController.h"
 #import "PLProgram.h"
+#import "PLPhotoNavigationTitleView.h"
 
 static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentifier";
 
@@ -18,15 +19,34 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 {
     UICollectionView *_layoutCollectionView;
     UIButton *_floatingButton;
+    
+    PLPhotoNavigationTitleView *_navTitleView;
 }
 @property (nonatomic,retain) PLPhotoChannelModel *channelModel;
 @property (nonatomic,retain) PLPopupMenuController *popupMenuController;
+
+@property (nonatomic,retain) PLPhotoChannel *currentPhotoChannel;
 @end
 
 @implementation PLPhotoViewController
 
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
-DefineLazyPropertyInitialization(PLPopupMenuController, popupMenuController)
+
+- (PLPopupMenuController *)popupMenuController {
+    if (_popupMenuController) {
+        return _popupMenuController;
+    }
+    
+    @weakify(self);
+    _popupMenuController = [[PLPopupMenuController alloc] init];
+    _popupMenuController.selectAction = ^(NSUInteger index, id sender) {
+        @strongify(self);
+        PLPhotoChannel *selectedChannel = self.channelModel.fetchedChannels[index];
+        
+        self.currentPhotoChannel = selectedChannel;
+    };
+    return _popupMenuController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,6 +88,9 @@ DefineLazyPropertyInitialization(PLPopupMenuController, popupMenuController)
         [self loadPhotoChannels];
     } forControlEvents:UIControlEventTouchUpInside];
     
+    _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
+    _navTitleView.title = self.tabBarItem.title;
+    self.navigationItem.titleView = _navTitleView;
 }
 
 - (void)loadPhotoChannels {
@@ -75,14 +98,28 @@ DefineLazyPropertyInitialization(PLPopupMenuController, popupMenuController)
     [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
         @strongify(self);
         
-        NSMutableArray *menuItems = [NSMutableArray array];
-        [channels enumerateObjectsUsingBlock:^(PLPhotoChannel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.type.unsignedIntegerValue == PLProgramTypePicture) {
-                [menuItems addObject:[PLPopupMenuItem menuItemWithTitle:obj.name imageUrlString:obj.columnImg]];
-            }
-        }];
-        [self.popupMenuController setMenuItems:menuItems];
+        if (success) {
+            NSMutableArray *menuItems = [NSMutableArray array];
+            [channels enumerateObjectsUsingBlock:^(PLPhotoChannel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.type.unsignedIntegerValue == PLProgramTypePicture) {
+                    PLPopupMenuItem *item = [PLPopupMenuItem menuItemWithTitle:obj.name imageUrlString:obj.columnImg];
+                    item.selected = [self.currentPhotoChannel isSameChannel:obj];
+                    [menuItems addObject:item];
+                }
+            }];
+            [self.popupMenuController setMenuItems:menuItems];
+        } else {
+            [self.view.window performSelector:@selector(pl_restoreView) withObject:nil afterDelay:1.0];
+        }
+        
     }];
+}
+
+- (void)setCurrentPhotoChannel:(PLPhotoChannel *)currentPhotoChannel {
+    _currentPhotoChannel = currentPhotoChannel;
+    
+    _navTitleView.title = currentPhotoChannel.name;
+    _navTitleView.imageURL = [NSURL URLWithString:currentPhotoChannel.columnImg];
 }
 
 - (void)didReceiveMemoryWarning {

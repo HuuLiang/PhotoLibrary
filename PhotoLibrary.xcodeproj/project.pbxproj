@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1E7191C12321BBD3A2FB1628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 131FE8C3406C9435454CC243 /* libPods.a */; };
+		BC1A2D671C0E9F86003D9138 /* PLPhotoNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D661C0E9F86003D9138 /* PLPhotoNavigationTitleView.m */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -91,6 +92,8 @@
 		131FE8C3406C9435454CC243 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BC1A2D651C0E9F86003D9138 /* PLPhotoNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoNavigationTitleView.h; sourceTree = "<group>"; };
+		BC1A2D661C0E9F86003D9138 /* PLPhotoNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoNavigationTitleView.m; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				BCB1B0471C0D802E008AA006 /* PLPhotoCell.m */,
 				BCB1B0601C0DA151008AA006 /* PLPopupMenuButton.h */,
 				BCB1B0611C0DA151008AA006 /* PLPopupMenuButton.m */,
+				BC1A2D651C0E9F86003D9138 /* PLPhotoNavigationTitleView.h */,
+				BC1A2D661C0E9F86003D9138 /* PLPhotoNavigationTitleView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -799,6 +804,7 @@
 				BCB1B0181C0D6ACC008AA006 /* PLSystemConfig.m in Sources */,
 				BCB1AFE21C0D669B008AA006 /* PLVideoViewController.m in Sources */,
 				BCB1B02C1C0D6E93008AA006 /* NSString+md5.m in Sources */,
+				BC1A2D671C0E9F86003D9138 /* PLPhotoNavigationTitleView.m in Sources */,
 				BCB1AFEC1C0D684F008AA006 /* PLSettingViewController.m in Sources */,
 				BCB1AFDF1C0D656A008AA006 /* PLConfig.m in Sources */,
 				BCB1B0651C0DA943008AA006 /* UIView+PLDim.m in Sources */,

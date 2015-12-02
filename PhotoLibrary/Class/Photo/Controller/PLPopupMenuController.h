@@ -11,12 +11,13 @@
 @interface PLPopupMenuItem : NSObject
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *imageUrlString;
+@property (nonatomic) BOOL selected;
 
 + (instancetype)menuItemWithTitle:(NSString *)title imageUrlString:(NSString *)urlString;
 
 @end
 
-typedef void (^PLPopupMenuSelectAction)(NSUInteger index);
+typedef void (^PLPopupMenuSelectAction)(NSUInteger index, id sender);
 
 @interface PLPopupMenuController : PLBaseViewController
 

@@ -19,4 +19,6 @@
 @property (nonatomic) NSNumber *page;
 @property (nonatomic) NSNumber *pageSize;
 
+- (BOOL)isSameChannel:(PLPhotoChannel *)channel;
+
 @end

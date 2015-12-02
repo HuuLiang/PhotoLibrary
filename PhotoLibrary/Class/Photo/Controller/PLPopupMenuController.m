@@ -139,6 +139,7 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kMenuItemCellReusableIdentifier];
         
         PLPopupMenuButton *menuButton = [[PLPopupMenuButton alloc] initWithTitle:menuItem.title imageURL:[NSURL URLWithString:menuItem.imageUrlString]];
+        menuButton.selected = menuItem.selected;
         objc_setAssociatedObject(cell, kMenuButtonAssociatedKey, menuButton, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [cell addSubview:menuButton];
         {
@@ -150,17 +151,15 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
         @weakify(self);
         [menuButton bk_addEventHandler:^(id sender) {
             @strongify(self);
-            
-            UIButton *button = sender;
-            button.selected = !button.selected;
             if (self.selectAction) {
-                self.selectAction(indexPath.row);
+                self.selectAction(indexPath.row, sender);
             }
         } forControlEvents:UIControlEventTouchUpInside];
     } else {
         PLPopupMenuButton *menuButton = objc_getAssociatedObject(cell, kMenuButtonAssociatedKey);
         menuButton.title = menuItem.title;
         menuButton.imageURL = [NSURL URLWithString:menuItem.imageUrlString];
+        menuButton.selected = menuItem.selected;
     }
     return cell;
 }

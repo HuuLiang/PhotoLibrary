@@ -10,4 +10,8 @@
 
 @implementation PLPhotoChannel
 
+- (BOOL)isSameChannel:(PLPhotoChannel *)channel {
+    return self.columnId && [self.columnId isEqualToNumber:channel.columnId];
+}
+
 @end
