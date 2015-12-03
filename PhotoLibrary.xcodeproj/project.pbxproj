@@ -13,6 +13,7 @@
 		BC1A2D6D1C0ED6FC003D9138 /* PLChannelProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6C1C0ED6FC003D9138 /* PLChannelProgram.m */; };
 		BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */; };
 		BC1A2D731C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */; };
+		BC1A97C61C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A97C51C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -106,6 +107,8 @@
 		BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLProgramUrlModel.m; sourceTree = "<group>"; };
 		BC1A2D711C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoChannelPopupMenuController.h; sourceTree = "<group>"; };
 		BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoChannelPopupMenuController.m; sourceTree = "<group>"; };
+		BC1A97C41C109D1600BD6138 /* NSMutableDictionary+SafeCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeCoding.h"; sourceTree = "<group>"; };
+		BC1A97C51C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeCoding.m"; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -572,6 +575,8 @@
 			children = (
 				BCB1B02E1C0D6EC3008AA006 /* NSDictionary+PLSign.h */,
 				BCB1B02F1C0D6EC3008AA006 /* NSDictionary+PLSign.m */,
+				BC1A97C41C109D1600BD6138 /* NSMutableDictionary+SafeCoding.h */,
+				BC1A97C51C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m */,
 				BCB1B0241C0D6E93008AA006 /* NSString+crypt.h */,
 				BCB1B0251C0D6E93008AA006 /* NSString+crypt.m */,
 				BCB1B0261C0D6E93008AA006 /* NSString+md5.h */,
@@ -839,6 +844,7 @@
 				BC1A2D6D1C0ED6FC003D9138 /* PLChannelProgram.m in Sources */,
 				BCB1AFC21C0D53C0008AA006 /* Order.m in Sources */,
 				BCB1B02B1C0D6E93008AA006 /* NSString+crypt.m in Sources */,
+				BC1A97C61C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m in Sources */,
 				BCB1AFC91C0D53C0008AA006 /* RSADataSigner.m in Sources */,
 				BCB1AFBF1C0D53C0008AA006 /* AlipayManager.m in Sources */,
 				BCB1B01D1C0D6ACC008AA006 /* PLVideo.m in Sources */,

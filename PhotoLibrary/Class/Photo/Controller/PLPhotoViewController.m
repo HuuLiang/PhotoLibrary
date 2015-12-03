@@ -31,6 +31,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 @end
 
 @implementation PLPhotoViewController
+@synthesize currentPhotoChannel = _currentPhotoChannel;
 
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
@@ -93,7 +94,8 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     } forControlEvents:UIControlEventTouchUpInside];
     
     _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
-    _navTitleView.title = self.tabBarItem.title;
+    _navTitleView.title = self.currentPhotoChannel.name;
+    _navTitleView.imageURL = [NSURL URLWithString:self.currentPhotoChannel.columnImg];
     self.navigationItem.titleView = _navTitleView;
 }
 
@@ -114,11 +116,21 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 
 - (void)setCurrentPhotoChannel:(PLPhotoChannel *)currentPhotoChannel {
     _currentPhotoChannel = currentPhotoChannel;
+    [currentPhotoChannel writeToPersistence];
     
     _navTitleView.title = currentPhotoChannel.name;
     _navTitleView.imageURL = [NSURL URLWithString:currentPhotoChannel.columnImg];
     
     [self loadPhotosInChannel:currentPhotoChannel.columnId];
+}
+
+- (PLPhotoChannel *)currentPhotoChannel {
+    if (_currentPhotoChannel) {
+        return _currentPhotoChannel;
+    }
+    
+    _currentPhotoChannel = [PLPhotoChannel persistentPhotoChannel];
+    return _currentPhotoChannel;
 }
 
 - (void)didReceiveMemoryWarning {

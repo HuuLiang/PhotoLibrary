@@ -21,4 +21,7 @@
 
 - (BOOL)isSameChannel:(PLPhotoChannel *)channel;
 
++ (instancetype)persistentPhotoChannel;
+- (void)writeToPersistence;
+
 @end

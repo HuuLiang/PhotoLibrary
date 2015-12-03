@@ -54,4 +54,6 @@ return _##propertyName; \
 #define kPaidNotificationPriceKey @"photolib_paid_notification_price_key"
 #define kPaidNotificationPaymentType @"photolib_paid_notification_payment_type"
 
+#define kPhotoChannelIdKeyName @"PhotoChannelIdKeyName"
+
 #endif /* PLPrefixHeader_pch */

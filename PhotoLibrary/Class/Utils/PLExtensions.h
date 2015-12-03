@@ -14,5 +14,6 @@
 #import "UIColor+hexColor.h"
 #import "UIView+PLLoading.h"
 #import "UIView+PLDim.h"
+#import "NSMutableDictionary+SafeCoding.h"
 
 #endif /* PLExtensions_h */
