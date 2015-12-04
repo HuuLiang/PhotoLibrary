@@ -31,8 +31,27 @@ static NSString *const kPayingOrderKeyName = @"photolib_paying_order_keyname";
 static NSString *const kUserAccessUsername = @"photolib_user_access_username";
 static NSString *const kUserAccessServicename = @"photolib_user_access_service";
 
+static NSString *const kPhotoChannelPaymentKeyName = @"photolib_photo_channel_payment_keyname";
+
 @implementation PLUtil
 
++ (void)setPaidForPhotoChannel:(NSNumber *)columnId {
+    NSArray *payment = [[NSUserDefaults standardUserDefaults] objectForKey:kPhotoChannelPaymentKeyName];
+    
+    NSMutableArray *paymentM = payment.mutableCopy;
+    if (!paymentM) {
+        paymentM = [NSMutableArray array];
+    }
+    
+    [paymentM addObject:columnId];
+    [[NSUserDefaults standardUserDefaults] setObject:paymentM forKey:kPhotoChannelPaymentKeyName];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (BOOL)isPaidForPhotoChannel:(NSNumber *)columnId {
+    NSArray *payment = [[NSUserDefaults standardUserDefaults] objectForKey:kPhotoChannelPaymentKeyName];
+    return [payment containsObject:columnId];
+}
 
 + (void)removeKeyChainEntries {
 #ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT

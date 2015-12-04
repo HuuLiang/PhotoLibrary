@@ -55,5 +55,5 @@ return _##propertyName; \
 #define kPaidNotificationPaymentType @"photolib_paid_notification_payment_type"
 
 #define kPhotoChannelIdKeyName @"PhotoChannelIdKeyName"
-
+#define kDefaultPageSize  20
 #endif /* PLPrefixHeader_pch */

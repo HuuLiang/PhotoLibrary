@@ -3,31 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>BaseURL</key>
-	<string>http://120.24.252.114:8093</string>
+	<string>http://120.24.252.114:8096</string>
 	<key>PhotoChannelURLPath</key>
-	<string>/video/channelRanking.htm</string>
+	<string>/gallery/column.htm</string>
 	<key>PhotoChannelProgramURLPath</key>
-	<string>/video/program.htm</string>
+	<string>/gallery/program.htm</string>
 	<key>PhotoUrlListURLPath</key>
-	<string>/video/programUrl.htm</string>
-	<key>BannerURLPath</key>
-	<string>/video/banner.htm</string>
-	<key>HomeProgramURLPath</key>
-	<string>/video/homePage.htm</string>
+	<string>/gallery/programUrl.htm</string>
+	<key>HotVideoURLPath</key>
+	<string>/gallery/hotVideo.htm</string>
+	<key>SystemConfigURLPath</key>
+	<string>/gallery/systemConfig.htm</string>
+	<key>RegisterURLPath</key>
+	<string>/gallery/activat.htm</string>
+	<key>UserAccessURLPath</key>
+	<string>/gallery/userAccess.htm</string>
+	<key>AlipayConfigURLPath</key>
+	<string>/gallery/aliConfig.htm</string>
+	<key>WeChatPayConfigURLPath</key>
+	<string>/gallery/weixinConfig.htm</string>
 	<key>ChannelNo</key>
 	<string>QB_ATLAS_TEST_T0000001</string>
-	<key>MoreURLPath</key>
-	<string>/video/agreement.html</string>
-	<key>RegisterURLPath</key>
-	<string>/video/jihuo.htm</string>
-	<key>SystemConfigURLPath</key>
-	<string>/video/systemConfig.htm</string>
-	<key>AlipayConfigURLPath</key>
-	<string>/video/aliConfig.htm</string>
-	<key>WeChatPayConfigURLPath</key>
-	<string>/video/weixinConfig.htm</string>
-	<key>UserAccessURLPath</key>
-	<string>/video/userAccess.htm</string>
 	<key>AlipayPID</key>
 	<string>2088121199723733</string>
 	<key>AlipaySellerID</key>

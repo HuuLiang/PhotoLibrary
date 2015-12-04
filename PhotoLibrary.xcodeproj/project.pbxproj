@@ -56,7 +56,6 @@
 		BCB1B01A1C0D6ACC008AA006 /* PLURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B00F1C0D6ACC008AA006 /* PLURLRequest.m */; };
 		BCB1B01B1C0D6ACC008AA006 /* PLURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0111C0D6ACC008AA006 /* PLURLResponse.m */; };
 		BCB1B01C1C0D6ACC008AA006 /* PLUserAccessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0131C0D6ACC008AA006 /* PLUserAccessModel.m */; };
-		BCB1B01D1C0D6ACC008AA006 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0151C0D6ACC008AA006 /* PLVideo.m */; };
 		BCB1B0201C0D6C89008AA006 /* PLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B01F1C0D6C89008AA006 /* PLUtil.m */; };
 		BCB1B02B1C0D6E93008AA006 /* NSString+crypt.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0251C0D6E93008AA006 /* NSString+crypt.m */; };
 		BCB1B02C1C0D6E93008AA006 /* NSString+md5.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1B0271C0D6E93008AA006 /* NSString+md5.m */; };
@@ -194,8 +193,6 @@
 		BCB1B0111C0D6ACC008AA006 /* PLURLResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PLURLResponse.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BCB1B0121C0D6ACC008AA006 /* PLUserAccessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PLUserAccessModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BCB1B0131C0D6ACC008AA006 /* PLUserAccessModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PLUserAccessModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		BCB1B0141C0D6ACC008AA006 /* PLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PLVideo.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		BCB1B0151C0D6ACC008AA006 /* PLVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PLVideo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BCB1B01E1C0D6C89008AA006 /* PLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLUtil.h; sourceTree = "<group>"; };
 		BCB1B01F1C0D6C89008AA006 /* PLUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLUtil.m; sourceTree = "<group>"; };
 		BCB1B0241C0D6E93008AA006 /* NSString+crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+crypt.h"; sourceTree = "<group>"; };
@@ -556,8 +553,6 @@
 				BCB1B0071C0D6ACC008AA006 /* PLEncryptedURLRequest.m */,
 				BCB1B0101C0D6ACC008AA006 /* PLURLResponse.h */,
 				BCB1B0111C0D6ACC008AA006 /* PLURLResponse.m */,
-				BCB1B0141C0D6ACC008AA006 /* PLVideo.h */,
-				BCB1B0151C0D6ACC008AA006 /* PLVideo.m */,
 				BCB1B0081C0D6ACC008AA006 /* PLProgram.h */,
 				BCB1B0091C0D6ACC008AA006 /* PLProgram.m */,
 				BCB1B00A1C0D6ACC008AA006 /* PLSystemConfig.h */,
@@ -847,7 +842,6 @@
 				BC1A97C61C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m in Sources */,
 				BCB1AFC91C0D53C0008AA006 /* RSADataSigner.m in Sources */,
 				BCB1AFBF1C0D53C0008AA006 /* AlipayManager.m in Sources */,
-				BCB1B01D1C0D6ACC008AA006 /* PLVideo.m in Sources */,
 				BCB1AFCC1C0D53C0008AA006 /* ApiXml.mm in Sources */,
 				BCB1AFE81C0D6795008AA006 /* PLBaseViewController.m in Sources */,
 				BCB1AFCB1C0D53C0008AA006 /* RACEXTRuntimeExtensions.m in Sources */,

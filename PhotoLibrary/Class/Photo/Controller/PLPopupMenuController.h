@@ -12,6 +12,7 @@
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *imageUrlString;
 @property (nonatomic) BOOL selected;
+@property (nonatomic) BOOL occupied;
 
 + (instancetype)menuItemWithTitle:(NSString *)title imageUrlString:(NSString *)urlString;
 

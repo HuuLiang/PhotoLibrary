@@ -30,9 +30,8 @@
     channel.columnImg       = dic[@"columnImg"];
     channel.type            = dic[@"type"];
     channel.showNumber      = dic[@"showNumber"];
-    channel.items           = dic[@"items"];
-    channel.page            = dic[@"page"];
-    channel.pageSize        = dic[@"pageSize"];
+    channel.columnDesc      = dic[@"columnDesc"];
+    channel.payAmount       = dic[@"payAmount"];
     return channel;
 }
 
@@ -43,9 +42,8 @@
     [dic safelySetObject:self.columnImg forKey:@"columnImg"];
     [dic safelySetObject:self.type forKey:@"type"];
     [dic safelySetObject:self.showNumber forKey:@"showNumber"];
-    [dic safelySetObject:self.items forKey:@"items"];
-    [dic safelySetObject:self.page forKey:@"page"];
-    [dic safelySetObject:self.pageSize forKey:@"pageSize"];
+    [dic safelySetObject:self.columnDesc forKey:@"columnDesc"];
+    [dic safelySetObject:self.payAmount forKey:@"payAmount"];
     return dic;
 }
 

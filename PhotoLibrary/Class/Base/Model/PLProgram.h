@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "PLURLResponse.h"
-#import "PLVideo.h"
 
 typedef NS_ENUM(NSUInteger, PLProgramType) {
     PLProgramTypeNone = 0,
@@ -32,10 +31,13 @@ typedef NS_ENUM(NSUInteger, PLProgramType) {
 
 @end
 
-@interface PLProgram : PLVideo
+@interface PLProgram : NSObject
 
 @property (nonatomic) NSNumber *programId;
-@property (nonatomic) NSNumber *payPointType; // 1、会员注册 2、付费
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *specialDesc;
+@property (nonatomic) NSString *videoUrl;
+@property (nonatomic) NSString *coverImg;
 @property (nonatomic) NSNumber *type; // 1、视频 2、图片
 @property (nonatomic,retain) NSArray<PLProgramUrl> *urlList; // type==2有集合，目前为图集url集合
 
@@ -49,8 +51,13 @@ typedef NS_ENUM(NSUInteger, PLProgramType) {
 @property (nonatomic) NSNumber *columnId;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *columnImg;
+@property (nonatomic) NSString *columnDesc;
 @property (nonatomic) NSNumber *type; // 1、视频 2、图片
 @property (nonatomic) NSNumber *showNumber;
+@property (nonatomic) NSNumber *payAmount;
+@property (nonatomic) NSNumber *items;
+@property (nonatomic) NSNumber *page;
+@property (nonatomic) NSNumber *pageSize;
 @property (nonatomic,retain) NSArray<PLProgram> *programList;
 @end
 

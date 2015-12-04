@@ -10,4 +10,6 @@
 
 @interface PLPhotoCell : UICollectionViewCell
 
+@property (nonatomic,retain) NSURL *imageURL;
+
 @end

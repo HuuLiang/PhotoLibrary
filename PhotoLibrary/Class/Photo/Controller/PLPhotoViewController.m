@@ -16,7 +16,7 @@
 
 static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentifier";
 
-@interface PLPhotoViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@interface PLPhotoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     UICollectionView *_layoutCollectionView;
     UIButton *_floatingButton;
@@ -28,6 +28,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 @property (nonatomic,retain) PLPhotoChannelPopupMenuController *popupMenuController;
 
 @property (nonatomic,retain) PLPhotoChannel *currentPhotoChannel;
+@property (nonatomic,retain) NSMutableArray<PLProgram *> *photoPrograms;
 @end
 
 @implementation PLPhotoViewController
@@ -35,6 +36,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
+DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 - (PLPhotoChannelPopupMenuController *)popupMenuController {
     if (_popupMenuController) {
@@ -45,7 +47,16 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     _popupMenuController = [[PLPhotoChannelPopupMenuController alloc] init];
     _popupMenuController.photoChannelSelAction = ^(PLPhotoChannel *selectedChannel, id sender) {
         @strongify(self);
-        self.currentPhotoChannel = selectedChannel;
+        
+        if ([PLUtil isPaidForPhotoChannel:selectedChannel.columnId]) {
+            self.currentPhotoChannel = selectedChannel;
+            [self.popupMenuController hide];
+        } else {
+            
+        }
+        
+        
+//        [PLUtil setPaidForPhotoChannel:selectedChannel.columnId];
     };
     return _popupMenuController;
 }
@@ -54,9 +65,9 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumInteritemSpacing = 10;
-    layout.minimumLineSpacing = 10;
-
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
+    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 10);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     _layoutCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -64,7 +75,6 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     _layoutCollectionView.dataSource = self;
     [_layoutCollectionView registerClass:[PLPhotoCell class] forCellWithReuseIdentifier:kPhotoCellReusableIdentifier];
     _layoutCollectionView.backgroundColor = self.view.backgroundColor;
-
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,34 +104,80 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     } forControlEvents:UIControlEventTouchUpInside];
     
     _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
-    _navTitleView.title = self.currentPhotoChannel.name;
-    _navTitleView.imageURL = [NSURL URLWithString:self.currentPhotoChannel.columnImg];
     self.navigationItem.titleView = _navTitleView;
+    
+    if (self.currentPhotoChannel) {
+        [self loadPhotosInChannel:self.currentPhotoChannel shouldReload:YES];
+    } else {
+        _navTitleView.title = @"图库";
+        [self loadPhotoChannels];
+    }
 }
 
 - (void)loadPhotoChannels {
     @weakify(self);
     [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
         @strongify(self);
+        if (!self || !success || channels.count == 0) {
+            return ;
+        }
         
+        PLPhotoChannel *channelToShow = [channels bk_match:^BOOL(id obj) {
+            if (((PLPhotoChannel *)obj).payAmount.unsignedIntegerValue == 0) {
+                return YES;
+            }
+            return NO;
+        }];
         
+        if (!channelToShow) {
+            channelToShow = [channels bk_match:^BOOL(id obj) {
+                if ([PLUtil isPaidForPhotoChannel:((PLPhotoChannel *)obj).columnId]) {
+                    return YES;
+                }
+                return NO;
+            }];
+        }
+        
+        if (!channelToShow) {
+            [[PLHudManager manager] showHudWithText:@"没有已支付或者免费的图库！"];
+        } else {
+            self.currentPhotoChannel = channelToShow;
+        }
     }];
 }
 
-- (void)loadPhotosInChannel:(NSNumber *)channelId {
-    [self.channelProgramModel fetchProgramsWithColumnId:channelId pageNo:1 pageSize:10 completionHandler:^(BOOL success, PLChannelPrograms *programs) {
-        
-    }];
+- (void)loadPhotosInChannel:(PLPhotoChannel *)photoChannel shouldReload:(BOOL)shouldReload {
+    _navTitleView.title = photoChannel.name ?: @"图库";
+    _navTitleView.imageURL = photoChannel.columnImg?[NSURL URLWithString:photoChannel.columnImg]:nil;
+    
+    if (photoChannel.columnId) {
+        @weakify(self);
+        [self.channelProgramModel fetchProgramsWithColumnId:photoChannel.columnId
+                                                     pageNo:shouldReload?1:self.photoPrograms.count/kDefaultPageSize+1
+                                                   pageSize:kDefaultPageSize
+                                          completionHandler:^(BOOL success, PLChannelPrograms *programs)
+         {
+             @strongify(self);
+             if (!self || !success) {
+                 return ;
+             }
+             
+             if (shouldReload) {
+                 [self.photoPrograms removeAllObjects];
+             }
+             
+             [self.photoPrograms addObjectsFromArray:programs.programList];
+             [self->_layoutCollectionView reloadData];
+             
+         }];
+    }
 }
 
 - (void)setCurrentPhotoChannel:(PLPhotoChannel *)currentPhotoChannel {
     _currentPhotoChannel = currentPhotoChannel;
     [currentPhotoChannel writeToPersistence];
     
-    _navTitleView.title = currentPhotoChannel.name;
-    _navTitleView.imageURL = [NSURL URLWithString:currentPhotoChannel.columnImg];
-    
-    [self loadPhotosInChannel:currentPhotoChannel.columnId];
+    [self loadPhotosInChannel:currentPhotoChannel shouldReload:YES];
 }
 
 - (PLPhotoChannel *)currentPhotoChannel {
@@ -138,15 +194,40 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UICollectionViewDataSource,UICollectionViewDelegate
+#pragma mark - UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return (self.photoPrograms.count + 3) / 4;
+}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PLPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReusableIdentifier forIndexPath:indexPath];
+    cell.layer.borderWidth = 2;
+    cell.layer.borderColor = [UIColor colorWithHexString:@"#503d3c"].CGColor;
+    
+    PLProgram *program = self.photoPrograms[indexPath.section*4+indexPath.row];
+    cell.imageURL = [NSURL URLWithString:program.coverImg];
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    if (section < self.photoPrograms.count / 4) {
+        return 4;
+    } else {
+        return self.photoPrograms.count % 4;
+    }
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    const CGFloat cellHeight = CGRectGetHeight(self.view.bounds) / 2;
+    return CGSizeMake(cellHeight*0.7, cellHeight);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if (section != [collectionView numberOfSections] - 1) {
+        return UIEdgeInsetsMake(0, 0, 0, 10);
+    } else {
+        return UIEdgeInsetsZero;
+    }
+}
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "PLBaseViewController.h"
-#import "PLVideo.h"
 #import "PLPaymentPopView.h"
 #import "AlipayManager.h"
 #import "WeChatPayManager.h"
@@ -23,39 +22,39 @@
 @import AVFoundation.AVAssetImageGenerator;
 
 @interface PLBaseViewController ()
-- (UIViewController *)playerVCWithVideo:(PLVideo *)video;
+//- (UIViewController *)playerVCWithVideo:(PLVideo *)video;
 @end
 
 @implementation PLBaseViewController
 
-- (UIViewController *)playerVCWithVideo:(PLVideo *)video {
-    UIViewController *retVC;
-    if (NSClassFromString(@"AVPlayerViewController")) {
-        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
-        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:video.videoUrl]];
-        [playerVC aspect_hookSelector:@selector(viewDidAppear:)
-                          withOptions:AspectPositionAfter
-                           usingBlock:^(id<AspectInfo> aspectInfo){
-                               AVPlayerViewController *thisPlayerVC = [aspectInfo instance];
-                               [thisPlayerVC.player play];
-                           } error:nil];
-        
-        retVC = playerVC;
-    } else {
-        retVC = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:video.videoUrl]];
-    }
-    
-    [retVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-        UIInterfaceOrientationMask mask = UIInterfaceOrientationMaskAll;
-        [[aspectInfo originalInvocation] setReturnValue:&mask];
-    } error:nil];
-    
-    [retVC aspect_hookSelector:@selector(shouldAutorotate) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-        BOOL rotate = YES;
-        [[aspectInfo originalInvocation] setReturnValue:&rotate];
-    } error:nil];
-    return retVC;
-}
+//- (UIViewController *)playerVCWithVideo:(PLVideo *)video {
+//    UIViewController *retVC;
+//    if (NSClassFromString(@"AVPlayerViewController")) {
+//        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
+//        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:video.videoUrl]];
+//        [playerVC aspect_hookSelector:@selector(viewDidAppear:)
+//                          withOptions:AspectPositionAfter
+//                           usingBlock:^(id<AspectInfo> aspectInfo){
+//                               AVPlayerViewController *thisPlayerVC = [aspectInfo instance];
+//                               [thisPlayerVC.player play];
+//                           } error:nil];
+//        
+//        retVC = playerVC;
+//    } else {
+//        retVC = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:video.videoUrl]];
+//    }
+//    
+//    [retVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+//        UIInterfaceOrientationMask mask = UIInterfaceOrientationMaskAll;
+//        [[aspectInfo originalInvocation] setReturnValue:&mask];
+//    } error:nil];
+//    
+//    [retVC aspect_hookSelector:@selector(shouldAutorotate) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+//        BOOL rotate = YES;
+//        [[aspectInfo originalInvocation] setReturnValue:&rotate];
+//    } error:nil];
+//    return retVC;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,10 +91,10 @@
     if (![PLUtil isPaid]) {
         [self payForProgram:program shouldPopView:YES withCompletionHandler:nil];
     } else if (program.type.unsignedIntegerValue == PLProgramTypeVideo) {
-        UIViewController *videoPlayVC = [self playerVCWithVideo:program];
-        videoPlayVC.hidesBottomBarWhenPushed = YES;
-        //videoPlayVC.evaluateThumbnail = YES;
-        [self presentViewController:videoPlayVC animated:YES completion:nil];
+//        UIViewController *videoPlayVC = [self playerVCWithVideo:program];
+//        videoPlayVC.hidesBottomBarWhenPushed = YES;
+//        //videoPlayVC.evaluateThumbnail = YES;
+//        [self presentViewController:videoPlayVC animated:YES completion:nil];
     }
 }
 
@@ -190,7 +189,8 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
                                               @(price).stringValue,
                                               program.programId.stringValue ?: @"",
                                               program.type.stringValue ?: @"",
-                                              program.payPointType.stringValue ?: @""]];
+                                              //program.payPointType.stringValue ?:
+                                              @""]];
             
         } else if (result == PAYRESULT_FAIL) {
             [[PLHudManager manager] showHudWithText:@"支付失败"];
@@ -207,7 +207,7 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
                                     result:result
                               forProgramId:program.programId.stringValue ?: @""
                                programType:program.type.stringValue ?: @""
-                              payPointType:program.payPointType.stringValue ?: @""
+                              payPointType:@""//program.payPointType.stringValue ?: @""
                                paymentType:paymentType];
     };
     

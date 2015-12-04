@@ -30,6 +30,9 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo;
 + (NSDictionary<NSString *, id> *)payingOrder;
 
++ (void)setPaidForPhotoChannel:(NSNumber *)columnId;
++ (BOOL)isPaidForPhotoChannel:(NSNumber *)columnId;
+
 // Methods for convenience
 + (NSString *)payingOrderNo;
 + (PLPaymentType)payingOrderPaymentType;
