@@ -39,7 +39,7 @@
         @strongify(self);
         if (image) {
             self.imageView.alpha = 0;
-            [UIView animateWithDuration:0.5 animations:^{
+            [UIView animateWithDuration:0.3 animations:^{
                 self.imageView.alpha = 1;
             }];
         }

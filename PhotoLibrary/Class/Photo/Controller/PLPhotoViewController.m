@@ -13,8 +13,10 @@
 #import "PLPhotoChannelPopupMenuController.h"
 #import "PLProgram.h"
 #import "PLPhotoNavigationTitleView.h"
+#import "PLPhotoBrowser.h"
 
 static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentifier";
+static NSString *const kHeaderFooterReusableIdentifier = @"HeaderFooterReusableIdentifier";
 
 @interface PLPhotoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
@@ -29,6 +31,8 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 
 @property (nonatomic,retain) PLPhotoChannel *currentPhotoChannel;
 @property (nonatomic,retain) NSMutableArray<PLProgram *> *photoPrograms;
+
+@property (nonatomic,retain) PLPhotoBrowser *photoBrowser;
 @end
 
 @implementation PLPhotoViewController
@@ -37,6 +41,7 @@ static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentif
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
+DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
 
 - (PLPhotoChannelPopupMenuController *)popupMenuController {
     if (_popupMenuController) {
@@ -47,16 +52,15 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     _popupMenuController = [[PLPhotoChannelPopupMenuController alloc] init];
     _popupMenuController.photoChannelSelAction = ^(PLPhotoChannel *selectedChannel, id sender) {
         @strongify(self);
+        self.currentPhotoChannel = selectedChannel;
+        [self.popupMenuController hide];
         
-        if ([PLUtil isPaidForPhotoChannel:selectedChannel.columnId]) {
-            self.currentPhotoChannel = selectedChannel;
-            [self.popupMenuController hide];
-        } else {
-            
-        }
-        
-        
-//        [PLUtil setPaidForPhotoChannel:selectedChannel.columnId];
+//        if ([PLUtil isPaidForPhotoChannel:selectedChannel.columnId]) {
+//            self.currentPhotoChannel = selectedChannel;
+//            [self.popupMenuController hide];
+//        } else {
+//            
+//        }
     };
     return _popupMenuController;
 }
@@ -69,11 +73,13 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     layout.minimumLineSpacing = 0;
     layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 10);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    
+
     _layoutCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _layoutCollectionView.delegate = self;
     _layoutCollectionView.dataSource = self;
     [_layoutCollectionView registerClass:[PLPhotoCell class] forCellWithReuseIdentifier:kPhotoCellReusableIdentifier];
+    [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderFooterReusableIdentifier];
+    [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kHeaderFooterReusableIdentifier];
     _layoutCollectionView.backgroundColor = self.view.backgroundColor;
     [self.view addSubview:_layoutCollectionView];
     {
@@ -218,6 +224,20 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     }
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kHeaderFooterReusableIdentifier forIndexPath:indexPath];
+    view.backgroundColor = [UIColor colorWithHexString:@"#503d3c"];
+    return view;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(5, CGRectGetHeight(self.view.bounds));
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return CGSizeMake(5, CGRectGetHeight(self.view.bounds));
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     const CGFloat cellHeight = CGRectGetHeight(self.view.bounds) / 2;
     return CGSizeMake(cellHeight*0.7, cellHeight);
@@ -229,5 +249,11 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     } else {
         return UIEdgeInsetsZero;
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    PLProgram *photoProgram = self.photoPrograms[indexPath.row];
+    self.photoBrowser.photoAlbum = photoProgram;
+    [self.photoBrowser showInView:self.view.window];
 }
 @end

@@ -33,6 +33,10 @@ static NSString *const kUserAccessServicename = @"photolib_user_access_service";
 
 static NSString *const kPhotoChannelPaymentKeyName = @"photolib_photo_channel_payment_keyname";
 
+static NSString *const kPaymentForPhotoChannelUsageKeyName = @"photolib_payment_for_photo_channel_usage_keyname";
+static NSString *const kPaymentForPhotoAlbumUsageKeyName = @"photolib_payment_for_photo_album_usage_keyname";
+static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_video_usage_keyname";
+
 @implementation PLUtil
 
 + (void)setPaidForPhotoChannel:(NSNumber *)columnId {

@@ -33,13 +33,8 @@ static const CGFloat kPadding = 5;
         _imageURL = imageURL;
         
         self.layer.cornerRadius = 5;
-        //self.clipsToBounds = YES;
         [self setBackgroundImage:[UIImage imageNamed:@"popup_menu_normal_background"] forState:UIControlStateNormal];
         [self setBackgroundImage:[UIImage imageNamed:@"popup_menu_selected_background"] forState:UIControlStateSelected];
-//        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        self.titleLabel.textAlignment = NSTextAlignmentCenter;
-//        self.titleLabel.font = [UIFont boldSystemFontOfSize:15.];
-//        self.titleLabel.adjustsFontSizeToFitWidth = YES;
         
         _roundRectBgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popup_menu_thumb_normal_background"]];
         [self addSubview:_roundRectBgImageView];

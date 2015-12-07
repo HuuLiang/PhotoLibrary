@@ -16,5 +16,6 @@
 - (void)payForProgram:(PLProgram *)program
         shouldPopView:(BOOL)popped
 withCompletionHandler:(void (^)(BOOL success))handler;
+- (void)registerPaymentNotification;
 
 @end

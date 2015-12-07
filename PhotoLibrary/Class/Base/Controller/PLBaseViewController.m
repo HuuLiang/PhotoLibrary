@@ -14,6 +14,8 @@
 #import "PLAppDelegate.h"
 #import "Order.h"
 #import "PLProgram.h"
+#import "PLVideo.h"
+#import "PLPaymentModel.h"
 
 @import MediaPlayer;
 @import AVKit;
@@ -27,41 +29,47 @@
 
 @implementation PLBaseViewController
 
-//- (UIViewController *)playerVCWithVideo:(PLVideo *)video {
-//    UIViewController *retVC;
-//    if (NSClassFromString(@"AVPlayerViewController")) {
-//        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
-//        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:video.videoUrl]];
-//        [playerVC aspect_hookSelector:@selector(viewDidAppear:)
-//                          withOptions:AspectPositionAfter
-//                           usingBlock:^(id<AspectInfo> aspectInfo){
-//                               AVPlayerViewController *thisPlayerVC = [aspectInfo instance];
-//                               [thisPlayerVC.player play];
-//                           } error:nil];
-//        
-//        retVC = playerVC;
-//    } else {
-//        retVC = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:video.videoUrl]];
-//    }
-//    
-//    [retVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-//        UIInterfaceOrientationMask mask = UIInterfaceOrientationMaskAll;
-//        [[aspectInfo originalInvocation] setReturnValue:&mask];
-//    } error:nil];
-//    
-//    [retVC aspect_hookSelector:@selector(shouldAutorotate) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-//        BOOL rotate = YES;
-//        [[aspectInfo originalInvocation] setReturnValue:&rotate];
-//    } error:nil];
-//    return retVC;
-//}
+- (UIViewController *)playerVCWithVideo:(PLVideo *)video {
+    UIViewController *retVC;
+    if (NSClassFromString(@"AVPlayerViewController")) {
+        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
+        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:video.videoUrl]];
+        [playerVC aspect_hookSelector:@selector(viewDidAppear:)
+                          withOptions:AspectPositionAfter
+                           usingBlock:^(id<AspectInfo> aspectInfo){
+                               AVPlayerViewController *thisPlayerVC = [aspectInfo instance];
+                               [thisPlayerVC.player play];
+                           } error:nil];
+        
+        retVC = playerVC;
+    } else {
+        retVC = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:video.videoUrl]];
+    }
+    
+    [retVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+        UIInterfaceOrientationMask mask = UIInterfaceOrientationMaskAll;
+        [[aspectInfo originalInvocation] setReturnValue:&mask];
+    } error:nil];
+    
+    [retVC aspect_hookSelector:@selector(shouldAutorotate) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+        BOOL rotate = YES;
+        [[aspectInfo originalInvocation] setReturnValue:&rotate];
+    } error:nil];
+    return retVC;
+}
+
+- (void)registerPaymentNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaymentNotification:) name:kPaymentNotificationName object:nil];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHexString:@"#f7f7f7"];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -83,18 +91,14 @@
 #endif
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)switchToPlayProgram:(PLProgram *)program {
     if (![PLUtil isPaid]) {
         [self payForProgram:program shouldPopView:YES withCompletionHandler:nil];
     } else if (program.type.unsignedIntegerValue == PLProgramTypeVideo) {
-//        UIViewController *videoPlayVC = [self playerVCWithVideo:program];
-//        videoPlayVC.hidesBottomBarWhenPushed = YES;
-//        //videoPlayVC.evaluateThumbnail = YES;
-//        [self presentViewController:videoPlayVC animated:YES completion:nil];
+        UIViewController *videoPlayVC = [self playerVCWithVideo:(PLVideo *)program];
+        videoPlayVC.hidesBottomBarWhenPushed = YES;
+        //videoPlayVC.evaluateThumbnail = YES;
+        [self presentViewController:videoPlayVC animated:YES completion:nil];
     }
 }
 
@@ -142,11 +146,12 @@ withCompletionHandler:(void (^)(BOOL success))handler {
     }];
 }
 
-- (void)onPaidNotification:(NSNotification *)notification {
+- (void)onPaymentNotification:(NSNotification *)notification {
     NSDictionary *userInfo = notification.userInfo;
     
-    NSString *orderNo = userInfo[kPaidNotificationOrderNoKey];
-    NSString *price = userInfo[kPaidNotificationPriceKey];
+    NSString *orderNo = userInfo[kPaymentNotificationOrderNoKey];
+    NSString *price = userInfo[kPaymentNotificationPriceKey];
+    NSNumber *paymentType = userInfo[kPaymentNotificationPaymentType];
     
     [PLUtil setPaidPendingWithOrder:@[orderNo,price,@"",@"",@""]];
     [[PLPaymentPopView sharedInstance] hide];
@@ -156,8 +161,8 @@ withCompletionHandler:(void (^)(BOOL success))handler {
                                 result:PAYRESULT_SUCCESS
                           forProgramId:@""
                            programType:@""
-                          payPointType:@""
-                           paymentType:PLPaymentTypeAlipay];
+                          payPointType:@"999"
+                           paymentType:paymentType.unsignedIntegerValue];
     
 }
 
@@ -234,14 +239,11 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
                          programType:(NSString *)programType
                         payPointType:(NSString *)payPointType
                          paymentType:(PLPaymentType)paymentType {
-    PLAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate paidWithOrderId:orderId
-                           price:price
-                          result:result
-                    forProgramId:programId
-                     programType:programType
-                    payPointType:payPointType
-                     paymentType:paymentType];
+    [[PLPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType paymentType:paymentType completionHandler:^(BOOL success) {
+        if (success && result == PAYRESULT_SUCCESS) {
+            [PLUtil setPaid];
+        }
+    }];
 }
 
 - (BOOL)shouldAutorotate {

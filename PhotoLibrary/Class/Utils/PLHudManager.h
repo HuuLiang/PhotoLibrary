@@ -10,6 +10,8 @@
 
 @interface PLHudManager : NSObject
 
+@property (nonatomic,retain,readonly) UIView *hudView;
+
 +(instancetype)manager;
 -(void)showHudWithText:(NSString *)text;
 -(void)showHudWithTitle:(NSString *)title message:(NSString *)msg;

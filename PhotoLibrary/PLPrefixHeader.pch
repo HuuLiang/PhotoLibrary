@@ -49,10 +49,12 @@ _##propertyName = [[propertyType alloc] init]; \
 return _##propertyName; \
 }
 
-#define kPaidNotificationName @"photolib_paid_notification"
-#define kPaidNotificationOrderNoKey @"photolib_paid_notification_order_key"
-#define kPaidNotificationPriceKey @"photolib_paid_notification_price_key"
-#define kPaidNotificationPaymentType @"photolib_paid_notification_payment_type"
+#define kPaymentNotificationName  @"photolib_payment_notification"
+
+//#define kPaidNotificationName @"photolib_paid_notification"
+#define kPaymentNotificationOrderNoKey @"photolib_payment_notification_order_key"
+#define kPaymentNotificationPriceKey @"photolib_payment_notification_price_key"
+#define kPaymentNotificationPaymentType @"photolib_payment_notification_payment_type"
 
 #define kPhotoChannelIdKeyName @"PhotoChannelIdKeyName"
 #define kDefaultPageSize  20

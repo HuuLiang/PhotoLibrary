@@ -181,7 +181,4 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
     return self.menuItems.count;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
 @end

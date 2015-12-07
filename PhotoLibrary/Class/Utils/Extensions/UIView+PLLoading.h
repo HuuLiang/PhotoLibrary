@@ -11,6 +11,7 @@
 @interface UIView (PLLoading)
 
 @property (nonatomic,retain,readonly) UIView *pl_loadingView;
+@property (nonatomic,retain,readonly) UIActivityIndicatorView *pl_loadingIndicatorView;
 
 - (void)pl_beginLoading;
 - (void)pl_endLoading;

@@ -10,11 +10,7 @@
 #import "PLProgram.h"
 
 @interface PLProgramUrlResponse : PLURLResponse
-
-@property (nonatomic) NSNumber *items;
-@property (nonatomic) NSNumber *page;
-@property (nonatomic) NSNumber *pageSize;
-@property (nonatomic) NSArray<PLProgramUrl *> *urlList;
+@property (nonatomic) NSArray<PLProgramUrl *> *programUrlList;
 @end
 
 typedef void (^PLFetchUrlListCompletionHandler)(BOOL success, NSArray<PLProgramUrl *> *urlList);

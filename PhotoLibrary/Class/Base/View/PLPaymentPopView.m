@@ -27,17 +27,17 @@ static const CGFloat kBackButtonInsets = 10;
 @implementation PLPaymentPopView (Size)
 
 - (CGSize)payButtonSize {
-    return CGSizeMake(self.imageSize.width * 633. / 695., self.imageSize.height * 118. / 861.);
+    return CGSizeMake(self.imageSize.width * 633. / 695., self.imageSize.height * 118. / 813.);
 }
 
 - (CGSize)backButtonSize {
     return CGSizeMake(self.imageSize.width * 81. / 695. + kBackButtonInsets * 2,
-                      self.imageSize.height * 80. / 861. + kBackButtonInsets * 2);
+                      self.imageSize.height * 80. / 813. + kBackButtonInsets * 2);
 }
 
 - (CGSize)imageSize {
     const CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width * 0.9;
-    return CGSizeMake(imageWidth, imageWidth*861./695.);
+    return CGSizeMake(imageWidth, imageWidth*813./695.);
 }
 
 - (CGSize)contentViewSize {
@@ -45,18 +45,18 @@ static const CGFloat kBackButtonInsets = 10;
 }
 
 - (CGRect)priceRect {
-    return CGRectMake(self.imageSize.width * 0.7,
-                      self.imageSize.height * 0.365,
-                      self.imageSize.width * 0.2,
+    return CGRectMake(self.imageSize.width * 0.18,
+                      self.imageSize.height * 0.355,
+                      self.imageSize.width * 0.1,
                       self.imageSize.height * 0.08);
 }
 
 - (CGPoint)alipayButtonOrigin {
-    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.59);
+    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.57);
 }
 
 - (CGPoint)wechatPayButtonOrigin {
-    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.76);
+    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.74);
 }
 @end
 
@@ -81,7 +81,7 @@ static const CGFloat kBackButtonInsets = 10;
     _paymentContentView.backgroundColor = [UIColor clearColor];
     _paymentContentView.layer.cornerRadius = 3;
     
-    UIImage *image = [UIImage imageNamed:@"payment"];
+    UIImage *image = [UIImage imageNamed:@"payment_video"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     [_paymentContentView addSubview:imageView];
     {
@@ -186,7 +186,8 @@ static const CGFloat kBackButtonInsets = 10;
     _showPrice = showPrice;
     
     UILabel *detailLabel = (UILabel *)[_paymentContentView viewWithTag:kRegisteringDetailLabelTag];
-    detailLabel.text = [NSString stringWithFormat:@"%.2f", showPrice];
+    BOOL showInteger = (NSUInteger)(showPrice * 100) % 100 == 0;
+    detailLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", (NSUInteger)showPrice] : [NSString stringWithFormat:@"%.2f", showPrice];
 }
 
 - (void)onAlipay {

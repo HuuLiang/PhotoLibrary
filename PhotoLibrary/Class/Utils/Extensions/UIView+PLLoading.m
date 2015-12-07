@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 
 static const void *kPLLoadingViewAssociatedKey = &kPLLoadingViewAssociatedKey;
+static const void *kPLLoadingIndicatorAssociatedKey = &kPLLoadingIndicatorAssociatedKey;
 
 @implementation UIView (PLLoading)
 
@@ -22,17 +23,27 @@ static const void *kPLLoadingViewAssociatedKey = &kPLLoadingViewAssociatedKey;
     loadingView = [[UIView alloc] init];
     loadingView.backgroundColor = [UIColor whiteColor];
     
-    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [indicatorView startAnimating];
-    [loadingView addSubview:indicatorView];
+    [self.pl_loadingIndicatorView startAnimating];
+    [loadingView addSubview:self.pl_loadingIndicatorView];
     {
-        [indicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.pl_loadingIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(loadingView);
             make.size.mas_equalTo(CGSizeMake(32, 32));
         }];
     }
     objc_setAssociatedObject(self, kPLLoadingViewAssociatedKey, loadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return loadingView;
+}
+
+- (UIActivityIndicatorView *)pl_loadingIndicatorView {
+    UIActivityIndicatorView *indicatorView = objc_getAssociatedObject(self, kPLLoadingIndicatorAssociatedKey);
+    if (indicatorView) {
+        return indicatorView;
+    }
+    
+    indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    objc_setAssociatedObject(self, kPLLoadingIndicatorAssociatedKey, indicatorView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return indicatorView;
 }
 
 - (void)pl_beginLoading {

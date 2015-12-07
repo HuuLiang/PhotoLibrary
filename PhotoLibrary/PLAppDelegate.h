@@ -12,13 +12,13 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)paidWithOrderId:(NSString *)orderId
-                  price:(NSString *)price
-                 result:(NSInteger)result
-           forProgramId:(NSString *)programId
-            programType:(NSString *)programType
-           payPointType:(NSString *)payPointType
-            paymentType:(PLPaymentType)paymentType;
+//- (void)paidWithOrderId:(NSString *)orderId
+//                  price:(NSString *)price
+//                 result:(NSInteger)result
+//           forProgramId:(NSString *)programId
+//            programType:(NSString *)programType
+//           payPointType:(NSString *)payPointType
+//            paymentType:(PLPaymentType)paymentType;
 
 @end
 

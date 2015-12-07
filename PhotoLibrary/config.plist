@@ -10,7 +10,7 @@
 	<string>/gallery/program.htm</string>
 	<key>PhotoUrlListURLPath</key>
 	<string>/gallery/programUrl.htm</string>
-	<key>HotVideoURLPath</key>
+	<key>VideoURLPath</key>
 	<string>/gallery/hotVideo.htm</string>
 	<key>SystemConfigURLPath</key>
 	<string>/gallery/systemConfig.htm</string>

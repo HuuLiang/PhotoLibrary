@@ -10,7 +10,7 @@
 
 @implementation PLProgramUrlResponse
 
-- (Class)urlListElementClass {
+- (Class)programUrlListElementClass {
     return [PLProgramUrl class];
 }
 
@@ -38,7 +38,7 @@
         NSArray *urlList;
         if (respStatus == PLURLResponseSuccess) {
             PLProgramUrlResponse *resp = self.response;
-            urlList = resp.urlList;
+            urlList = resp.programUrlList;
             self.fetchedUrlList = urlList;
         }
         

@@ -66,4 +66,7 @@
     [self.textHud hide:YES];
 }
 
+- (UIView *)hudView {
+    return self.textHud;
+}
 @end
