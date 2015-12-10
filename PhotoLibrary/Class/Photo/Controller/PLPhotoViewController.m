@@ -96,11 +96,13 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     }
     
     _floatingButton = [[UIButton alloc] init];
-    [_floatingButton setImage:[UIImage imageNamed:@"photo_floating_icon"] forState:UIControlStateNormal];
+    UIImage *flickerImage = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"photo_floating_icon_normal"],
+                                                               [UIImage imageNamed:@"photo_floating_icon_highlight"]] duration:0.5];
+    [_floatingButton setImage:flickerImage forState:UIControlStateNormal];
     [self.view addSubview:_floatingButton];
     {
         [_floatingButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(72.5, 79));
+            make.size.mas_equalTo(CGSizeMake(87, 88.5));
             make.left.bottom.equalTo(self.view).insets(UIEdgeInsetsMake(0, 15, 15, 0));
         }];
     }
@@ -304,6 +306,10 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
         return ;
     }
     
+    if (![PLPaymentUtil isPaidForPayable:channelPrograms]) {
+        return ;
+    }
+    
     NSUInteger pagesForOneRequest = channelPrograms.pageSize.unsignedIntegerValue / 4;
     NSUInteger loadedPages = channelPrograms.page.unsignedIntegerValue * pagesForOneRequest;
     if (currentPage % pagesForOneRequest == 0 && loadedPages == currentPage) {
@@ -315,6 +321,10 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     NSUInteger currentPage = CGRectGetWidth(scrollView.bounds) > 0 ? scrollView.contentOffset.x / CGRectGetWidth(scrollView.bounds) + 1 : 1;
     
     PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
+    if (currentPage == kAutoPopupPaymentInScrollingPage) {
+        [self payForPayable:channelPrograms withCompletionHandler:nil];
+    }
+    
     if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
         [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
     }

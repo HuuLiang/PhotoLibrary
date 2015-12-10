@@ -30,20 +30,14 @@
         _titleLabel.font = [UIFont systemFontOfSize:12.];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];
-        {
-            [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.equalTo(self);
-                make.top.equalTo(_thumbImageView.mas_bottom).offset(5);
-            }];
-        }
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaymentNotification:) name:kPaymentNotificationName object:nil];
+//        {
+//            [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.left.right.equalTo(self);
+//                make.top.equalTo(_thumbImageView.mas_bottom).offset(5);
+//            }];
+//        }
     }
     return self;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (instancetype)initWithTitle:(NSString *)title imageURL:(NSURL *)imageURL isLocked:(BOOL)isLocked {
@@ -56,10 +50,6 @@
     return self;
 }
 
-- (void)onPaymentNotification:(NSNotification *)notification {
-    
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -67,6 +57,12 @@
     const CGFloat thumbImageViewX = (CGRectGetWidth(self.bounds) - thumbImageViewWidth) / 2;
     _thumbImageView.frame = CGRectMake(thumbImageViewX, thumbImageViewX, thumbImageViewWidth, thumbImageViewWidth);
     _thumbImageView.layer.cornerRadius = thumbImageViewWidth / 2;
+    
+    _titleLabel.bounds = CGRectMake(0, 0, CGRectGetWidth(self.bounds), 12.);
+    _titleLabel.center = CGPointMake(_thumbImageView.center.x, CGRectGetMaxY(_thumbImageView.frame)+16);
+    
+    _lockImageView.bounds = CGRectMake(0, 0, 24, 24);
+    _lockImageView.center = CGPointMake(CGRectGetMaxX(_thumbImageView.frame)-12, CGRectGetMaxY(_thumbImageView.frame)-12);
 }
 
 - (void)setIsLocked:(BOOL)isLocked {
@@ -75,12 +71,12 @@
     if (!_lockImageView && isLocked) {
         _lockImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_channel_lock"]];
         [self addSubview:_lockImageView];
-        {
-            [_lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.bottom.equalTo(_thumbImageView);
-                make.size.mas_equalTo(CGSizeMake(24, 24));
-            }];
-        }
+//        {
+//            [_lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.right.bottom.equalTo(_thumbImageView);
+//                make.size.mas_equalTo(CGSizeMake(24, 24));
+//            }];
+//        }
     }
     _lockImageView.hidden = !isLocked;
     _thumbImageView.image = isLocked ? [_thumbImageView.image grayishImage] : self.originalImage;

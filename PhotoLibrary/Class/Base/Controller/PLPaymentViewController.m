@@ -111,7 +111,11 @@
 - (void)setPayableObject:(id<PLPayable>)payableObject {
     _payableObject = payableObject;
     
+#ifdef DEBUG
+    self.popView.showPrice = @(0.1);
+#else
     self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
+#endif
 }
 
 - (void)hidePayment {
