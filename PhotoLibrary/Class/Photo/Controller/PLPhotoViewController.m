@@ -119,7 +119,7 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     self.navigationItem.titleView = _navTitleView;
     
     if (self.currentPhotoChannel) {
-        [self loadPhotosInChannel:self.currentPhotoChannel shouldReload:YES];
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:1];
     } else {
         _navTitleView.title = @"图库";
         [self loadPhotoChannels];
@@ -158,14 +158,14 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     }];
 }
 
-- (void)loadPhotosInChannel:(PLPhotoChannel *)photoChannel shouldReload:(BOOL)shouldReload {
+- (void)loadPhotosInChannel:(PLPhotoChannel *)photoChannel withPage:(NSUInteger)page {// shouldReload:(BOOL)shouldReload {
     _navTitleView.title = photoChannel.name ?: @"图库";
     _navTitleView.imageURL = photoChannel.columnImg?[NSURL URLWithString:photoChannel.columnImg]:nil;
     
     if (photoChannel.columnId) {
         @weakify(self);
         [self.channelProgramModel fetchProgramsWithColumnId:photoChannel.columnId
-                                                     pageNo:shouldReload?1:self.photoPrograms.count/kDefaultPageSize+1
+                                                     pageNo:page//shouldReload?1:self.photoPrograms.count/kDefaultPageSize+1
                                                    pageSize:kDefaultPageSize
                                           completionHandler:^(BOOL success, PLChannelPrograms *programs)
          {
@@ -174,12 +174,16 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
                  return ;
              }
              
-             if (shouldReload) {
+             if (page == 1) {
                  [self.photoPrograms removeAllObjects];
              }
              
              [self.photoPrograms addObjectsFromArray:programs.programList];
              [self->_layoutCollectionView reloadData];
+             
+             //[self->_layoutCollectionView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange((page-1)*2, 2)]];
+             
+             //[self->_layoutCollectionView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange((page-1)*2, 2)]];
              
          }];
     }
@@ -189,7 +193,7 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     _currentPhotoChannel = currentPhotoChannel;
     [currentPhotoChannel writeToPersistence];
     
-    [self loadPhotosInChannel:currentPhotoChannel shouldReload:YES];
+    [self loadPhotosInChannel:currentPhotoChannel withPage:1];
 }
 
 - (PLPhotoChannel *)currentPhotoChannel {
@@ -214,18 +218,27 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PLPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReusableIdentifier forIndexPath:indexPath];
-
-    PLProgram *program = self.photoPrograms[indexPath.section*4+indexPath.row];
-    cell.imageURL = [NSURL URLWithString:program.coverImg];
+    
+    NSUInteger programIndex = indexPath.section*4+indexPath.row;
+    if (programIndex < self.photoPrograms.count) {
+        PLProgram *program = self.photoPrograms[indexPath.section*4+indexPath.row];
+        cell.imageURL = [NSURL URLWithString:program.coverImg];
+    } else {
+        cell.imageURL = nil;
+    }
+    
+    
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section < self.photoPrograms.count / 4) {
-        return 4;
-    } else {
-        return self.photoPrograms.count % 4;
-    }
+//    if (section < self.photoPrograms.count / 4) {
+//        return 4;
+//    } else {
+//        return self.photoPrograms.count % 4;
+//    }
+//    
+    return 4;
 }
 
 //- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -280,6 +293,30 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
         PLChannelProgram *photoProgram = self.photoPrograms[indexPath.row];
         self.photoBrowser.photoAlbum = photoProgram;
         [self.photoBrowser showInView:self.view.window];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSUInteger currentPage = CGRectGetWidth(scrollView.bounds) > 0 ? scrollView.contentOffset.x / CGRectGetWidth(scrollView.bounds) + 1 : 1;
+    
+    PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
+    if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
+        return ;
+    }
+    
+    NSUInteger pagesForOneRequest = channelPrograms.pageSize.unsignedIntegerValue / 4;
+    NSUInteger loadedPages = channelPrograms.page.unsignedIntegerValue * pagesForOneRequest;
+    if (currentPage % pagesForOneRequest == 0 && loadedPages == currentPage) {
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:channelPrograms.page.unsignedIntegerValue+1];
+    }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    NSUInteger currentPage = CGRectGetWidth(scrollView.bounds) > 0 ? scrollView.contentOffset.x / CGRectGetWidth(scrollView.bounds) + 1 : 1;
+    
+    PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
+    if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
+        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
     }
 }
 @end

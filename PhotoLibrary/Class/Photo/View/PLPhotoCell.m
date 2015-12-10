@@ -23,6 +23,7 @@ static const CGFloat kImageOffset = 5;
     self = [super initWithFrame:frame];
     if (self) {
         _backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_album_background"]];
+        _backgroundImageView.hidden = YES;
         [self addSubview:_backgroundImageView];
         {
             [_backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -42,7 +43,7 @@ static const CGFloat kImageOffset = 5;
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
     _imageView.clipsToBounds = YES;
     _imageView.layer.cornerRadius = 4;
-    _imageView.layer.borderWidth = 0.5;
+    
     _imageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self addSubview:_imageView];
     {
@@ -54,16 +55,23 @@ static const CGFloat kImageOffset = 5;
 }
 
 - (void)setImageURL:(NSURL *)imageURL {
+//    if (_imageURL == imageURL) {
+//        return ;
+//    }
+    
     _imageURL = imageURL;
-    @weakify(self);
-    [self.imageView sd_setImageWithURL:imageURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        @strongify(self);
-        if (image) {
-            self.imageView.alpha = 0;
-            [UIView animateWithDuration:0.3 animations:^{
-                self.imageView.alpha = 1;
-            }];
-        }
-    }];
+    _backgroundImageView.hidden = imageURL == nil;
+    _imageView.layer.borderWidth = imageURL == nil ? 0 : 0.5;
+//    @weakify(self);
+    [self.imageView sd_setImageWithURL:imageURL];
+//    [self.imageView sd_setImageWithURL:imageURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        @strongify(self);
+//        if (image) {
+//            self.imageView.alpha = 0;
+//            [UIView animateWithDuration:0.3 animations:^{
+//                self.imageView.alpha = 1;
+//            }];
+//        }
+//    }];
 }
 @end

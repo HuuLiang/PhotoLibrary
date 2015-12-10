@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
 #import <UIButton+WebCache.h>
 #import <UIImageView+WebCache.h>
 #import <UIImage+ImageWithColor.h>
+#import "PayNowDef.h"
 #import "PLExtensions.h"
 #import "PLConfig.h"
 #import "PLUtil.h"
