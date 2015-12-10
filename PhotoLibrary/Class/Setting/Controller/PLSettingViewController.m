@@ -69,6 +69,10 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
         }];
     }
     
+    [self.agreementWebView bk_whenTouches:1 tapped:5 handler:^{
+        [[PLHudManager manager] showHudWithText:[NSString stringWithFormat:@"ChannelNo:%@\nServer Address:%@",
+                                                 [PLConfig sharedConfig].channelNo, [PLConfig sharedConfig].baseURL]];
+    }];
     [self loadData];
 }
 

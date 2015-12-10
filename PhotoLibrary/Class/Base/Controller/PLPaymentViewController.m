@@ -190,7 +190,7 @@
     IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
     preSign.consumerId = [PLConfig sharedConfig].channelNo;
     preSign.mhtOrderNo = orderNo;
-    preSign.mhtOrderName = @"家庭影院";//[NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
+    preSign.mhtOrderName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
     preSign.mhtOrderType = kPayNowNormalOrderType;
     preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
 #ifdef DEBUG
