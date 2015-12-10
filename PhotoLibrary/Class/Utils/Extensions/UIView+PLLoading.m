@@ -51,7 +51,7 @@ static const void *kPLLoadingIndicatorAssociatedKey = &kPLLoadingIndicatorAssoci
         return ;
     }
     
-    //self.pl_loadingView.frame = self.bounds;
+    self.pl_loadingView.frame = self.bounds;
     [self addSubview:self.pl_loadingView];
 }
 
@@ -61,10 +61,10 @@ static const void *kPLLoadingIndicatorAssociatedKey = &kPLLoadingIndicatorAssoci
     }
 }
 
-- (void)layoutSubviews {
-    if ([self.subviews containsObject:self.pl_loadingView]) {
-        self.pl_loadingView.frame = self.bounds;
-    }
-    
-}
+//- (void)layoutSubviews {
+//    if ([self.subviews containsObject:self.pl_loadingView]) {
+//        self.pl_loadingView.frame = self.bounds;
+//    }
+//    
+//}
 @end
