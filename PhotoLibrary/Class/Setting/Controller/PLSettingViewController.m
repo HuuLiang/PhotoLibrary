@@ -33,9 +33,26 @@ typedef NS_ENUM(NSUInteger, PLSettingCell) {
 @implementation PLSettingViewController
 
 DefineLazyPropertyInitialization(UIImageView, topImageView)
-DefineLazyPropertyInitialization(PLSettingChannelLockScrollView, lockScrollView)
 DefineLazyPropertyInitialization(UIWebView, agreementWebView)
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
+
+- (PLSettingChannelLockScrollView *)lockScrollView {
+    if (_lockScrollView) {
+        return _lockScrollView;
+    }
+    
+    @weakify(self);
+    _lockScrollView = [[PLSettingChannelLockScrollView alloc] init];
+    _lockScrollView.action = ^(NSUInteger index) {
+        @strongify(self);
+        [self payForPayable:self.channelModel.fetchedChannels[index] withCompletionHandler:^(BOOL success) {
+            if (success) {
+                [self loadPhotoChannels];
+            }
+        }];
+    };
+    return _lockScrollView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,16 +84,21 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
         }
     }];
     
+    [self loadPhotoChannels];
+    
+    NSString *agreementUrlString = [[PLConfig sharedConfig].baseURL stringByAppendingString:[PLConfig sharedConfig].agreementURLPath];
+    NSURLRequest *agreementRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:agreementUrlString]];
+    [self.agreementWebView loadRequest:agreementRequest];
+}
+
+- (void)loadPhotoChannels {
+    @weakify(self);
     [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
         @strongify(self);
         if (success) {
             self.lockScrollView.channels = channels;
         }
     }];
-    
-    NSString *agreementUrlString = [[PLConfig sharedConfig].baseURL stringByAppendingString:[PLConfig sharedConfig].agreementURLPath];
-    NSURLRequest *agreementRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:agreementUrlString]];
-    [self.agreementWebView loadRequest:agreementRequest];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,4 +155,5 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return PLSettingCellCount;
 }
+
 @end

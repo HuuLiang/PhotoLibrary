@@ -14,11 +14,6 @@
 + (BOOL)isPaidForPayable:(id<PLPayable>)payable;
 + (void)setPaidForPayable:(id<PLPayable>)payable;
 
-//+ (BOOL)isPaidForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId;
-//+ (void)setPaidForUsage:(PLPaymentUsage)usage  withProgramId:(NSNumber *)programId;
 + (void)setPaidPendingWithOrder:(NSArray *)order programId:(NSNumber *)programId forUsage:(PLPaymentUsage)usage;
-
-+ (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo forUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId;
-+ (NSDictionary<NSString *, id> *)payingOrderForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId;
 
 @end

@@ -17,7 +17,16 @@
 typedef NS_ENUM(NSUInteger, PLPaymentType) {
     PLPaymentTypeNone,
     PLPaymentTypeAlipay = 1001,
-    PLPaymentTypeWeChatPay = 1008
+    PLPaymentTypeWeChatPay = 1008,
+    PLPaymentTypeUPPay = 1009
+};
+
+typedef NS_ENUM(NSInteger, PAYRESULT)
+{
+    PAYRESULT_SUCCESS   = 0,
+    PAYRESULT_FAIL      = 1,
+    PAYRESULT_ABANDON   = 2,
+    PAYRESULT_UNKNOWN   = 3
 };
 
 typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
@@ -35,6 +44,7 @@ typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
 #import <UIImageView+WebCache.h>
 #import <UIImage+ImageWithColor.h>
 #import "PayNowDef.h"
+#import "NSObject+Properties.h"
 #import "PLExtensions.h"
 #import "PLConfig.h"
 #import "PLUtil.h"

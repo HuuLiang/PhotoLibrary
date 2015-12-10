@@ -62,6 +62,10 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
     }];
 }
 
+- (NSString *)paymentSignURLPath {
+    return @"http://phas.ihuiyx.com/pd-has/signtureNowdata.json";
+}
+
 - (NSString *)paymentURLPath {
     return @"http://pay.iqu8.net/paycenter/qubaPr.json";
 }

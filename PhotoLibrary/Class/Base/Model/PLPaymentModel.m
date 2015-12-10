@@ -8,7 +8,6 @@
 
 #import "PLPaymentModel.h"
 #import "NSDictionary+PLSign.h"
-#import "AlipayManager.h"
 
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
@@ -53,14 +52,14 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 }
 
 - (BOOL)paidWithOrderId:(NSString *)orderId
-                  price:(NSNumber *)price
+                  price:(NSString *)price
                  result:(NSInteger)result
               contentId:(NSString *)contentId
             contentType:(NSString *)contentType
            payPointType:(NSString *)payPointType
             paymentType:(PLPaymentType)paymentType
       completionHandler:(PLPaidCompletionHandler)handler {
-    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2)};
+    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(3)};
     
     if (nil == [PLUtil userId] || orderId.length == 0 || contentId == nil || contentType == nil) {
         return NO;

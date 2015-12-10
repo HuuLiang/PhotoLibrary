@@ -90,6 +90,10 @@ typedef NSString PLPaymentStatus;
 }
 
 + (BOOL)isPaidForPayable:(id<PLPayable>)payable {
+    if ([payable payableFee].unsignedIntegerValue == 0) {
+        return YES;
+    }
+    
     if ([payable payableUsage] == PLPaymentForVideo) {
         return [self paymentWithUsage:PLPaymentForVideo status:kPaymentStatusPaid] != nil;
     } else {
@@ -108,14 +112,6 @@ typedef NSString PLPaymentStatus;
 
 + (void)setPaidPendingWithOrder:(NSArray *)order programId:(NSNumber *)programId forUsage:(PLPaymentUsage)usage {
     
-}
-
-+ (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo forUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId {
-    
-}
-
-+ (NSDictionary<NSString *, id> *)payingOrderForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId {
-    return nil;
 }
 
 @end

@@ -10,8 +10,11 @@
 
 @class PLPhotoChannel;
 
+typedef void (^PLLockScrollViewAction)(NSUInteger index);
+
 @interface PLSettingChannelLockScrollView : UIScrollView
 
 @property (nonatomic,retain) NSArray<PLPhotoChannel *> *channels;
+@property (nonatomic,copy) PLLockScrollViewAction action;
 
 @end

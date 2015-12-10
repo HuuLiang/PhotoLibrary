@@ -60,12 +60,13 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     _popupMenuController.photoChannelSelAction = ^(PLPhotoChannel *selectedChannel, id sender) {
         @strongify(self);
         
-        self.currentPhotoChannel = selectedChannel;
         [self.popupMenuController hide];
-        if ([self payForPayable:selectedChannel]) {
-            self.currentPhotoChannel = selectedChannel;
-            [self.popupMenuController hide];
-        }
+        [self payForPayable:selectedChannel withCompletionHandler:^(BOOL success) {
+            if (success) {
+                self.currentPhotoChannel = selectedChannel;
+                [self.popupMenuController hide];
+            }
+        }];
     };
     return _popupMenuController;
 }
@@ -143,7 +144,7 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
         
         if (!channelToShow) {
             channelToShow = [channels bk_match:^BOOL(id obj) {
-                if ([PLUtil isPaidForPhotoChannel:((PLPhotoChannel *)obj).columnId]) {
+                if ([PLPaymentUtil isPaidForPayable:((PLPhotoChannel *)obj)]) {
                     return YES;
                 }
                 return NO;
@@ -180,11 +181,6 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
              
              [self.photoPrograms addObjectsFromArray:programs.programList];
              [self->_layoutCollectionView reloadData];
-             
-             //[self->_layoutCollectionView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange((page-1)*2, 2)]];
-             
-             //[self->_layoutCollectionView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange((page-1)*2, 2)]];
-             
          }];
     }
 }
@@ -289,11 +285,15 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self payForPayable:self.channelProgramModel.fetchedPrograms]) {
-        PLChannelProgram *photoProgram = self.photoPrograms[indexPath.row];
-        self.photoBrowser.photoAlbum = photoProgram;
-        [self.photoBrowser showInView:self.view.window];
-    }
+    @weakify(self);
+    [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success) {
+        @strongify(self);
+        if (success) {
+            PLChannelProgram *photoProgram = self.photoPrograms[indexPath.row];
+            self.photoBrowser.photoAlbum = photoProgram;
+            [self.photoBrowser showInView:self.view.window];
+        }
+    }];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

@@ -13,7 +13,7 @@
 
 + (instancetype)sharedPaymentVC;
 
-- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable;
+- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler;
 - (void)hidePayment;
 
 @end

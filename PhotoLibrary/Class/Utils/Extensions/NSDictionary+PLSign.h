@@ -21,6 +21,11 @@
                              password:(NSString *)pwd
                           excludeKeys:(NSArray *)excludedKeys;
 
+- (NSString *)encryptedStringWithSign:(NSString *)sign
+                             password:(NSString *)pwd
+                          excludeKeys:(NSArray *)excludedKeys
+                    shouldIncludeSign:(BOOL)shouldIncludeSign;
+
 @end
 
 extern NSString *const kParamKeyName;

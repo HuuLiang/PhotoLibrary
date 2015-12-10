@@ -12,15 +12,19 @@
 #import "PLPaymentModel.h"
 #import <objc/runtime.h>
 #import "PLProgram.h"
-#import "AlipayManager.h"
-#import "WeChatPayManager.h"
+#import "PLPaymentSignModel.h"
+#import "IPNPreSignMessageUtil.h"
+#import "IpaynowPluginApi.h"
 
-@interface PLPaymentViewController ()
+@interface PLPaymentViewController () <IpaynowPluginDelegate>
 @property (nonatomic,retain) PLPaymentPopView *popView;
-@property (nonatomic) NSNumber *payAmount;
+
+@property (nonatomic,retain) IPNPreSignMessageUtil *paymentInfo;
 
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
 @property (nonatomic,assign) id<PLPayable> payableObject;
+
+@property (nonatomic,copy) PLPaymentCompletionHandler completionHandler;
 @end
 
 @implementation PLPaymentViewController
@@ -44,16 +48,15 @@
     _popView = [[PLPaymentPopView alloc] init];
     _popView.paymentAction = ^(PLPaymentType type) {
         @strongify(self);
-        if (!self.payAmount) {
-            [[PLHudManager manager] showHudWithText:@"无法获取价格信息,请检查网络配置！"];
-            return ;
-        }
-        
         [self pay:self.payableObject withPaymentType:type];
     };
     _popView.backAction = ^{
         @strongify(self);
         [self hidePayment];
+        
+        if (self.completionHandler) {
+            self.completionHandler(NO);
+        }
     };
     return _popView;
 }
@@ -71,42 +74,44 @@
     }
 }
 
-- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable {
+- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler {
     if (self.view.superview) {
         [self.view removeFromSuperview];
     }
     
-    self.payAmount = nil;
+    self.completionHandler = handler;
     self.payableObject = payable;
     self.popView.usage = [payable payableUsage];
     self.view.frame = view.bounds;
     self.view.alpha = 0;
-    [view addSubview:self.view];
+    if (view == [UIApplication sharedApplication].keyWindow) {
+        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
+    } else {
+        [view addSubview:self.view];
+    }
     
     [UIView animateWithDuration:0.25 animations:^{
         self.view.alpha = 1.0;
     }];
     
-    [self fetchPayAmount];
+//    [self fetchPayAmount];
 }
 
-- (void)fetchPayAmount {
-    @weakify(self);
-    PLSystemConfigModel *systemConfigModel = [PLSystemConfigModel sharedModel];
-    [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
-        @strongify(self);
-        if (success) {
-            self.payAmount = @(systemConfigModel.payAmount);
-        }
-    }];
-}
+//- (void)fetchPayAmount {
+//    @weakify(self);
+//    PLSystemConfigModel *systemConfigModel = [PLSystemConfigModel sharedModel];
+//    [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+//        @strongify(self);
+//        if (success) {
+//            self.payAmount = @(systemConfigModel.payAmount);
+//        }
+//    }];
+//}
 
-- (void)setPayAmount:(NSNumber *)payAmount {
-#ifdef DEBUG
-    payAmount = @(0.01);
-#endif
-    _payAmount = payAmount;
-    self.popView.showPrice = payAmount;
+- (void)setPayableObject:(id<PLPayable>)payableObject {
+    _payableObject = payableObject;
+    
+    self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
 }
 
 - (void)hidePayment {
@@ -123,146 +128,163 @@
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
-    [PLUtil setPayingOrderWithOrderNo:orderNo paymentType:paymentType];
 
-    NSString *contentId = payable.contentId.stringValue ?: @"";
-    NSString *contentType = payable.contentType.stringValue ?: @"";
-    NSString *payPointType = payable.payPointType.stringValue ?: @"999";
-    NSNumber *price = payable.payableFee;
+//    NSString *contentId = payable.contentId.stringValue ?: @"";
+//    NSString *contentType = payable.contentType.stringValue ?: @"";
+//    NSString *payPointType = payable.payPointType.stringValue ?: @"999";
+//    NSNumber *price = payable.payableFee;
     
-    void (^PayResultBack)(PAYRESULT result) = ^(PAYRESULT result) {
-        @strongify(self);
-
-        if (result == PAYRESULT_SUCCESS) {
-            [PLUtil setPaidPendingWithOrder:@[orderNo,
-                                              payable.payableFee.stringValue,
-                                              payable.contentId.stringValue ?: @"",
-                                              payable.contentType.stringValue ?: @"",
-                                              payable.payPointType.stringValue ?: @"999"]];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];
-            [self hidePayment];
-        } else if (result == PAYRESULT_FAIL) {
-            [[PLHudManager manager] showHudWithText:@"支付失败"];
-        } else if (result == PAYRESULT_ABANDON) {
-            [[PLHudManager manager] showHudWithText:@"支付取消"];
-        }
-
-        [[PLPaymentModel sharedModel] paidWithOrderId:orderNo
-                                                price:price
-                                               result:result
-                                            contentId:contentId
-                                          contentType:contentType
-                                         payPointType:payPointType
-                                          paymentType:paymentType
-                                    completionHandler:^(BOOL success){
-            if (success && result == PAYRESULT_SUCCESS) {
-                [PLPaymentUtil setPaidForPayable:payable];
-            }
-        }];
-    };
-    
-    if (paymentType == PLPaymentTypeAlipay) {
-        [[AlipayManager shareInstance] startAlipay:orderNo
-                                             price:@(price.doubleValue/100).stringValue
-                                        withResult:^(PAYRESULT result, Order *order) {
-                                            PayResultBack(result);
-                                        }];
-    } else if (paymentType == PLPaymentTypeWeChatPay) {
-        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo
-                                                               price:price.doubleValue / 100
-                                                   completionHandler:^(PAYRESULT payResult) {
-                                                       PayResultBack(payResult);
-                                                   }];
-    }
-    
-    
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
-    
-//    IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-//    preSign.consumerId = [PLConfig sharedConfig].channelNo;
-//    preSign.mhtOrderNo = orderNo;
-//    preSign.mhtOrderName = @"家庭影院";//[NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
-//    preSign.mhtOrderType = kPayNowNormalOrderType;
-//    preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
-//    preSign.mhtOrderAmt = [NSString stringWithFormat:@"%ld", @(price*100).unsignedIntegerValue];
-//    preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
-//    preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
-//    preSign.mhtCharset = kPayNowDefaultCharset;
-//    preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
-    
-//    [[PLPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
+//    void (^PayResultBack)(PAYRESULT result) = ^(PAYRESULT result) {
 //        @strongify(self);
-//        if (success) {
-//            self.paymentInfo = preSign;
-//            [IpaynowPluginApi pay:signedData AndScheme:[PLConfig sharedConfig].payNowScheme viewController:self delegate:self];
-//        } else {
-//            [[PLHudManager manager] showHudWithText:@"服务器获取签名失败！"];
+//
+//        if (result == PAYRESULT_SUCCESS) {
+//            [PLUtil setPaidPendingWithOrder:@[orderNo,
+//                                              payable.payableFee.stringValue,
+//                                              payable.contentId.stringValue ?: @"",
+//                                              payable.contentType.stringValue ?: @"",
+//                                              payable.payPointType.stringValue ?: @"999"]];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];
+//            [self hidePayment];
+//        } else if (result == PAYRESULT_FAIL) {
+//            [[PLHudManager manager] showHudWithText:@"支付失败"];
+//        } else if (result == PAYRESULT_ABANDON) {
+//            [[PLHudManager manager] showHudWithText:@"支付取消"];
 //        }
-//    }];
+//
+//        [[PLPaymentModel sharedModel] paidWithOrderId:orderNo
+//                                                price:price
+//                                               result:result
+//                                            contentId:contentId
+//                                          contentType:contentType
+//                                         payPointType:payPointType
+//                                          paymentType:paymentType
+//                                    completionHandler:^(BOOL success){
+//            if (success && result == PAYRESULT_SUCCESS) {
+//                [PLPaymentUtil setPaidForPayable:payable];
+//            }
+//        }];
+//    };
+//    
+//    if (paymentType == PLPaymentTypeAlipay) {
+//        [[AlipayManager shareInstance] startAlipay:orderNo
+//                                             price:@(price.doubleValue/100).stringValue
+//                                        withResult:^(PAYRESULT result, Order *order) {
+//                                            PayResultBack(result);
+//                                        }];
+//    } else if (paymentType == PLPaymentTypeWeChatPay) {
+//        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo
+//                                                               price:price.doubleValue / 100
+//                                                   completionHandler:^(PAYRESULT payResult) {
+//                                                       PayResultBack(payResult);
+//                                                   }];
+//    }
+    
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    
+    IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
+    preSign.consumerId = [PLConfig sharedConfig].channelNo;
+    preSign.mhtOrderNo = orderNo;
+    preSign.mhtOrderName = @"家庭影院";//[NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
+    preSign.mhtOrderType = kPayNowNormalOrderType;
+    preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
+#ifdef DEBUG
+    preSign.mhtOrderAmt = @"10";
+#else
+    preSign.mhtOrderAmt = [payable payableFee].stringValue;
+#endif
+    preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
+    preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
+    preSign.mhtCharset = kPayNowDefaultCharset;
+    preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
+    
+    [[PLPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
+        @strongify(self);
+        if (success) {
+            self.paymentInfo = preSign;
+            [IpaynowPluginApi pay:signedData AndScheme:[PLConfig sharedConfig].payNowScheme viewController:self delegate:self];
+        } else {
+            [[PLHudManager manager] showHudWithText:@"服务器获取签名失败！"];
+        }
+    }];
 }
 
-//- (NSDictionary *)paymentTypeMap {
-//    if (_paymentTypeMap) {
-//        return _paymentTypeMap;
-//    }
-//    
-//    _paymentTypeMap = @{@(PLPaymentTypeAlipay):@(PayNowChannelTypeAlipay),
-//                          @(PLPaymentTypeWeChatPay):@(PayNowChannelTypeWeChatPay),
-//                          @(PLPaymentTypeUPPay):@(PayNowChannelTypeUPPay)};
-//    return _paymentTypeMap;
-//}
+- (NSDictionary *)paymentTypeMap {
+    if (_paymentTypeMap) {
+        return _paymentTypeMap;
+    }
+    
+    _paymentTypeMap = @{@(PLPaymentTypeAlipay):@(PayNowChannelTypeAlipay),
+                          @(PLPaymentTypeWeChatPay):@(PayNowChannelTypeWeChatPay),
+                          @(PLPaymentTypeUPPay):@(PayNowChannelTypeUPPay)};
+    return _paymentTypeMap;
+}
 
-//- (PLPaymentType)paymentTypeFromPayNowType:(PayNowChannelType)type {
-//    __block PLPaymentType retType = PLPaymentTypeNone;
-//    [self.paymentTypeMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//        if ([(NSNumber *)obj isEqualToNumber:@(type)]) {
-//            retType = ((NSNumber *)key).unsignedIntegerValue;
-//            *stop = YES;
-//            return ;
-//        }
-//    }];
-//    return retType;
-//}
-//
-//- (PayNowChannelType)payNowTypeFromPaymentType:(PLPaymentType)type {
-//    return ((NSNumber *)self.paymentTypeMap[@(type)]).unsignedIntegerValue;
-//}
+- (PLPaymentType)paymentTypeFromPayNowType:(PayNowChannelType)type {
+    __block PLPaymentType retType = PLPaymentTypeNone;
+    [self.paymentTypeMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([(NSNumber *)obj isEqualToNumber:@(type)]) {
+            retType = ((NSNumber *)key).unsignedIntegerValue;
+            *stop = YES;
+            return ;
+        }
+    }];
+    return retType;
+}
+
+- (PayNowChannelType)payNowTypeFromPaymentType:(PLPaymentType)type {
+    return ((NSNumber *)self.paymentTypeMap[@(type)]).unsignedIntegerValue;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
-//    NSLog(@"PayResult:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
-//    
-//    if (result == IPNPayResultSuccess) {
-//        
+- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
+    NSLog(@"PayResult:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
+    
+    NSString *contentId = [self.payableObject contentId].stringValue ?: @"";
+    NSString *contentType = [self.payableObject contentType].stringValue ?: @"";
+    NSString *payPointType = [self.payableObject payPointType].stringValue ?: @"999";
+    
+    if (result == IPNPayResultSuccess) {
+        
 //        [PLUtil setPaidPendingWithOrder:@[self.paymentInfo.mhtOrderNo,
 //                                          self.paymentInfo.mhtOrderAmt,
-//                                          self.programToPayFor.programId.stringValue,
-//                                          self.programToPayFor.type.stringValue,
-//                                          self.programToPayFor.payPointType.stringValue]];
-//        [self hidePayment];
-//        [[PLHudManager manager] showHudWithText:@"支付成功"];
-//        
-//        
-//        [[PLPaymentModel sharedModel] paidWithOrderId:self.paymentInfo.mhtOrderNo
-//                                                price:self.paymentInfo.mhtOrderAmt
-//                                               result:result
-//                                            contentId:self.programToPayFor.programId.stringValue
-//                                          contentType:self.programToPayFor.type.stringValue
-//                                         payPointType:self.programToPayFor.payPointType.stringValue
-//                                          paymentType:[self paymentTypeFromPayNowType:self.paymentInfo.payChannelType.integerValue]
-//                                    completionHandler:^(BOOL success){
-//            if (success && result == PAYRESULT_SUCCESS) {
-//                [PLUtil setPaid];
-//            }
-//        }];
-//        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName object:nil];
-//    }
-//}
+//                                          contentId,
+//                                          contentType,
+//                                          payPointType]];
+        [PLPaymentUtil setPaidForPayable:self.payableObject];
+        
+        [self hidePayment];
+        [[PLHudManager manager] showHudWithText:@"支付成功"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];
+        
+        if (self.completionHandler) {
+            self.completionHandler(YES);
+        }
+    } else if (result == IPNPayResultCancel) {
+        [[PLHudManager manager] showHudWithText:@"支付取消"];
+    } else {
+        [[PLHudManager manager] showHudWithText:@"支付失败"];
+    }
+    
+    @weakify(self);
+    [[PLPaymentModel sharedModel] paidWithOrderId:self.paymentInfo.mhtOrderNo
+                                            price:self.paymentInfo.mhtOrderAmt
+                                           result:result
+                                        contentId:contentId
+                                      contentType:contentType
+                                     payPointType:payPointType
+                                      paymentType:[self paymentTypeFromPayNowType:self.paymentInfo.payChannelType.integerValue]
+                                completionHandler:^(BOOL success){
+                                    
+                                    if (success && result == PAYRESULT_SUCCESS) {
+                                        
+                                    }
+                                }];
+}
 
 @end

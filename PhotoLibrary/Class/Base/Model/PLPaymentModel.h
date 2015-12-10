@@ -7,7 +7,6 @@
 //
 
 #import "PLEncryptedURLRequest.h"
-#import "Order.h"
 
 typedef void (^PLPaidCompletionHandler)(BOOL success);
 
@@ -17,7 +16,7 @@ typedef void (^PLPaidCompletionHandler)(BOOL success);
 
 - (BOOL)processPendingOrder;
 - (BOOL)paidWithOrderId:(NSString *)orderId
-                  price:(NSNumber *)price
+                  price:(NSString *)price
                  result:(NSInteger)result
               contentId:(NSString *)contentId
             contentType:(NSString *)contentType

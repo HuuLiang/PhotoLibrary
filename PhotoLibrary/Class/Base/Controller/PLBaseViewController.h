@@ -11,9 +11,11 @@
 
 @class PLVideo;
 
+typedef void (^PLPaymentCompletionHandler)(BOOL success);
+
 @interface PLBaseViewController : UIViewController
 
-- (BOOL)payForPayable:(id<PLPayable>)payable;
+- (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler;
 - (void)playVideo:(PLVideo *)video;
 - (void)onPaymentNotification:(NSNotification *)notification;
 

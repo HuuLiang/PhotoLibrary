@@ -103,11 +103,15 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    @weakify(self);
     id<PLPayable> payable = self.videoModel.fetchedVideos;
-    if ([self payForPayable:payable]) {
-        PLVideo *video = self.videos[indexPath.row];
-        [self playVideo:video];
-    }
+    [self payForPayable:payable withCompletionHandler:^(BOOL success) {
+        @strongify(self);
+        if (success) {
+            PLVideo *video = self.videos[indexPath.row];
+            [self playVideo:video];
+        }
+    }];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

@@ -35,7 +35,14 @@ DefineLazyPropertyInitialization(NSMutableArray, channelIcons)
         BOOL isLocked = obj.isFreeChannel ? NO : ![PLPaymentUtil isPaidForPayable:obj];
         PLPhotoChannelLockView *lockView = [[PLPhotoChannelLockView alloc] initWithTitle:obj.name
                                                                                 imageURL:[NSURL URLWithString:obj.columnImg]
-                                                                                isLocked:isLocked];
+                                                                            isLocked:isLocked];
+        @weakify(self);
+        [lockView bk_whenTapped:^{
+            @strongify(self);
+            if (self.action) {
+                self.action(idx);
+            }
+        }];
         [self addSubview:lockView];
         [self.channelIcons addObject:lockView];
     }];
