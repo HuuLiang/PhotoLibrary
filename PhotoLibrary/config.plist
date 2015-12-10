@@ -22,6 +22,8 @@
 	<string>/gallery/aliConfig.htm</string>
 	<key>WeChatPayConfigURLPath</key>
 	<string>/gallery/weixinConfig.htm</string>
+	<key>AgreementURLPath</key>
+	<string>/gallery/agreement.html</string>
 	<key>ChannelNo</key>
 	<string>QB_ATLAS_TEST_T0000001</string>
 	<key>AlipayPID</key>
@@ -44,8 +46,8 @@
 	<string>http://phas.ihuiyx.com/pd-has/notifyWx.json</string>
 	<key>SystemConfigPayAmount</key>
 	<string>PAY_AMOUNT</string>
-	<key>SystemConfigChannelTopImage</key>
-	<string>CHANNEL_TOP_IMG</string>
+	<key>SystemConfigSpreadTopImage</key>
+	<string>SPREAD_TOP_IMG</string>
 	<key>BaiduAdAppId</key>
 	<string>a39921a8</string>
 	<key>BaiduBannerAdId</key>

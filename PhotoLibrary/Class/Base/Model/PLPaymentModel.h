@@ -15,8 +15,9 @@ typedef void (^PLPaidCompletionHandler)(BOOL success);
 
 + (instancetype)sharedModel;
 
+- (BOOL)processPendingOrder;
 - (BOOL)paidWithOrderId:(NSString *)orderId
-                  price:(NSString *)price
+                  price:(NSNumber *)price
                  result:(NSInteger)result
               contentId:(NSString *)contentId
             contentType:(NSString *)contentType

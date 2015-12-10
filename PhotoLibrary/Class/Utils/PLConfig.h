@@ -22,6 +22,7 @@
 @property (nonatomic,readonly) NSString *userAccessURLPath;
 @property (nonatomic,readonly) NSString *alipayConfigURLPath;
 @property (nonatomic,readonly) NSString *weChatPayConfigURLPath;
+@property (nonatomic,readonly) NSString *agreementURLPath;
 
 @property (nonatomic,readonly) NSString *alipayPID;
 @property (nonatomic,readonly) NSString *alipaySellerID;
@@ -35,7 +36,7 @@
 @property (nonatomic,readonly) NSString *weChatPayNotifyURL;
 
 @property (nonatomic,readonly) NSString *systemConfigPayAmount;
-@property (nonatomic,readonly) NSString *systemConfigChannelTopImage;
+@property (nonatomic,readonly) NSString *systemConfigSpreadTopImage;
 
 @property (nonatomic,readonly) NSString *paymentURLPath;
 

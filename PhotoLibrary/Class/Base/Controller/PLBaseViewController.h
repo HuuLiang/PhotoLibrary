@@ -6,16 +6,15 @@
 //  Copyright © 2015年 iqu8. All rights reserved.
 //
 
-@class PLProgram;
-
 #import <UIKit/UIKit.h>
+#import "PLPayable.h"
+
+@class PLVideo;
 
 @interface PLBaseViewController : UIViewController
 
-- (void)switchToPlayProgram:(PLProgram *)program;
-- (void)payForProgram:(PLProgram *)program
-        shouldPopView:(BOOL)popped
-withCompletionHandler:(void (^)(BOOL success))handler;
-- (void)registerPaymentNotification;
+- (BOOL)payForPayable:(id<PLPayable>)payable;
+- (void)playVideo:(PLVideo *)video;
+- (void)onPaymentNotification:(NSNotification *)notification;
 
 @end

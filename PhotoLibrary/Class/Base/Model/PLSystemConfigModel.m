@@ -48,8 +48,8 @@
                 
                 if ([config.name isEqualToString:[PLConfig sharedConfig].systemConfigPayAmount]) {
                     self.payAmount = config.value.doubleValue / 100.;
-                } else if ([config.name isEqualToString:[PLConfig sharedConfig].systemConfigChannelTopImage]) {
-                    self.channelTopImage = config.value;
+                } else if ([config.name isEqualToString:[PLConfig sharedConfig].systemConfigSpreadTopImage]) {
+                    self.spreadTopImage = config.value;
                 }
             }];
         }

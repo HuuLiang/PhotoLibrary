@@ -74,7 +74,7 @@ typedef NSString PLPaymentStatus;
 
 + (BOOL)isProgram:(NSNumber *)programId forUsage:(PLPaymentUsage)usage withPaymentStatus:(PLPaymentStatus *)status {
     PLPayment *payment = [self paymentWithUsage:usage status:status];
-    return [payment containsObject:programId];
+    return programId != nil ? [payment containsObject:programId] : payment != nil;
 }
 
 + (void)setPaymentStatus:(PLPaymentStatus *)status withProgram:(NSNumber *)programId forUsage:(PLPaymentUsage)usage {
@@ -83,16 +83,27 @@ typedef NSString PLPaymentStatus;
         payment = [PLPaymentM array];
     }
     
-    [payment addObject:programId];
+    if (programId) {
+        [payment addObject:programId];
+    }
     [self setPayment:payment withUsage:usage status:status];
 }
 
-+ (BOOL)isPaidForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId {
-    return [self isProgram:programId forUsage:usage withPaymentStatus:kPaymentStatusPaid];
++ (BOOL)isPaidForPayable:(id<PLPayable>)payable {
+    if ([payable payableUsage] == PLPaymentForVideo) {
+        return [self paymentWithUsage:PLPaymentForVideo status:kPaymentStatusPaid] != nil;
+    } else {
+        return [self isProgram:[payable contentId] forUsage:[payable payableUsage] withPaymentStatus:kPaymentStatusPaid];
+    }
 }
 
-+ (void)setPaidForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId {
-    [self setPaymentStatus:kPaymentStatusPaid withProgram:programId forUsage:usage];
++ (void)setPaidForPayable:(id<PLPayable>)payable {
+    if ([payable payableUsage] == PLPaymentForVideo) {
+        PLPayment *payment = @[[payable payableFee]];
+        [self setPayment:payment withUsage:[payable payableUsage] status:kPaymentStatusPaid];
+    } else {
+        [self setPaymentStatus:kPaymentStatusPaid withProgram:[payable contentId] forUsage:[payable payableUsage]];
+    }
 }
 
 + (void)setPaidPendingWithOrder:(NSArray *)order programId:(NSNumber *)programId forUsage:(PLPaymentUsage)usage {

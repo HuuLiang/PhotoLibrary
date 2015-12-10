@@ -10,8 +10,32 @@
 
 @implementation PLPhotoChannel
 
+- (NSNumber *)payableFee {
+    return self.payAmount;
+}
+
+- (PLPaymentUsage)payableUsage {
+    return PLPaymentForPhotoChannel;
+}
+
+- (NSNumber *)contentId {
+    return self.columnId;
+}
+
+- (NSNumber *)contentType {
+    return self.type;
+}
+
+- (NSNumber *)payPointType {
+    return nil;
+}
+
 - (BOOL)isSameChannel:(PLPhotoChannel *)channel {
     return self.columnId && [self.columnId isEqualToNumber:channel.columnId];
+}
+
+- (BOOL)isFreeChannel {
+    return self.payAmount.unsignedIntegerValue == 0;
 }
 
 + (instancetype)persistentPhotoChannel {

@@ -23,8 +23,8 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (BOOL)isRegistered;
 + (void)setRegisteredWithUserId:(NSString *)userId;
 
-+ (BOOL)isPaid;
-+ (void)setPaid;
+//+ (BOOL)isPaid;
+//+ (void)setPaid;
 + (void)setPaidPendingWithOrder:(NSArray *)order;
 
 + (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo;

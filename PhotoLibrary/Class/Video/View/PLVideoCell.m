@@ -13,10 +13,11 @@ static const CGFloat kTitleViewHeight = 30;
 
 @interface PLVideoCell ()
 {
-    UIImageView *_imageView;
+    UIImageView *_thumbImageView;
     
     UIView *_titleView;
     UILabel *_titleLabel;
+    UIImageView *_hotTagImageView;
 }
 @end
 
@@ -25,12 +26,12 @@ static const CGFloat kTitleViewHeight = 30;
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _imageView = [[UIImageView alloc] init];
-        _imageView.contentMode = UIViewContentModeScaleAspectFill;
-        _imageView.clipsToBounds = YES;
-        [self addSubview:_imageView];
+        _thumbImageView = [[UIImageView alloc] init];
+        _thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _thumbImageView.clipsToBounds = YES;
+        [self addSubview:_thumbImageView];
         {
-            [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [_thumbImageView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
         }
@@ -77,7 +78,19 @@ static const CGFloat kTitleViewHeight = 30;
     _video = video;
     
     _titleLabel.text = video.title;
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:video.coverImg]];
+    [_thumbImageView sd_setImageWithURL:[NSURL URLWithString:video.coverImg]];
+    
+    if (!_hotTagImageView) {
+        _hotTagImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hot_tag"]];
+        [self addSubview:_hotTagImageView];
+        {
+            [_hotTagImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.right.equalTo(self);
+                make.size.mas_equalTo(CGSizeMake(37, 37));
+            }];
+        }
+    }
+    _hotTagImageView.hidden = !video.isHot;
 }
 
 @end

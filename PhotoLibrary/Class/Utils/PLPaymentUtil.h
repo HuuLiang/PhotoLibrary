@@ -7,18 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
-    PLPaymentForUnknown,
-    PLPaymentForPhotoChannel,
-    PLPaymentForPhotoAlbum,
-    PLPaymentForVideo
-};
+#import "PLPayable.h"
 
 @interface PLPaymentUtil : NSObject
 
-+ (BOOL)isPaidForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId;
-+ (void)setPaidForUsage:(PLPaymentUsage)usage  withProgramId:(NSNumber *)programId;
++ (BOOL)isPaidForPayable:(id<PLPayable>)payable;
++ (void)setPaidForPayable:(id<PLPayable>)payable;
+
+//+ (BOOL)isPaidForUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId;
+//+ (void)setPaidForUsage:(PLPaymentUsage)usage  withProgramId:(NSNumber *)programId;
 + (void)setPaidPendingWithOrder:(NSArray *)order programId:(NSNumber *)programId forUsage:(PLPaymentUsage)usage;
 
 + (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo forUsage:(PLPaymentUsage)usage withProgramId:(NSNumber *)programId;

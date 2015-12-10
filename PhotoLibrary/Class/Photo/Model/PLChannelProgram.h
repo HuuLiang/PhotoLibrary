@@ -14,8 +14,6 @@
 @property (nonatomic) NSNumber *pageSize;
 @end
 
-@interface PLChannelPrograms : PLPrograms
-@property (nonatomic) NSNumber *items;
-@property (nonatomic) NSNumber *page;
-@property (nonatomic) NSNumber *pageSize;
+@interface PLChannelPrograms : PLPrograms <PLPayable>
+
 @end

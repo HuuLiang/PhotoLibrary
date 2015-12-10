@@ -14,4 +14,24 @@
 
 @implementation PLChannelPrograms
 
+- (NSNumber *)payableFee {
+    return self.payAmount1;
+}
+
+- (PLPaymentUsage)payableUsage {
+    return PLPaymentForPhotoAlbum;
+}
+
+- (NSNumber *)contentId {
+    return self.columnId;
+}
+
+- (NSNumber *)contentType {
+    return self.type;
+}
+
+- (NSNumber *)payPointType {
+    return nil;
+}
+
 @end

@@ -14,12 +14,12 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "AlipayManager.h"
 #import "WeChatPayManager.h"
-//#import "PLActivateModel.h"
-//#import "PLPaymentModel.h"
+#import "PLActivateModel.h"
+#import "PLPaymentModel.h"
 #import "WXApi.h"
 #import "PLAlipayOrderQueryRequest.h"
 #import "PLWeChatPayQueryOrderRequest.h"
-//#import "PLUserAccessModel.h"
+#import "PLUserAccessModel.h"
 #import "PLSystemConfigModel.h"
 
 @interface PLAppDelegate () <WXApiDelegate>
@@ -126,26 +126,24 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
+    [WXApi registerApp:[PLConfig sharedConfig].weChatPayAppId];
+    
     [[PLErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
-//    
-//    if (![PLUtil isRegistered]) {
-//        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
-//            if (success) {
-//                [PLUtil setRegisteredWithUserId:userId];
-//                [[PLUserAccessModel sharedModel] requestUserAccess];
-//            }
-//        }];
-//    } else {
-//        [[PLUserAccessModel sharedModel] requestUserAccess];
-//    }
-//    
-//    NSArray *order = [PLUtil orderForSavePending];
-//    if (order.count == PLPendingOrderItemCount) {
-//        [self paidWithOrderId:order[PLPendingOrderId] price:order[PLPendingOrderPrice] result:PAYRESULT_SUCCESS forProgramId:order[PLPendingOrderProgramId] programType:order[PLPendingOrderProgramType] payPointType:order[PLPendingOrderPayPointType] paymentType:((NSNumber *)order[PLPendingOrderPaymentType]).unsignedIntegerValue];
-//    }
+    
+    if (![PLUtil isRegistered]) {
+        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+            if (success) {
+                [PLUtil setRegisteredWithUserId:userId];
+                [[PLUserAccessModel sharedModel] requestUserAccess];
+            }
+        }];
+    } else {
+        [[PLUserAccessModel sharedModel] requestUserAccess];
+    }
+    
+    [[PLPaymentModel sharedModel] processPendingOrder];
     return YES;
 }
 
@@ -182,39 +180,23 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (void)checkPayment {
-    NSString *payingOrderNo = [PLUtil payingOrderNo];
-    PLPaymentType payingType = [PLUtil payingOrderPaymentType];
-    if (![PLUtil isPaid] && payingOrderNo && payingType != PLPaymentTypeNone) {
-        if (payingType == PLPaymentTypeWeChatPay) {
-            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
-                if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName
-                                                                        object:nil
-                                                                      userInfo:@{kPaymentNotificationOrderNoKey:payingOrderNo,
-                                                                                 kPaymentNotificationPriceKey:@(total_fee).stringValue,
-                                                                                 kPaymentNotificationPaymentType:@(PLPaymentTypeWeChatPay)}];
-                }
-            }];
-        }
-        
-    }
-}
-
-//- (void)paidWithOrderId:(NSString *)orderId
-//                  price:(NSString *)price
-//                 result:(NSInteger)result
-//           forProgramId:(NSString *)programId
-//            programType:(NSString *)programType
-//           payPointType:(NSString *)payPointType
-//            paymentType:(PLPaymentType)paymentType {
-//
-//    
-//    [[PLPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType paymentType:paymentType completionHandler:^(BOOL success){
-//        if (success && result == PAYRESULT_SUCCESS) {
-//            [KbUtil setPaid];
+//    NSString *payingOrderNo = [PLUtil payingOrderNo];
+//    PLPaymentType payingType = [PLUtil payingOrderPaymentType];
+//    if (![PLUtil isPaid] && payingOrderNo && payingType != PLPaymentTypeNone) {
+//        if (payingType == PLPaymentTypeWeChatPay) {
+//            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+//                if ([trade_state isEqualToString:@"SUCCESS"]) {
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName
+//                                                                        object:nil
+//                                                                      userInfo:@{kPaymentNotificationOrderNoKey:payingOrderNo,
+//                                                                                 kPaymentNotificationPriceKey:@(total_fee).stringValue,
+//                                                                                 kPaymentNotificationPaymentType:@(PLPaymentTypeWeChatPay)}];
+//                }
+//            }];
 //        }
-//    }];
-//}
+//        
+//    }
+}
 
 #pragma mark - WeChat delegate
 

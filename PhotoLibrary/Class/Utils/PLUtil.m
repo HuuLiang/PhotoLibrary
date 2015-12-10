@@ -227,7 +227,7 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
 }
 
 + (NSString *)appId {
-    return @"QUBA_2001";
+    return @"QUBA_2002";
 }
 
 @end

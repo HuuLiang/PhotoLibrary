@@ -20,6 +20,13 @@ typedef NS_ENUM(NSUInteger, PLPaymentType) {
     PLPaymentTypeWeChatPay = 1008
 };
 
+typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
+    PLPaymentForUnknown,
+    PLPaymentForPhotoChannel,
+    PLPaymentForPhotoAlbum,
+    PLPaymentForVideo
+};
+
 #import <Aspects.h>
 #import <Masonry.h>
 #import <BlocksKit.h>
@@ -30,6 +37,7 @@ typedef NS_ENUM(NSUInteger, PLPaymentType) {
 #import "PLExtensions.h"
 #import "PLConfig.h"
 #import "PLUtil.h"
+#import "PLPaymentUtil.h"
 #import "PLHudManager.h"
 #import "PLErrorHandler.h"
 
@@ -58,4 +66,7 @@ return _##propertyName; \
 
 #define kPhotoChannelIdKeyName @"PhotoChannelIdKeyName"
 #define kDefaultPageSize  20
+
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
 #endif /* PLPrefixHeader_pch */

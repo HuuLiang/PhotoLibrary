@@ -15,5 +15,6 @@
 #import "UIView+PLLoading.h"
 #import "UIView+PLDim.h"
 #import "NSMutableDictionary+SafeCoding.h"
+#import "UIImage+Grayish.h"
 
 #endif /* PLExtensions_h */

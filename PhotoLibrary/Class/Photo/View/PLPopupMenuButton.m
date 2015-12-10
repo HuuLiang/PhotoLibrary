@@ -16,7 +16,9 @@ static const CGFloat kPadding = 5;
     UIImageView *_thumbImageView;
     UILabel *_thumbTitleLabel;
     UIImageView *_markImageView;
+    UIImageView *_lockImageView;
 }
+@property (nonatomic,retain) UIImage *originalThumbImage;
 @end
 
 @implementation PLPopupMenuButton
@@ -41,7 +43,6 @@ static const CGFloat kPadding = 5;
         
         _thumbImageView = [[UIImageView alloc] init];
         _thumbImageView.clipsToBounds = YES;
-        [_thumbImageView sd_setImageWithURL:imageURL];
         [self addSubview:_thumbImageView];
         
         _thumbTitleLabel = [[UILabel alloc] init];
@@ -55,6 +56,12 @@ static const CGFloat kPadding = 5;
         _markImageView.hidden = YES;
         [self addSubview:_markImageView];
         
+        _lockImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popup_menu_lock"]];
+        _lockImageView.hidden = YES;
+        [self addSubview:_lockImageView];
+        
+        [self setImageURL:imageURL];
+        
     }
     return self;
 }
@@ -66,18 +73,32 @@ static const CGFloat kPadding = 5;
 
 - (void)setImageURL:(NSURL *)imageURL {
     _imageURL = imageURL;
-    [_thumbImageView sd_setImageWithURL:imageURL];
+    
+    @weakify(self);
+    [_thumbImageView sd_setImageWithURL:imageURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        @strongify(self);
+        self.originalThumbImage = image;
+        
+        if (image && self.isLocked) {
+            _thumbImageView.image = [image grayishImage];
+        }
+    }];
 }
 
-- (void)setMarked:(BOOL)marked {
-    _marked = marked;
+- (void)setIsLocked:(BOOL)isLocked {
+    _isLocked = isLocked;
     
-    if (marked) {
-        _roundRectBgImageView.image = [UIImage imageNamed:@"popup_menu_thumb_selected_background"];
-    } else {
+    if (isLocked) {
         _roundRectBgImageView.image = [UIImage imageNamed:@"popup_menu_thumb_normal_background"];
+    } else {
+        _roundRectBgImageView.image = [UIImage imageNamed:@"popup_menu_thumb_selected_background"];
     }
-    _markImageView.hidden = !marked;
+    _markImageView.hidden = isLocked;
+    _lockImageView.hidden = !isLocked;
+    
+    if (self.originalThumbImage) {
+        _thumbImageView.image = isLocked ? [self.originalThumbImage grayishImage] : self.originalThumbImage;
+    }
 }
 
 - (CGRect)titleRectForContentRect:(CGRect)contentRect {
@@ -99,6 +120,8 @@ static const CGFloat kPadding = 5;
     _markImageView.frame = CGRectMake(imageRect.origin.x + imageSize/2 -5,
                                       imageRect.origin.y + imageSize/2 -5,
                                       imageSize*0.8, imageSize*0.8);
+    _lockImageView.center = _thumbImageView.center;
+    _lockImageView.bounds = CGRectMake(0, 0, CGRectGetWidth(_thumbImageView.frame)/2, CGRectGetHeight(_thumbImageView.frame)/2);
     
     CGFloat width = CGRectGetWidth(self.bounds)*0.7-CGRectGetWidth(imageRect)-kPadding*2;
     CGRect titleRect = CGRectMake(CGRectGetMaxX(imageRect)+kPadding, imageRect.origin.y, width, CGRectGetHeight(imageRect));

@@ -53,7 +53,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 }
 
 - (BOOL)paidWithOrderId:(NSString *)orderId
-                  price:(NSString *)price
+                  price:(NSNumber *)price
                  result:(NSInteger)result
               contentId:(NSString *)contentId
             contentType:(NSString *)contentType
@@ -70,7 +70,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"orderNo":orderId,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
-                             @"payMoney":@((NSUInteger)(price.doubleValue * 100)),
+                             @"payMoney":price,
                              @"channelNo":[PLConfig sharedConfig].channelNo,
                              @"contentId":contentId,
                              @"contentType":contentType,
@@ -97,5 +97,20 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     if (responseHandler) {
         responseHandler(status, nil);
     }
+}
+
+- (BOOL)processPendingOrder {
+    NSArray *order = [PLUtil orderForSavePending];
+    if (order.count == PLPendingOrderItemCount) {
+        return [self paidWithOrderId:order[PLPendingOrderId]
+                               price:order[PLPendingOrderPrice]
+                              result:PAYRESULT_SUCCESS
+                           contentId:order[PLPendingOrderProgramId]
+                         contentType:order[PLPendingOrderProgramType]
+                        payPointType:order[PLPendingOrderPayPointType]
+                         paymentType:((NSNumber *)order[PLPendingOrderPaymentType]).unsignedIntegerValue
+                   completionHandler:nil];
+    }
+    return NO;
 }
 @end

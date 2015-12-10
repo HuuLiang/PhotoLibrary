@@ -151,7 +151,7 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
         
         PLPopupMenuButton *menuButton = [[PLPopupMenuButton alloc] initWithTitle:menuItem.title imageURL:[NSURL URLWithString:menuItem.imageUrlString]];
         menuButton.selected = menuItem.selected;
-        menuButton.marked = menuItem.occupied;
+        menuButton.isLocked = !menuItem.occupied;
         objc_setAssociatedObject(cell, kMenuButtonAssociatedKey, menuButton, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [cell addSubview:menuButton];
         {
@@ -172,7 +172,7 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
         menuButton.title = menuItem.title;
         menuButton.imageURL = [NSURL URLWithString:menuItem.imageUrlString];
         menuButton.selected = menuItem.selected;
-        menuButton.marked = menuItem.occupied;
+        menuButton.isLocked = !menuItem.occupied;
     }
     return cell;
 }

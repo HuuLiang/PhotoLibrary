@@ -14,9 +14,16 @@
 #import "PLProgram.h"
 #import "PLPhotoNavigationTitleView.h"
 #import "PLPhotoBrowser.h"
+#import <objc/runtime.h>
+#import "PLPaymentViewController.h"
 
 static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentifier";
-static NSString *const kHeaderFooterReusableIdentifier = @"HeaderFooterReusableIdentifier";
+static NSString *const kHeaderReusableIdentifier = @"HeaderReusableIdentifier";
+static NSString *const kFooterReusableIdentifier = @"FooterReusableIdentifier";
+
+//static const CGFloat kSectionBorderWidth = 5;
+static const CGFloat kPhotoCellInterspace = 5;
+static NSString *const kSectionBackgroundColor = @"#503d3c";
 
 @interface PLPhotoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
@@ -30,7 +37,7 @@ static NSString *const kHeaderFooterReusableIdentifier = @"HeaderFooterReusableI
 @property (nonatomic,retain) PLPhotoChannelPopupMenuController *popupMenuController;
 
 @property (nonatomic,retain) PLPhotoChannel *currentPhotoChannel;
-@property (nonatomic,retain) NSMutableArray<PLProgram *> *photoPrograms;
+@property (nonatomic,retain) NSMutableArray<PLChannelProgram *> *photoPrograms;
 
 @property (nonatomic,retain) PLPhotoBrowser *photoBrowser;
 @end
@@ -52,15 +59,13 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     _popupMenuController = [[PLPhotoChannelPopupMenuController alloc] init];
     _popupMenuController.photoChannelSelAction = ^(PLPhotoChannel *selectedChannel, id sender) {
         @strongify(self);
+        
         self.currentPhotoChannel = selectedChannel;
         [self.popupMenuController hide];
-        
-//        if ([PLUtil isPaidForPhotoChannel:selectedChannel.columnId]) {
-//            self.currentPhotoChannel = selectedChannel;
-//            [self.popupMenuController hide];
-//        } else {
-//            
-//        }
+        if ([self payForPayable:selectedChannel]) {
+            self.currentPhotoChannel = selectedChannel;
+            [self.popupMenuController hide];
+        }
     };
     return _popupMenuController;
 }
@@ -69,18 +74,19 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = 0;
-    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 10);
+    layout.minimumInteritemSpacing = kPhotoCellInterspace;
+    layout.minimumLineSpacing = kPhotoCellInterspace;
+    layout.sectionInset = UIEdgeInsetsMake(kPhotoCellInterspace, kPhotoCellInterspace, kPhotoCellInterspace, kPhotoCellInterspace);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 
     _layoutCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _layoutCollectionView.delegate = self;
     _layoutCollectionView.dataSource = self;
     [_layoutCollectionView registerClass:[PLPhotoCell class] forCellWithReuseIdentifier:kPhotoCellReusableIdentifier];
-    [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderFooterReusableIdentifier];
-    [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kHeaderFooterReusableIdentifier];
+    [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderReusableIdentifier];
+    [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kFooterReusableIdentifier];
     _layoutCollectionView.backgroundColor = self.view.backgroundColor;
+    _layoutCollectionView.pagingEnabled = YES;
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -208,9 +214,7 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PLPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReusableIdentifier forIndexPath:indexPath];
-    cell.layer.borderWidth = 2;
-    cell.layer.borderColor = [UIColor colorWithHexString:@"#503d3c"].CGColor;
-    
+
     PLProgram *program = self.photoPrograms[indexPath.section*4+indexPath.row];
     cell.imageURL = [NSURL URLWithString:program.coverImg];
     return cell;
@@ -224,36 +228,58 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     }
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kHeaderFooterReusableIdentifier forIndexPath:indexPath];
-    view.backgroundColor = [UIColor colorWithHexString:@"#503d3c"];
-    return view;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(5, CGRectGetHeight(self.view.bounds));
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return CGSizeMake(5, CGRectGetHeight(self.view.bounds));
-}
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+//    
+//    UICollectionReusableView *view;
+//    if (kind == UICollectionElementKindSectionHeader) {
+//        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kHeaderReusableIdentifier forIndexPath:indexPath];
+//        view.backgroundColor = [UIColor colorWithHexString:kSectionBackgroundColor];
+//    } else if (kind == UICollectionElementKindSectionFooter) {
+//        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kFooterReusableIdentifier forIndexPath:indexPath];
+//        
+//        static const void *kFooterStripeViewAssociatedKey = &kFooterStripeViewAssociatedKey;
+//        UIView *stripeView = objc_getAssociatedObject(view, kFooterStripeViewAssociatedKey);
+//        if (!stripeView) {
+//            stripeView = [[UIView alloc] init];
+//            stripeView.backgroundColor = [UIColor colorWithHexString:kSectionBackgroundColor];
+//            objc_setAssociatedObject(view, kFooterStripeViewAssociatedKey, stripeView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//            [view addSubview:stripeView];
+//            {
+//                [stripeView mas_makeConstraints:^(MASConstraintMaker *make) {
+//                    make.left.top.bottom.equalTo(view);
+//                    make.width.equalTo(view).dividedBy(2);
+//                }];
+//            }
+//        }
+//        view.backgroundColor = (indexPath.section != [collectionView numberOfSections] - 1) ? collectionView.backgroundColor : stripeView.backgroundColor;
+//    }
+//    
+//    //view.backgroundColor = [UIColor colorWithHexString:@"#503d3c"];
+//    return view;
+//}
+//
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+//    return CGSizeMake(kSectionBorderWidth, CGRectGetHeight(self.view.bounds));
+//}
+//
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+//    if (section != [collectionView numberOfSections] - 1) {
+//        return CGSizeMake(kSectionBorderWidth*2, CGRectGetHeight(self.view.bounds));
+//    }
+//    return CGSizeMake(kSectionBorderWidth, CGRectGetHeight(self.view.bounds));
+//}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    const CGFloat cellHeight = CGRectGetHeight(self.view.bounds) / 2;
-    return CGSizeMake(cellHeight*0.7, cellHeight);
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if (section != [collectionView numberOfSections] - 1) {
-        return UIEdgeInsetsMake(0, 0, 0, 10);
-    } else {
-        return UIEdgeInsetsZero;
-    }
+    const CGFloat cellHeight = CGRectGetHeight(self.view.bounds) / 2 - kPhotoCellInterspace*1.5;
+    const CGFloat cellWidth = CGRectGetWidth(self.view.bounds) / 2 - kPhotoCellInterspace * 1.5;
+    return CGSizeMake(cellWidth, cellHeight);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    PLProgram *photoProgram = self.photoPrograms[indexPath.row];
-    self.photoBrowser.photoAlbum = photoProgram;
-    [self.photoBrowser showInView:self.view.window];
+    if ([self payForPayable:self.channelProgramModel.fetchedPrograms]) {
+        PLChannelProgram *photoProgram = self.photoPrograms[indexPath.row];
+        self.photoBrowser.photoAlbum = photoProgram;
+        [self.photoBrowser showInView:self.view.window];
+    }
 }
 @end

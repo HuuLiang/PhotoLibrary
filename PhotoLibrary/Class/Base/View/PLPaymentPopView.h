@@ -9,11 +9,16 @@
 #import <UIKit/UIKit.h>
 
 typedef void (^PLPaymentAction)(PLPaymentType type);
+typedef void (^PLBackAction)(void);
 
 @interface PLPaymentPopView : UIView
 
-@property (nonatomic,copy) PLPaymentAction action;
-@property (nonatomic) double showPrice;
+@property (nonatomic) PLPaymentUsage usage;
+@property (nonatomic,copy) PLPaymentAction paymentAction;
+@property (nonatomic,copy) PLBackAction backAction;
+
+@property (nonatomic) NSNumber *showPrice;
+@property (nonatomic,readonly) CGSize contentSize;
 
 + (instancetype)sharedInstance;
 

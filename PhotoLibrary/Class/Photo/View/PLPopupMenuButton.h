@@ -12,7 +12,7 @@
 
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSURL *imageURL;
-@property (nonatomic) BOOL marked;
+@property (nonatomic) BOOL isLocked;
 
 + (instancetype)buttonWithTitle:(NSString *)title imageURL:(NSURL *)imageURL;
 - (instancetype)initWithTitle:(NSString *)title imageURL:(NSURL *)imageURL;

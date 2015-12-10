@@ -18,7 +18,7 @@ typedef void (^PLFetchSystemConfigCompletionHandler)(BOOL success);
 @interface PLSystemConfigModel : PLEncryptedURLRequest
 
 @property (nonatomic) double payAmount;
-@property (nonatomic) NSString *channelTopImage;
+@property (nonatomic) NSString *spreadTopImage;
 
 + (instancetype)sharedModel;
 

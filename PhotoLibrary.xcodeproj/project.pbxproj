@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1E7191C12321BBD3A2FB1628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 131FE8C3406C9435454CC243 /* libPods.a */; };
-		BC170DB51C15305A00D31F26 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DB41C15305A00D31F26 /* PLVideo.m */; };
 		BC170DBA1C1536C900D31F26 /* PLAlipayOrderQueryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DB71C1536C900D31F26 /* PLAlipayOrderQueryRequest.m */; };
 		BC170DBB1C1536C900D31F26 /* PLWeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DB91C1536C900D31F26 /* PLWeChatPayQueryOrderRequest.m */; };
 		BC170DBE1C15381F00D31F26 /* PLPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DBC1C15381F00D31F26 /* PLPaymentModel.m */; };
 		BC170DC11C15505100D31F26 /* PLPaymentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DC01C15505100D31F26 /* PLPaymentUtil.m */; };
+		BC170DC51C15832700D31F26 /* PLPhotoChannelLockView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DC41C15832700D31F26 /* PLPhotoChannelLockView.m */; };
+		BC170DC81C159A9900D31F26 /* PLSettingChannelLockScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC170DC71C159A9900D31F26 /* PLSettingChannelLockScrollView.m */; };
 		BC17CFBD1C128370003FFFD5 /* PLPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17CFBC1C128370003FFFD5 /* PLPhotoBrowser.m */; };
 		BC1A2D671C0E9F86003D9138 /* PLPhotoNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D661C0E9F86003D9138 /* PLPhotoNavigationTitleView.m */; };
 		BC1A2D6A1C0ED66D003D9138 /* PLChannelProgramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D691C0ED66D003D9138 /* PLChannelProgramModel.m */; };
@@ -20,8 +21,12 @@
 		BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D6F1C0EDDD4003D9138 /* PLProgramUrlModel.m */; };
 		BC1A2D731C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */; };
 		BC1A97C61C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1A97C51C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m */; };
+		BC3E07B41C19764C00217DC3 /* UIImage+Grayish.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E07B31C19764C00217DC3 /* UIImage+Grayish.m */; };
 		BC5576101C1486F8002E3C4C /* PLVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC55760F1C1486F8002E3C4C /* PLVideoCell.m */; };
 		BC5576141C14882C002E3C4C /* PLVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5576131C14882C002E3C4C /* PLVideoModel.m */; };
+		BC683AE71C1801E0006B19A5 /* PLPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683AE51C1801E0006B19A5 /* PLPaymentViewController.m */; };
+		BC683AED1C1807BF006B19A5 /* PLActivateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683AEC1C1807BF006B19A5 /* PLActivateModel.m */; };
+		BC683B0C1C182D22006B19A5 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683B0B1C182D22006B19A5 /* PLVideo.m */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -104,8 +109,6 @@
 		131FE8C3406C9435454CC243 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		BC170DB31C15305A00D31F26 /* PLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideo.h; sourceTree = "<group>"; };
-		BC170DB41C15305A00D31F26 /* PLVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideo.m; sourceTree = "<group>"; };
 		BC170DB61C1536C900D31F26 /* PLAlipayOrderQueryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLAlipayOrderQueryRequest.h; sourceTree = "<group>"; };
 		BC170DB71C1536C900D31F26 /* PLAlipayOrderQueryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLAlipayOrderQueryRequest.m; sourceTree = "<group>"; };
 		BC170DB81C1536C900D31F26 /* PLWeChatPayQueryOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLWeChatPayQueryOrderRequest.h; sourceTree = "<group>"; };
@@ -114,6 +117,10 @@
 		BC170DBD1C15381F00D31F26 /* PLPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentModel.h; sourceTree = "<group>"; };
 		BC170DBF1C15505100D31F26 /* PLPaymentUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentUtil.h; sourceTree = "<group>"; };
 		BC170DC01C15505100D31F26 /* PLPaymentUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentUtil.m; sourceTree = "<group>"; };
+		BC170DC31C15832700D31F26 /* PLPhotoChannelLockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoChannelLockView.h; sourceTree = "<group>"; };
+		BC170DC41C15832700D31F26 /* PLPhotoChannelLockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoChannelLockView.m; sourceTree = "<group>"; };
+		BC170DC61C159A9900D31F26 /* PLSettingChannelLockScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSettingChannelLockScrollView.h; sourceTree = "<group>"; };
+		BC170DC71C159A9900D31F26 /* PLSettingChannelLockScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSettingChannelLockScrollView.m; sourceTree = "<group>"; };
 		BC17CFBB1C128370003FFFD5 /* PLPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoBrowser.h; sourceTree = "<group>"; };
 		BC17CFBC1C128370003FFFD5 /* PLPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoBrowser.m; sourceTree = "<group>"; };
 		BC1A2D651C0E9F86003D9138 /* PLPhotoNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPhotoNavigationTitleView.h; sourceTree = "<group>"; };
@@ -128,10 +135,19 @@
 		BC1A2D721C0EECAB003D9138 /* PLPhotoChannelPopupMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPhotoChannelPopupMenuController.m; sourceTree = "<group>"; };
 		BC1A97C41C109D1600BD6138 /* NSMutableDictionary+SafeCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeCoding.h"; sourceTree = "<group>"; };
 		BC1A97C51C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeCoding.m"; sourceTree = "<group>"; };
+		BC3E07B21C19764C00217DC3 /* UIImage+Grayish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Grayish.h"; sourceTree = "<group>"; };
+		BC3E07B31C19764C00217DC3 /* UIImage+Grayish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Grayish.m"; sourceTree = "<group>"; };
 		BC55760E1C1486F8002E3C4C /* PLVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideoCell.h; sourceTree = "<group>"; };
 		BC55760F1C1486F8002E3C4C /* PLVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoCell.m; sourceTree = "<group>"; };
 		BC5576121C14882C002E3C4C /* PLVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideoModel.h; sourceTree = "<group>"; };
 		BC5576131C14882C002E3C4C /* PLVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoModel.m; sourceTree = "<group>"; };
+		BC683AE51C1801E0006B19A5 /* PLPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentViewController.m; sourceTree = "<group>"; };
+		BC683AE61C1801E0006B19A5 /* PLPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentViewController.h; sourceTree = "<group>"; };
+		BC683AEB1C1807BF006B19A5 /* PLActivateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLActivateModel.h; sourceTree = "<group>"; };
+		BC683AEC1C1807BF006B19A5 /* PLActivateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLActivateModel.m; sourceTree = "<group>"; };
+		BC683AEE1C18099D006B19A5 /* PLPayable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPayable.h; sourceTree = "<group>"; };
+		BC683B0A1C182D22006B19A5 /* PLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideo.h; sourceTree = "<group>"; };
+		BC683B0B1C182D22006B19A5 /* PLVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideo.m; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -309,6 +325,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		BC170DC21C1582CF00D31F26 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BC170DC31C15832700D31F26 /* PLPhotoChannelLockView.h */,
+				BC170DC41C15832700D31F26 /* PLPhotoChannelLockView.m */,
+				BC170DC61C159A9900D31F26 /* PLSettingChannelLockScrollView.h */,
+				BC170DC71C159A9900D31F26 /* PLSettingChannelLockScrollView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BC55760D1C148691002E3C4C /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +348,8 @@
 		BC5576111C148721002E3C4C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BC683B0A1C182D22006B19A5 /* PLVideo.h */,
+				BC683B0B1C182D22006B19A5 /* PLVideo.m */,
 				BC5576121C14882C002E3C4C /* PLVideoModel.h */,
 				BC5576131C14882C002E3C4C /* PLVideoModel.m */,
 			);
@@ -461,6 +490,7 @@
 		BCB1AF8C1C0D536C008AA006 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				BC170DC21C1582CF00D31F26 /* View */,
 				BCB1AFE91C0D682D008AA006 /* Controller */,
 			);
 			path = Setting;
@@ -579,6 +609,8 @@
 			children = (
 				BCB1AFE61C0D6795008AA006 /* PLBaseViewController.h */,
 				BCB1AFE71C0D6795008AA006 /* PLBaseViewController.m */,
+				BC683AE61C1801E0006B19A5 /* PLPaymentViewController.h */,
+				BC683AE51C1801E0006B19A5 /* PLPaymentViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -601,16 +633,17 @@
 				BCB1B0071C0D6ACC008AA006 /* PLEncryptedURLRequest.m */,
 				BCB1B0101C0D6ACC008AA006 /* PLURLResponse.h */,
 				BCB1B0111C0D6ACC008AA006 /* PLURLResponse.m */,
+				BC683AEE1C18099D006B19A5 /* PLPayable.h */,
 				BCB1B0081C0D6ACC008AA006 /* PLProgram.h */,
 				BCB1B0091C0D6ACC008AA006 /* PLProgram.m */,
-				BC170DB31C15305A00D31F26 /* PLVideo.h */,
-				BC170DB41C15305A00D31F26 /* PLVideo.m */,
 				BCB1B00A1C0D6ACC008AA006 /* PLSystemConfig.h */,
 				BCB1B00B1C0D6ACC008AA006 /* PLSystemConfig.m */,
 				BCB1B00C1C0D6ACC008AA006 /* PLSystemConfigModel.h */,
 				BCB1B00D1C0D6ACC008AA006 /* PLSystemConfigModel.m */,
 				BC170DBD1C15381F00D31F26 /* PLPaymentModel.h */,
 				BC170DBC1C15381F00D31F26 /* PLPaymentModel.m */,
+				BC683AEB1C1807BF006B19A5 /* PLActivateModel.h */,
+				BC683AEC1C1807BF006B19A5 /* PLActivateModel.m */,
 				BCB1B0121C0D6ACC008AA006 /* PLUserAccessModel.h */,
 				BCB1B0131C0D6ACC008AA006 /* PLUserAccessModel.m */,
 				BC170DB61C1536C900D31F26 /* PLAlipayOrderQueryRequest.h */,
@@ -638,6 +671,8 @@
 				BCB1B05B1C0D9EAD008AA006 /* UIView+PLLoading.m */,
 				BCB1B0631C0DA943008AA006 /* UIView+PLDim.h */,
 				BCB1B0641C0DA943008AA006 /* UIView+PLDim.m */,
+				BC3E07B21C19764C00217DC3 /* UIImage+Grayish.h */,
+				BC3E07B31C19764C00217DC3 /* UIImage+Grayish.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -883,6 +918,7 @@
 				BCB1B0181C0D6ACC008AA006 /* PLSystemConfig.m in Sources */,
 				BC5576101C1486F8002E3C4C /* PLVideoCell.m in Sources */,
 				BCB1AFE21C0D669B008AA006 /* PLVideoViewController.m in Sources */,
+				BC683AE71C1801E0006B19A5 /* PLPaymentViewController.m in Sources */,
 				BCB1B02C1C0D6E93008AA006 /* NSString+md5.m in Sources */,
 				BC170DC11C15505100D31F26 /* PLPaymentUtil.m in Sources */,
 				BC1A2D671C0E9F86003D9138 /* PLPhotoNavigationTitleView.m in Sources */,
@@ -894,6 +930,8 @@
 				BC1A2D701C0EDDD4003D9138 /* PLProgramUrlModel.m in Sources */,
 				BCB1B01B1C0D6ACC008AA006 /* PLURLResponse.m in Sources */,
 				BCB1B01A1C0D6ACC008AA006 /* PLURLRequest.m in Sources */,
+				BC683B0C1C182D22006B19A5 /* PLVideo.m in Sources */,
+				BC170DC51C15832700D31F26 /* PLPhotoChannelLockView.m in Sources */,
 				BCB1B0161C0D6ACC008AA006 /* PLEncryptedURLRequest.m in Sources */,
 				BCB1B0301C0D6EC3008AA006 /* NSDictionary+PLSign.m in Sources */,
 				BC5576141C14882C002E3C4C /* PLVideoModel.m in Sources */,
@@ -902,17 +940,19 @@
 				BC170DBA1C1536C900D31F26 /* PLAlipayOrderQueryRequest.m in Sources */,
 				BCB1B02B1C0D6E93008AA006 /* NSString+crypt.m in Sources */,
 				BC1A97C61C109D1600BD6138 /* NSMutableDictionary+SafeCoding.m in Sources */,
+				BC3E07B41C19764C00217DC3 /* UIImage+Grayish.m in Sources */,
 				BCB1AFC91C0D53C0008AA006 /* RSADataSigner.m in Sources */,
 				BCB1AFBF1C0D53C0008AA006 /* AlipayManager.m in Sources */,
 				BCB1AFCC1C0D53C0008AA006 /* ApiXml.mm in Sources */,
-				BC170DB51C15305A00D31F26 /* PLVideo.m in Sources */,
 				BCB1AFE81C0D6795008AA006 /* PLBaseViewController.m in Sources */,
 				BC17CFBD1C128370003FFFD5 /* PLPhotoBrowser.m in Sources */,
 				BCB1AFCB1C0D53C0008AA006 /* RACEXTRuntimeExtensions.m in Sources */,
+				BC683AED1C1807BF006B19A5 /* PLActivateModel.m in Sources */,
 				BCB1B06B1C0DBC51008AA006 /* PLPopupMenuController.m in Sources */,
 				BCB1B0171C0D6ACC008AA006 /* PLProgram.m in Sources */,
 				BCB1B02D1C0D6E93008AA006 /* UIColor+hexColor.m in Sources */,
 				BCB1B04C1C0D82BD008AA006 /* PLPhotoChannelModel.m in Sources */,
+				BC170DC81C159A9900D31F26 /* PLSettingChannelLockScrollView.m in Sources */,
 				BCB1B0191C0D6ACC008AA006 /* PLSystemConfigModel.m in Sources */,
 				BCB1AF8F1C0D538D008AA006 /* PLPhotoViewController.m in Sources */,
 				BCB1AF521C0D51E6008AA006 /* main.m in Sources */,
@@ -988,6 +1028,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1032,6 +1073,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -35,7 +35,7 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
                 if (obj.type.unsignedIntegerValue == PLProgramTypePicture) {
                     PLPopupMenuItem *item = [PLPopupMenuItem menuItemWithTitle:obj.name imageUrlString:obj.columnImg];
                     item.selected = [self.selectedPhotoChannel isSameChannel:obj];
-                    item.occupied = obj.payAmount.unsignedIntegerValue == 0 ?: [PLUtil isPaidForPhotoChannel:obj.columnId];
+                    item.occupied = obj.isFreeChannel ?: [PLPaymentUtil isPaidForPayable:obj];
                     [menuItems addObject:item];
                 }
             }];

@@ -9,6 +9,7 @@
 #import "PLVideoViewController.h"
 #import "PLVideoModel.h"
 #import "PLVideoCell.h"
+//#import "ODRefreshControl.h"
 
 static NSString *const kVideoCellReusableIdentifier = @"VideoCellReusableIdentifier";
 static const CGFloat kInteritemSpacing = 2;
@@ -17,6 +18,7 @@ static const CGFloat kLineSpacing = kInteritemSpacing;
 @interface PLVideoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     UICollectionView *_collectionView;
+//    ODRefreshControl *_refreshControl;
 }
 @property (nonatomic,retain) PLVideoModel *videoModel;
 @property (nonatomic,retain) NSMutableArray *videos;
@@ -50,6 +52,11 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
     }
     
     [self loadVideosWithReloadFlag:YES];
+    
+//    _refreshControl = [[ODRefreshControl alloc] initInScrollView:_collectionView];
+//    [_refreshControl bk_addEventHandler:^(id sender) {
+//        
+//    } forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)loadVideosWithReloadFlag:(BOOL)shouldReload {
@@ -90,11 +97,15 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     const CGFloat cellHeight = (CGRectGetHeight(self.view.bounds) - kLineSpacing * 3) / 2;
-    return CGSizeMake(cellHeight*0.7, cellHeight);
+    const CGFloat cellWidth = (CGRectGetWidth(self.view.bounds) - kLineSpacing * 3) / 2;
+    return CGSizeMake(cellWidth, cellHeight);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    PLVideo *video = self.videos[indexPath.row];
-    [self switchToPlayProgram:video];
+    id<PLPayable> payable = self.videoModel.fetchedVideos;
+    if ([self payForPayable:payable]) {
+        PLVideo *video = self.videos[indexPath.row];
+        [self playVideo:video];
+    }
 }
 @end

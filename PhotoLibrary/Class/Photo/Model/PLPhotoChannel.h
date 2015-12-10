@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PLPayable.h"
 
-@interface PLPhotoChannel : NSObject
+@interface PLPhotoChannel : NSObject <PLPayable>
 
 @property (nonatomic) NSNumber *columnId;
 @property (nonatomic) NSString *name;
@@ -19,6 +20,7 @@
 @property (nonatomic) NSNumber *payAmount;
 
 - (BOOL)isSameChannel:(PLPhotoChannel *)channel;
+- (BOOL)isFreeChannel;
 
 + (instancetype)persistentPhotoChannel;
 - (void)writeToPersistence;
