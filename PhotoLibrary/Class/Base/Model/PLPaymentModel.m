@@ -76,7 +76,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"pluginType":@(paymentType),
                              @"payPointType":@(payPointType.integerValue),
                              @"appId":[PLUtil appId],
-                             @"versionNo":@([PLUtil appVersion].integerValue),
+                             @"versionNo":@([PLUtil appVersion]),
                              @"status":statusDic[@(result)],
                              @"pV":@(1) };
     

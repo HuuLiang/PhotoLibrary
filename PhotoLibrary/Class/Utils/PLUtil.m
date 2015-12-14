@@ -222,8 +222,9 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     return name;
 }
 
-+ (NSString *)appVersion {
-    return [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
++ (NSUInteger)appVersion {
+    NSString *ver = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+    return ver.floatValue * 100;
 }
 
 + (NSString *)appId {

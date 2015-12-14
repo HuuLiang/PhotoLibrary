@@ -44,7 +44,7 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                              @"mf":[UIDevice currentDevice].model,
                              @"sdkV":sdkV,
                              @"cpuV":@"",
-                             @"appV":[PLUtil appVersion],
+                             @"appV":@([PLUtil appVersion]).stringValue,
                              @"appVN":@""};
     
     BOOL success = [self requestURLPath:[PLConfig sharedConfig].registerURLPath withParams:params responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {

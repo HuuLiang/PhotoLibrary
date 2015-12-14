@@ -128,22 +128,25 @@ DefineLazyPropertyInitialization(PLProgramUrlModel, urlModel)
     
     [UIView animateWithDuration:kViewFadeAnimationDuration animations:^{
         self.view.alpha = 1;
+    } completion:^(BOOL finished) {
+        if ([self.delegate respondsToSelector:@selector(photoBrowser:didDisplayAlbum:)]) {
+            [self.delegate photoBrowser:self didDisplayAlbum:self.photoAlbum];
+        }
     }];
 }
 
 - (void)hide {
     if (self.view.superview) {
+        if ([self.delegate respondsToSelector:@selector(photoBrowser:willEndDisplayingAlbum:)]) {
+            [self.delegate photoBrowser:self willEndDisplayingAlbum:self.photoAlbum];
+        }
+        
         [UIView animateWithDuration:kViewFadeAnimationDuration animations:^{
             self.view.alpha = 0;
         } completion:^(BOOL finished) {
             [self.view removeFromSuperview];
         }];
     }
-}
-
-- (void)setPhotoAlbum:(PLProgram *)photoAlbum {
-    _photoAlbum = photoAlbum;
-    [self loadAlbumUrls];
 }
 
 - (void)setPhotos:(NSArray<MWPhoto *> *)photos {

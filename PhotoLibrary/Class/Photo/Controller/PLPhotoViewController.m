@@ -25,7 +25,7 @@ static NSString *const kFooterReusableIdentifier = @"FooterReusableIdentifier";
 static const CGFloat kPhotoCellInterspace = 5;
 static NSString *const kSectionBackgroundColor = @"#503d3c";
 
-@interface PLPhotoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface PLPhotoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PLPhotoBrowserDelegate>
 {
     UICollectionView *_layoutCollectionView;
     UIButton *_floatingButton;
@@ -40,6 +40,7 @@ static NSString *const kSectionBackgroundColor = @"#503d3c";
 @property (nonatomic,retain) NSMutableArray<PLChannelProgram *> *photoPrograms;
 
 @property (nonatomic,retain) PLPhotoBrowser *photoBrowser;
+@property (nonatomic) BOOL statusBarHidden;
 @end
 
 @implementation PLPhotoViewController
@@ -48,7 +49,26 @@ static NSString *const kSectionBackgroundColor = @"#503d3c";
 DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
-DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
+
+- (PLPhotoBrowser *)photoBrowser {
+    if (_photoBrowser) {
+        return _photoBrowser;
+    }
+    
+    @weakify(self);
+    _photoBrowser = [[PLPhotoBrowser alloc] init];
+    _photoBrowser.delegate = self;
+    return _photoBrowser;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.statusBarHidden;
+}
+
+- (void)setStatusBarHidden:(BOOL)statusBarHidden {
+    _statusBarHidden = statusBarHidden;
+    [self setNeedsStatusBarAppearanceUpdate];
+}
 
 - (PLPhotoChannelPopupMenuController *)popupMenuController {
     if (_popupMenuController) {
@@ -219,7 +239,7 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     
     NSUInteger programIndex = indexPath.section*4+indexPath.row;
     if (programIndex < self.photoPrograms.count) {
-        PLProgram *program = self.photoPrograms[indexPath.section*4+indexPath.row];
+        PLProgram *program = self.photoPrograms[programIndex];
         cell.imageURL = [NSURL URLWithString:program.coverImg];
     } else {
         cell.imageURL = nil;
@@ -230,55 +250,8 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    if (section < self.photoPrograms.count / 4) {
-//        return 4;
-//    } else {
-//        return self.photoPrograms.count % 4;
-//    }
-//    
     return 4;
 }
-
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-//    
-//    UICollectionReusableView *view;
-//    if (kind == UICollectionElementKindSectionHeader) {
-//        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kHeaderReusableIdentifier forIndexPath:indexPath];
-//        view.backgroundColor = [UIColor colorWithHexString:kSectionBackgroundColor];
-//    } else if (kind == UICollectionElementKindSectionFooter) {
-//        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kFooterReusableIdentifier forIndexPath:indexPath];
-//        
-//        static const void *kFooterStripeViewAssociatedKey = &kFooterStripeViewAssociatedKey;
-//        UIView *stripeView = objc_getAssociatedObject(view, kFooterStripeViewAssociatedKey);
-//        if (!stripeView) {
-//            stripeView = [[UIView alloc] init];
-//            stripeView.backgroundColor = [UIColor colorWithHexString:kSectionBackgroundColor];
-//            objc_setAssociatedObject(view, kFooterStripeViewAssociatedKey, stripeView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//            [view addSubview:stripeView];
-//            {
-//                [stripeView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                    make.left.top.bottom.equalTo(view);
-//                    make.width.equalTo(view).dividedBy(2);
-//                }];
-//            }
-//        }
-//        view.backgroundColor = (indexPath.section != [collectionView numberOfSections] - 1) ? collectionView.backgroundColor : stripeView.backgroundColor;
-//    }
-//    
-//    //view.backgroundColor = [UIColor colorWithHexString:@"#503d3c"];
-//    return view;
-//}
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-//    return CGSizeMake(kSectionBorderWidth, CGRectGetHeight(self.view.bounds));
-//}
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-//    if (section != [collectionView numberOfSections] - 1) {
-//        return CGSizeMake(kSectionBorderWidth*2, CGRectGetHeight(self.view.bounds));
-//    }
-//    return CGSizeMake(kSectionBorderWidth, CGRectGetHeight(self.view.bounds));
-//}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     const CGFloat cellHeight = CGRectGetHeight(self.view.bounds) / 2 - kPhotoCellInterspace*1.5;
@@ -288,14 +261,17 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     @weakify(self);
-    [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success) {
-        @strongify(self);
-        if (success) {
-            PLChannelProgram *photoProgram = self.photoPrograms[indexPath.row];
-            self.photoBrowser.photoAlbum = photoProgram;
-            [self.photoBrowser showInView:self.view.window];
-        }
-    }];
+    NSUInteger indexOfAlbum = indexPath.section * 4 + indexPath.row;
+    if (indexOfAlbum < self.photoPrograms.count) {
+        [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success) {
+            @strongify(self);
+            if (success) {
+                PLChannelProgram *photoProgram = self.photoPrograms[indexOfAlbum];
+                self.photoBrowser.photoAlbum = photoProgram;
+                [self.photoBrowser showInView:self.view.window];
+            }
+        }];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -328,5 +304,15 @@ DefineLazyPropertyInitialization(PLPhotoBrowser, photoBrowser)
     if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
         [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
     }
+}
+
+#pragma mark - PLPhotoBrowserDelegate
+
+- (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album {
+    self.statusBarHidden = NO;
+}
+
+- (void)photoBrowser:(PLPhotoBrowser *)photoBrowser didDisplayAlbum:(PLProgram *)album {
+    self.statusBarHidden = YES;
 }
 @end

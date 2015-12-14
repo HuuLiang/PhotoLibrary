@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 
 + (NSString *)userId;
 + (NSString *)deviceName;
-+ (NSString *)appVersion;
++ (NSUInteger)appVersion;
 + (NSString *)appId;
 
 // For test only

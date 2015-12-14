@@ -9,10 +9,20 @@
 #import "PLBaseViewController.h"
 
 @class PLProgram;
+@class PLPhotoBrowser;
+
+@protocol PLPhotoBrowserDelegate <NSObject>
+
+@optional
+- (void)photoBrowser:(PLPhotoBrowser *)photoBrowser didDisplayAlbum:(PLProgram *)album;
+- (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album;
+
+@end
 
 @interface PLPhotoBrowser : PLBaseViewController
 
 @property (nonatomic,retain) PLProgram *photoAlbum;
+@property (nonatomic,assign) id<PLPhotoBrowserDelegate> delegate;
 
 - (instancetype)initWithAlbum:(PLProgram *)album;
 - (void)showInView:(UIView *)view;
