@@ -113,6 +113,8 @@
         videoPlayVC.hidesBottomBarWhenPushed = YES;
         //videoPlayVC.evaluateThumbnail = YES;
         [self presentViewController:videoPlayVC animated:YES completion:nil];
+        
+        [PLStatistics statViewVideo:video];
     }
 }
 

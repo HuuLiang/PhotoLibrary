@@ -269,13 +269,13 @@
         if (self.completionHandler) {
             self.completionHandler(YES);
         }
+        [PLStatistics statPayment:self.payableObject];
     } else if (result == IPNPayResultCancel) {
         [[PLHudManager manager] showHudWithText:@"支付取消"];
     } else {
         [[PLHudManager manager] showHudWithText:@"支付失败"];
     }
     
-    @weakify(self);
     [[PLPaymentModel sharedModel] paidWithOrderId:self.paymentInfo.mhtOrderNo
                                             price:self.paymentInfo.mhtOrderAmt
                                            result:result
@@ -283,12 +283,7 @@
                                       contentType:contentType
                                      payPointType:payPointType
                                       paymentType:[self paymentTypeFromPayNowType:self.paymentInfo.payChannelType.integerValue]
-                                completionHandler:^(BOOL success){
-                                    
-                                    if (success && result == PAYRESULT_SUCCESS) {
-                                        
-                                    }
-                                }];
+                                completionHandler:nil];
 }
 
 @end

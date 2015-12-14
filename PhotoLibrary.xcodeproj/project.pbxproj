@@ -35,6 +35,7 @@
 		BC683B0C1C182D22006B19A5 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683B0B1C182D22006B19A5 /* PLVideo.m */; };
 		BC7CF97A1C1E8F3400B993D5 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7CF9771C1E8F3400B993D5 /* libMobClickLibrary.a */; };
 		BC7CF97D1C1E96C700B993D5 /* PLChannelLockView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7CF97C1C1E96C700B993D5 /* PLChannelLockView.m */; };
+		BC7CF9801C1EA4A500B993D5 /* PLStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7CF97F1C1EA4A500B993D5 /* PLStatistics.m */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -157,6 +158,8 @@
 		BC7CF9791C1E8F3400B993D5 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		BC7CF97B1C1E96C700B993D5 /* PLChannelLockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLChannelLockView.h; sourceTree = "<group>"; };
 		BC7CF97C1C1E96C700B993D5 /* PLChannelLockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLChannelLockView.m; sourceTree = "<group>"; };
+		BC7CF97E1C1EA4A500B993D5 /* PLStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLStatistics.h; sourceTree = "<group>"; };
+		BC7CF97F1C1EA4A500B993D5 /* PLStatistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLStatistics.m; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -491,6 +494,8 @@
 				BCB1B0391C0D71D3008AA006 /* PLErrorHandler.m */,
 				BCB1B03A1C0D71D3008AA006 /* PLHudManager.h */,
 				BCB1B03B1C0D71D3008AA006 /* PLHudManager.m */,
+				BC7CF97E1C1EA4A500B993D5 /* PLStatistics.h */,
+				BC7CF97F1C1EA4A500B993D5 /* PLStatistics.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -911,6 +916,7 @@
 				BCB1B04C1C0D82BD008AA006 /* PLPhotoChannelModel.m in Sources */,
 				BC170DC81C159A9900D31F26 /* PLSettingChannelLockScrollView.m in Sources */,
 				BCB1B0191C0D6ACC008AA006 /* PLSystemConfigModel.m in Sources */,
+				BC7CF9801C1EA4A500B993D5 /* PLStatistics.m in Sources */,
 				BCB1AF8F1C0D538D008AA006 /* PLPhotoViewController.m in Sources */,
 				BCB1AF521C0D51E6008AA006 /* main.m in Sources */,
 				BCB1B03D1C0D71D3008AA006 /* PLHudManager.m in Sources */,

@@ -24,22 +24,23 @@ static const CGFloat kBackButtonInsets = 10;
 @property (nonatomic,readonly) CGSize backButtonSize;
 @property (nonatomic,readonly) CGPoint alipayButtonOrigin;
 @property (nonatomic,readonly) CGPoint wechatPayButtonOrigin;
+@property (nonatomic,readonly) CGPoint upPayButtonOrigin;
 @end
 
 @implementation PLPaymentPopView (Size)
 
 - (CGSize)payButtonSize {
-    return CGSizeMake(self.imageSize.width * 633. / 695., self.imageSize.height * 118. / 813.);
+    return CGSizeMake(self.imageSize.width * 633. / 695., self.imageSize.height * 118. / 939.);
 }
 
 - (CGSize)backButtonSize {
     return CGSizeMake(self.imageSize.width * 81. / 695. + kBackButtonInsets * 2,
-                      self.imageSize.height * 80. / 813. + kBackButtonInsets * 2);
+                      self.imageSize.height * 80. / 939. + kBackButtonInsets * 2);
 }
 
 - (CGSize)imageSize {
     const CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width * 0.9;
-    return CGSizeMake(imageWidth, imageWidth*813./695.);
+    return CGSizeMake(imageWidth, imageWidth*939./695.);
 }
 
 - (CGSize)contentSize {
@@ -47,18 +48,22 @@ static const CGFloat kBackButtonInsets = 10;
 }
 
 - (CGRect)priceRect {
-    return CGRectMake(self.imageSize.width * 0.18,
-                      self.imageSize.height * 0.355,
-                      self.imageSize.width * 0.1,
-                      self.imageSize.height * 0.08);
+    return CGRectMake(self.imageSize.width * 0.178,
+                      self.imageSize.height * 0.313,
+                      self.imageSize.width * 0.09,
+                      self.imageSize.height * 0.06);
 }
 
 - (CGPoint)alipayButtonOrigin {
-    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.57);
+    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.535);
 }
 
 - (CGPoint)wechatPayButtonOrigin {
-    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.74);
+    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.67);
+}
+
+- (CGPoint)upPayButtonOrigin {
+    return CGPointMake(self.alipayButtonOrigin.x, 2 * self.wechatPayButtonOrigin.y - self.alipayButtonOrigin.y);
 }
 @end
 
@@ -140,18 +145,18 @@ static const CGFloat kBackButtonInsets = 10;
             }];
         }
         
-//        UIButton *upPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [upPayButton setImage:[UIImage imageNamed:@"uppay_normal"] forState:UIControlStateNormal];
-//        [upPayButton setImage:[UIImage imageNamed:@"uppay_highlight"] forState:UIControlStateHighlighted];
-//        [upPayButton addTarget:self action:@selector(onUPPay) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:upPayButton];
-//        {
-//            [upPayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.left.equalTo(self).offset(self.upPayButtonOrigin.x);
-//                make.top.equalTo(self).offset(self.upPayButtonOrigin.y);
-//                make.size.mas_equalTo(self.payButtonSize);
-//            }];
-//        }
+        UIButton *upPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [upPayButton setImage:[UIImage imageNamed:@"uppay_normal"] forState:UIControlStateNormal];
+        [upPayButton setImage:[UIImage imageNamed:@"uppay_highlight"] forState:UIControlStateHighlighted];
+        [upPayButton addTarget:self action:@selector(onUPPay) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:upPayButton];
+        {
+            [upPayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self).offset(self.upPayButtonOrigin.x);
+                make.top.equalTo(self).offset(self.upPayButtonOrigin.y);
+                make.size.mas_equalTo(self.payButtonSize);
+            }];
+        }
         
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"payment_back"] forState:UIControlStateNormal];
@@ -210,11 +215,11 @@ static const CGFloat kBackButtonInsets = 10;
     }
 }
 
-//- (void)onUPPay {
-//    if (self.paymentAction) {
-//        self.paymentAction(PLPaymentTypeUPPay);
-//    }
-//}
+- (void)onUPPay {
+    if (self.paymentAction) {
+        self.paymentAction(PLPaymentTypeUPPay);
+    }
+}
 
 - (void)onBack {
     if (self.backAction) {

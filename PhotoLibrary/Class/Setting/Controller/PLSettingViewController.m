@@ -91,6 +91,10 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
         [[PLHudManager manager] showHudWithText:[NSString stringWithFormat:@"ChannelNo:%@\nServer Address:%@",
                                                  [PLConfig sharedConfig].channelNo, [PLConfig sharedConfig].baseURL]];
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self loadData];
 }
 

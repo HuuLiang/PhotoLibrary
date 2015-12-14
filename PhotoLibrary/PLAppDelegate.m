@@ -16,7 +16,6 @@
 #import "PLUserAccessModel.h"
 #import "PLSystemConfigModel.h"
 #import "IpaynowPluginApi.h"
-#import "MobClick.h"
 
 @interface PLAppDelegate ()
 
@@ -116,22 +115,10 @@
                                  } error:nil];
 }
 
-- (void)setupMobStatistics {
-#ifdef DEBUG
-    [MobClick setLogEnabled:YES];
-#endif
-    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
-    if (bundleVersion) {
-        [MobClick setAppVersion:bundleVersion];
-    }
-    [MobClick startWithAppkey:[PLConfig sharedConfig].umengAppId reportPolicy:BATCH channelId:[PLConfig sharedConfig].channelNo];
-    
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [[PLErrorHandler sharedHandler] initialize];
-    [self setupMobStatistics];
+    [PLStatistics start];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
     

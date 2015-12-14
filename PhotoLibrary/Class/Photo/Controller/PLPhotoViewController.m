@@ -55,7 +55,6 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         return _photoBrowser;
     }
     
-    @weakify(self);
     _photoBrowser = [[PLPhotoBrowser alloc] init];
     _photoBrowser.delegate = self;
     return _photoBrowser;
@@ -314,5 +313,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser didDisplayAlbum:(PLProgram *)album {
     self.statusBarHidden = YES;
+    
+    [PLStatistics statViewAlbumPhotos:album];
 }
 @end
