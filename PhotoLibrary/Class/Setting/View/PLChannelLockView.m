@@ -1,14 +1,14 @@
 //
-//  PLPhotoChannelLockView.m
+//  PLChannelLockView.m
 //  PhotoLibrary
 //
 //  Created by Sean Yue on 15/12/7.
 //  Copyright © 2015年 iqu8. All rights reserved.
 //
 
-#import "PLPhotoChannelLockView.h"
+#import "PLChannelLockView.h"
 
-@interface PLPhotoChannelLockView ()
+@interface PLChannelLockView ()
 {
     UIImageView *_thumbImageView;
     UIImageView *_lockImageView;
@@ -17,7 +17,7 @@
 @property (nonatomic,retain) UIImage *originalImage;
 @end
 
-@implementation PLPhotoChannelLockView
+@implementation PLChannelLockView
 
 - (instancetype)init {
     self = [super init];
@@ -79,7 +79,7 @@
 //        }
     }
     _lockImageView.hidden = !isLocked;
-    _thumbImageView.image = isLocked ? [_thumbImageView.image grayishImage] : self.originalImage;
+    _thumbImageView.image = isLocked ? [self.originalImage grayishImage] : self.originalImage;
     
 }
 
@@ -92,7 +92,7 @@
         
         self.originalImage = image;
         if (self.isLocked) {
-            self->_thumbImageView.image = [self->_thumbImageView.image grayishImage];
+            self->_thumbImageView.image = [image grayishImage];
         } else {
             self->_thumbImageView.image = image;
         }

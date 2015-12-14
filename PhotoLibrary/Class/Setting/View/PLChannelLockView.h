@@ -1,5 +1,5 @@
 //
-//  PLPhotoChannelLockView.h
+//  PLChannelLockView.h
 //  PhotoLibrary
 //
 //  Created by Sean Yue on 15/12/7.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PLPhotoChannelLockView : UIView
+@interface PLChannelLockView : UIView
 
 @property (nonatomic) BOOL isLocked;
 @property (nonatomic,retain) NSURL *imageURL;

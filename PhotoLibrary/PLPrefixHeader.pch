@@ -36,6 +36,11 @@ typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
     PLPaymentForVideo
 };
 
+typedef NS_ENUM(NSUInteger, PLChannelCategory) {
+    PLPhotoChannelCategory,
+    PLVideoChannelCategory
+};
+
 #import <Aspects.h>
 #import <Masonry.h>
 #import <BlocksKit.h>

@@ -10,6 +10,7 @@
 #import "PLSystemConfigModel.h"
 #import "PLSettingChannelLockScrollView.h"
 #import "PLPhotoChannelModel.h"
+#import "PLVideoModel.h"
 
 typedef NS_ENUM(NSUInteger, PLSettingCell) {
     PLSettingCellTopImage,
@@ -27,14 +28,16 @@ typedef NS_ENUM(NSUInteger, PLSettingCell) {
 @property (nonatomic,retain) UIWebView *agreementWebView;
 
 @property (nonatomic,retain) NSMutableDictionary *cells;
-@property (nonatomic,retain) PLPhotoChannelModel *channelModel;
+@property (nonatomic,retain) PLPhotoChannelModel *photoChannelModel;
+@property (nonatomic,retain) PLVideoModel *videoChannelModel;
 @end
 
 @implementation PLSettingViewController
 
 DefineLazyPropertyInitialization(UIImageView, topImageView)
 DefineLazyPropertyInitialization(UIWebView, agreementWebView)
-DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
+DefineLazyPropertyInitialization(PLPhotoChannelModel, photoChannelModel)
+DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
 
 - (PLSettingChannelLockScrollView *)lockScrollView {
     if (_lockScrollView) {
@@ -43,13 +46,28 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
     
     @weakify(self);
     _lockScrollView = [[PLSettingChannelLockScrollView alloc] init];
-    _lockScrollView.action = ^(NSUInteger index) {
+    _lockScrollView.action = ^(PLChannelCategory channelCategory, NSUInteger index) {
         @strongify(self);
-        [self payForPayable:self.channelModel.fetchedChannels[index] withCompletionHandler:^(BOOL success) {
-            if (success) {
-                [self loadPhotoChannels];
+        if (channelCategory == PLPhotoChannelCategory) {
+            if (![PLPaymentUtil isPaidForPayable:self.photoChannelModel.fetchedChannels[index]]) {
+                [self payForPayable:self.photoChannelModel.fetchedChannels[index] withCompletionHandler:^(BOOL success) {
+                    if (success) {
+                        [self loadPhotoChannels];
+                    }
+                }];
             }
-        }];
+        } else {
+            if (![PLPaymentUtil isPaidForPayable:self.videoChannelModel.fetchedVideos]) {
+                [self payForPayable:self.videoChannelModel.fetchedVideos withCompletionHandler:^(BOOL success) {
+                    if (success) {
+                        [self loadVideoChannels];
+                    }
+                }];
+            }
+            
+        }
+        
+        
     };
     return _lockScrollView;
 }
@@ -89,6 +107,7 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
     }];
     
     [self loadPhotoChannels];
+    [self loadVideoChannels];
     
     NSString *agreementUrlString = [[PLConfig sharedConfig].baseURL stringByAppendingString:[PLConfig sharedConfig].agreementURLPath];
     NSURLRequest *agreementRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:agreementUrlString]];
@@ -97,10 +116,20 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 
 - (void)loadPhotoChannels {
     @weakify(self);
-    [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
+    [self.photoChannelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
         @strongify(self);
         if (success) {
-            self.lockScrollView.channels = channels;
+            self.lockScrollView.photoChannels = channels;
+        }
+    }];
+}
+
+- (void)loadVideoChannels {
+    @weakify(self);
+    [self.videoChannelModel fetchVideosWithPageNo:0 completionHandler:^(BOOL success, PLVideos *videos) {
+        @strongify(self);
+        if (success) {
+            self.lockScrollView.videoChannels = @[videos];
         }
     }];
 }

@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class PLPhotoChannel;
+@class PLVideos;
 
-typedef void (^PLLockScrollViewAction)(NSUInteger index);
+typedef void (^PLLockScrollViewAction)(PLChannelCategory channelCategory, NSUInteger index);
 
 @interface PLSettingChannelLockScrollView : UIScrollView
 
-@property (nonatomic,retain) NSArray<PLPhotoChannel *> *channels;
+@property (nonatomic,retain) NSArray<PLPhotoChannel *> *photoChannels;
+@property (nonatomic,retain) NSArray<PLVideos *> *videoChannels;
 @property (nonatomic,copy) PLLockScrollViewAction action;
 
 @end
