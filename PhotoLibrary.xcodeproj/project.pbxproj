@@ -34,6 +34,7 @@
 		BC683AE71C1801E0006B19A5 /* PLPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683AE51C1801E0006B19A5 /* PLPaymentViewController.m */; };
 		BC683AED1C1807BF006B19A5 /* PLActivateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683AEC1C1807BF006B19A5 /* PLActivateModel.m */; };
 		BC683B0C1C182D22006B19A5 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC683B0B1C182D22006B19A5 /* PLVideo.m */; };
+		BC7CF97A1C1E8F3400B993D5 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7CF9771C1E8F3400B993D5 /* libMobClickLibrary.a */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
 		BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5E1C0D51E6008AA006 /* LaunchScreen.storyboard */; };
@@ -153,6 +154,9 @@
 		BC683AEE1C18099D006B19A5 /* PLPayable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPayable.h; sourceTree = "<group>"; };
 		BC683B0A1C182D22006B19A5 /* PLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideo.h; sourceTree = "<group>"; };
 		BC683B0B1C182D22006B19A5 /* PLVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideo.m; sourceTree = "<group>"; };
+		BC7CF9771C1E8F3400B993D5 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		BC7CF9781C1E8F3400B993D5 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		BC7CF9791C1E8F3400B993D5 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 				BCB1AFDC1C0D5408008AA006 /* libsqlite3.tbd in Frameworks */,
 				BC3E07CA1C19963500217DC3 /* AlipaySDK.framework in Frameworks */,
 				BCB1AFDA1C0D53FF008AA006 /* libc++.tbd in Frameworks */,
+				BC7CF97A1C1E8F3400B993D5 /* libMobClickLibrary.a in Frameworks */,
 				BCB1AFD81C0D53F6008AA006 /* libz.tbd in Frameworks */,
 				BC3E07CF1C19963500217DC3 /* libWeChatSDK.a in Frameworks */,
 				BC3E07CE1C19963500217DC3 /* libUPPayPlugin.a in Frameworks */,
@@ -310,6 +315,7 @@
 		BC3E07B51C19963500217DC3 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				BC7CF9761C1E8F3400B993D5 /* Umeng */,
 				BC3E07B61C19963500217DC3 /* AliPayPlugin */,
 				BC3E07B91C19963500217DC3 /* IpaynowPlugin */,
 				BC3E07C01C19963500217DC3 /* PayNowDef.h */,
@@ -379,6 +385,16 @@
 				BC5576131C14882C002E3C4C /* PLVideoModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BC7CF9761C1E8F3400B993D5 /* Umeng */ = {
+			isa = PBXGroup;
+			children = (
+				BC7CF9771C1E8F3400B993D5 /* libMobClickLibrary.a */,
+				BC7CF9781C1E8F3400B993D5 /* MobClick.h */,
+				BC7CF9791C1E8F3400B993D5 /* MobClickSocialAnalytics.h */,
+			);
+			path = Umeng;
 			sourceTree = "<group>";
 		};
 		BCB1AF441C0D51E6008AA006 = {
@@ -1050,6 +1066,7 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/IpaynowPlugin",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/UPPayPlugin",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/WechatPlugin",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/Umeng",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1077,6 +1094,7 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/IpaynowPlugin",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/UPPayPlugin",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/WechatPlugin",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/Umeng",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
