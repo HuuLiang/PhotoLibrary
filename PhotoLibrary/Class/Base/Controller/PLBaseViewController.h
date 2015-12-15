@@ -15,6 +15,9 @@ typedef void (^PLPaymentCompletionHandler)(BOOL success);
 
 @interface PLBaseViewController : UIViewController
 
+@property (nonatomic) BOOL bottomAdBanner;
+@property (nonatomic) CGFloat adBannerHeight;
+
 - (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler;
 - (void)playVideo:(PLVideo *)video;
 - (void)onPaymentNotification:(NSNotification *)notification;

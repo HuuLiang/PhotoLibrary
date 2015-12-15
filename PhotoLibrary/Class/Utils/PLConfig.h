@@ -29,9 +29,8 @@
 @property (nonatomic,readonly) NSString *payNowScheme;
 @property (nonatomic,readonly) NSString *paymentSignURLPath;
 
-//@property (nonatomic,readonly) NSString *baiduAdAppId;
-//@property (nonatomic,readonly) NSString *baiduBannerAdId;
-//@property (nonatomic,readonly) NSString *baiduLaunchAdId;
+@property (nonatomic,readonly) NSString *baiduAdAppId;
+@property (nonatomic,readonly) NSString *baiduBannerAdId;
 
 @property (nonatomic,readonly) NSString *umengAppId;
 

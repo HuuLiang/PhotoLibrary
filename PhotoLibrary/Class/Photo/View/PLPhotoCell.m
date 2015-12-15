@@ -44,7 +44,8 @@ static const CGFloat kImageOffset = 5;
     _imageView.clipsToBounds = YES;
     _imageView.layer.cornerRadius = 4;
     
-    _imageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _imageView.layer.borderWidth = 0.5;
+    _imageView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
     [self addSubview:_imageView];
     {
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {

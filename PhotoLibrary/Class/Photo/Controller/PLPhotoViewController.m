@@ -110,7 +110,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
         }];
     }
     
@@ -122,7 +122,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     {
         [_floatingButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(87, 88.5));
-            make.left.bottom.equalTo(self.view).insets(UIEdgeInsetsMake(0, 15, 15, 0));
+            make.left.bottom.equalTo(_layoutCollectionView).insets(UIEdgeInsetsMake(0, 15, 15, 0));
         }];
     }
     
@@ -253,8 +253,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    const CGFloat cellHeight = CGRectGetHeight(self.view.bounds) / 2 - kPhotoCellInterspace*1.5;
-    const CGFloat cellWidth = CGRectGetWidth(self.view.bounds) / 2 - kPhotoCellInterspace * 1.5;
+    const CGFloat cellHeight = CGRectGetHeight(collectionView.bounds) / 2 - kPhotoCellInterspace*1.5;
+    const CGFloat cellWidth = CGRectGetWidth(collectionView.bounds) / 2 - kPhotoCellInterspace * 1.5;
     return CGSizeMake(cellWidth, cellHeight);
 }
 
