@@ -70,4 +70,8 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
     return @"http://pay.iqu8.net/paycenter/qubaPr.json";
 }
 
+- (NSString *)paymentReservedData {
+    return [NSString stringWithFormat:@"%@$%@", [PLUtil appId], [self channelNo]];
+}
+
 @end

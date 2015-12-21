@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PLPaymentInfo.h"
 
 typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
     PLPendingOrderId,
@@ -22,6 +23,8 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 
 + (BOOL)isRegistered;
 + (void)setRegisteredWithUserId:(NSString *)userId;
+
++ (NSArray<PLPaymentInfo *> *)payingPaymentInfos;
 
 //+ (BOOL)isPaid;
 //+ (void)setPaid;
@@ -46,6 +49,9 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (NSString *)deviceName;
 + (NSUInteger)appVersion;
 + (NSString *)appId;
++ (NSNumber *)pV;
++ (NSArray<PLPaymentInfo *> *)paidNotProcessedPaymentInfos;
++ (BOOL)PLisPaid;
 
 // For test only
 + (void)removeKeyChainEntries;

@@ -29,10 +29,17 @@
 @property (nonatomic,readonly) NSString *payNowScheme;
 @property (nonatomic,readonly) NSString *paymentSignURLPath;
 
+@property (nonatomic,readonly) NSString *weChatPayAppId;
+@property (nonatomic,readonly) NSString *weChatPayMchId;
+@property (nonatomic,readonly) NSString *weChatPayPrivateKey;
+@property (nonatomic,readonly) NSString *weChatPayNotifyURL;
+
 @property (nonatomic,readonly) NSString *baiduAdAppId;
 @property (nonatomic,readonly) NSString *baiduBannerAdId;
 
 @property (nonatomic,readonly) NSString *umengAppId;
+
+@property (nonatomic,readonly) NSString *paymentReservedData;
 
 + (instancetype)sharedConfig;
 + (instancetype)sharedStandbyConfig;

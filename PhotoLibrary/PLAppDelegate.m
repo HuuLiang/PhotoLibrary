@@ -16,12 +16,20 @@
 #import "PLUserAccessModel.h"
 #import "PLSystemConfigModel.h"
 #import "IpaynowPluginApi.h"
+#import "WXApi.h"
+#import "WeChatPayManager.h"
+#import "PLWeChatPayQueryOrderRequest.h"
+#import "PLPaymentViewController.h"
 
-@interface PLAppDelegate ()
+@interface PLAppDelegate ()<WXApiDelegate>
+
+@property (nonatomic,retain) PLWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 
 @end
 
 @implementation PLAppDelegate
+
+DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
 - (UIWindow *)window {
     if (_window) {
@@ -120,6 +128,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [WXApi registerApp:[PLConfig sharedConfig].weChatPayAppId];
     [[PLErrorHandler sharedHandler] initialize];
     [PLStatistics start];
     [self setupCommonStyles];
@@ -157,6 +166,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self checkPayment];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -165,6 +175,46 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    [WXApi handleOpenURL:url delegate:self];
     return YES;
 }
+
+-(void)checkPayment{
+    if ([PLUtil PLisPaid]) {
+        return;
+    }
+    NSArray<PLPaymentInfo *> *payingPaymentInfos = [PLUtil payingPaymentInfos];
+    [payingPaymentInfos enumerateObjectsUsingBlock:^(PLPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        PLPaymentType paymentType = obj.paymentType.unsignedIntegerValue;
+        if (paymentType == PLPaymentTypeWeChatPay) {
+            [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+                if ([trade_state isEqualToString:@"SUCCESS"]) {
+                    PLPaymentViewController *paymentVC = [PLPaymentViewController sharedPaymentVC];
+                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
+                }
+            }];
+        }
+    }];
+}
+
+#pragma mark - WeChat delegate
+
+- (void)onReq:(BaseReq *)req {
+    
+}
+
+- (void)onResp:(BaseResp *)resp {
+    if([resp isKindOfClass:[PayResp class]]){
+        PAYRESULT payResult;
+        if (resp.errCode == WXErrCodeUserCancel) {
+            payResult = PAYRESULT_ABANDON;
+        } else if (resp.errCode == WXSuccess) {
+            payResult = PAYRESULT_SUCCESS;
+        } else {
+            payResult = PAYRESULT_FAIL;
+        }
+        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
+    }
+}
+
 @end

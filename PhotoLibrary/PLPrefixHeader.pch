@@ -81,6 +81,9 @@ return _##propertyName; \
 #define kPaymentNotificationPriceKey @"photolib_payment_notification_price_key"
 #define kPaymentNotificationPaymentType @"photolib_payment_notification_payment_type"
 
+#define kPaymentInfoKeyName @"PL_paymentinfo_keyname"
+
+
 #define kPhotoChannelIdKeyName @"PhotoChannelIdKeyName"
 #define kDefaultPageSize  20
 

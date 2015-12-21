@@ -86,6 +86,34 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     return accessIdInKeyChain;
 }
 
++ (NSArray<PLPaymentInfo *> *)allPaymentInfos {
+    NSArray<NSDictionary *> *paymentInfoArr = [[NSUserDefaults standardUserDefaults] objectForKey:kPaymentInfoKeyName];
+    
+    NSMutableArray *paymentInfos = [NSMutableArray array];
+    [paymentInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        PLPaymentInfo *paymentInfo = [PLPaymentInfo paymentInfoFromDictionary:obj];
+        [paymentInfos addObject:paymentInfo];
+    }];
+    return paymentInfos;
+}
+
++(BOOL)PLisPaid{
+    return [self.allPaymentInfos bk_any:^BOOL(id obj) {
+        PLPaymentInfo *paymentInfo = obj;
+        if (paymentInfo.paymentResult.unsignedIntegerValue == PAYRESULT_SUCCESS) {
+            return YES;
+        }
+        return NO;
+    }];
+}
+
++ (NSArray<PLPaymentInfo *> *)payingPaymentInfos {
+    return [self.allPaymentInfos bk_select:^BOOL(id obj) {
+        PLPaymentInfo *paymentInfo = obj;
+        return paymentInfo.paymentStatus.unsignedIntegerValue == PLPaymentStatusPaying;
+    }];
+}
+
 + (BOOL)isRegistered {
     return [self userId] != nil;
 }
@@ -101,6 +129,13 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kRegisterKeyName];
     [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
+}
+
++ (NSArray<PLPaymentInfo *> *)paidNotProcessedPaymentInfos {
+    return [self.allPaymentInfos bk_select:^BOOL(id obj) {
+        PLPaymentInfo *paymentInfo = obj;
+        return paymentInfo.paymentStatus.unsignedIntegerValue == PLPaymentStatusNotProcessed;
+    }];
 }
 
 + (BOOL)isPaid {
@@ -229,6 +264,10 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
 
 + (NSString *)appId {
     return @"QUBA_2002";
+}
+
++ (NSNumber *)pV {
+    return @200;
 }
 
 @end
