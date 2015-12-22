@@ -21,7 +21,6 @@
 @interface PLPaymentViewController () <IpaynowPluginDelegate>
 @property (nonatomic,retain) PLPaymentPopView *popView;
 
-@property (nonatomic,retain) IPNPreSignMessageUtil *paymentInfo;
 @property (nonatomic,retain) PLPaymentInfo *PLpaymentInfo;
 
 
@@ -139,7 +138,9 @@
     PLPaymentInfo *paymentInfo = [[PLPaymentInfo alloc]init];
     paymentInfo.orderId =orderNo;
     paymentInfo.orderPrice=[payable payableFee];
+    paymentInfo.contentId = [payable contentId];
     paymentInfo.paymentType = @(paymentType);
+    paymentInfo.payPointType = [payable contentType];
     paymentInfo.paymentResult = @(PAYRESULT_UNKNOWN);
     paymentInfo.paymentStatus = @(PLPaymentStatusPaying);
     [paymentInfo save];
@@ -201,7 +202,7 @@
     if (paymentType==PLPaymentTypeWeChatPay) {
         [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
             @strongify(self);
-            [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
+            [self notifyPaymentResult:payResult withPaymentInfo:self.PLpaymentInfo];
         }];
     }else{
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -224,7 +225,6 @@
         [[PLPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
             @strongify(self);
             if (success) {
-                self.paymentInfo = preSign;
                 [IpaynowPluginApi pay:signedData AndScheme:[PLConfig sharedConfig].payNowScheme viewController:self delegate:self];
             } else {
                 [[PLHudManager manager] showHudWithText:@"服务器获取签名失败！"];
@@ -277,13 +277,9 @@
     NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
     [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
     paymentInfo.paymentResult = @(result);
-    paymentInfo.paymentStatus = @(PLPaymentStatusPaying);
+    paymentInfo.paymentStatus = @(PLPaymentStatusNotProcessed);
     paymentInfo.paymentTime = [dateFormmater stringFromDate:[NSDate date]];
     [paymentInfo save];
-
-    NSString *contentId = [self.payableObject contentId].stringValue ?: @"";
-    NSString *contentType = [self.payableObject contentType].stringValue ?: @"";
-    NSString *payPointType = [self.payableObject payPointType].stringValue ?: @"999";
     
     if (result == PAYRESULT_SUCCESS) {
         [PLPaymentUtil setPaidForPayable:self.payableObject];
@@ -300,14 +296,7 @@
         [[PLHudManager manager] showHudWithText:@"支付失败"];
     }
     
-    [[PLPaymentModel sharedModel] paidWithOrderId:self.paymentInfo.mhtOrderNo
-                                            price:self.paymentInfo.mhtOrderAmt
-                                           result:result
-                                        contentId:contentId
-                                      contentType:contentType
-                                     payPointType:payPointType
-                                      paymentType:[self paymentTypeFromPayNowType:self.paymentInfo.payChannelType.integerValue]
-                                completionHandler:nil];
+    [[PLPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
     
 }
 

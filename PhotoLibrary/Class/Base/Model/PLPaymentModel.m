@@ -9,8 +9,14 @@
 #import "PLPaymentModel.h"
 #import "NSDictionary+PLSign.h"
 
+static const NSTimeInterval kRetryingTimeInterval = 180;
+
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
+
+@interface PLPaymentModel ()
+@property (nonatomic,retain) NSTimer *retryingTimer;
+@end
 
 @implementation PLPaymentModel
 
@@ -51,40 +57,73 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     return @{@"data":encryptedDataString, @"appId":[PLUtil appId]};
 }
 
-- (BOOL)paidWithOrderId:(NSString *)orderId
-                  price:(NSString *)price
-                 result:(NSInteger)result
-              contentId:(NSString *)contentId
-            contentType:(NSString *)contentType
-           payPointType:(NSString *)payPointType
-            paymentType:(PLPaymentType)paymentType
-      completionHandler:(PLPaidCompletionHandler)handler {
-    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(3)};
+- (void)startRetryingToCommitUnprocessedOrders {
+    if (!self.retryingTimer) {
+        @weakify(self);
+        self.retryingTimer = [NSTimer bk_scheduledTimerWithTimeInterval:kRetryingTimeInterval block:^(NSTimer *timer) {
+            @strongify(self);
+            DLog(@"Payment: on retrying to commit unprocessed orders!");
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [self commitUnprocessedOrders];
+            });
+        } repeats:YES];
+    }
+}
+
+- (void)stopRetryingToCommitUnprocessedOrders {
+    [self.retryingTimer invalidate];
+    self.retryingTimer = nil;
+}
+
+- (void)commitUnprocessedOrders {
+    NSArray<PLPaymentInfo *> *unprocessedPaymentInfos = [PLUtil paidNotProcessedPaymentInfos];
+    [unprocessedPaymentInfos enumerateObjectsUsingBlock:^(PLPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self commitPaymentInfo:obj];
+    }];
+}
+
+- (BOOL)commitPaymentInfo:(PLPaymentInfo *)paymentInfo {
+    return [self commitPaymentInfo:paymentInfo withCompletionHandler:nil];
+}
+
+- (BOOL)commitPaymentInfo:(PLPaymentInfo *)paymentInfo withCompletionHandler:(PLPaidCompletionHandler)handler {
+    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(0)};
     
-    if (nil == [PLUtil userId] || orderId.length == 0 || contentId == nil || contentType == nil) {
+    if (nil == [PLUtil userId] || paymentInfo.orderId.length == 0) {
         return NO;
     }
     
     NSDictionary *params = @{@"uuid":[PLUtil userId],
-                             @"orderNo":orderId,
+                             @"orderNo":paymentInfo.orderId,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
-                             @"payMoney":price,
+                             @"payMoney":paymentInfo.orderPrice.stringValue,
                              @"channelNo":[PLConfig sharedConfig].channelNo,
-                             @"contentId":contentId,
-                             @"contentType":contentType,
-                             @"pluginType":@(paymentType),
-                             @"payPointType":@(payPointType.integerValue),
+                             @"contentId":paymentInfo.contentId.stringValue ?: @"0",
+                             @"contentType":paymentInfo.contentType.stringValue ?: @"0",
+                             @"pluginType":paymentInfo.paymentType,
+                             @"payPointType":paymentInfo.payPointType ?: @"1",
                              @"appId":[PLUtil appId],
                              @"versionNo":@([PLUtil appVersion]),
-                             @"status":statusDic[@(result)],
-                             @"pV":@(1) };
+                             @"status":statusDic[paymentInfo.paymentResult],
+                             @"pV":[PLUtil pV],
+                             @"payTime":paymentInfo.paymentTime};
     
-    BOOL success = [super requestURLPath:[PLConfig sharedConfig].paymentURLPath withParams:params responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
-        if (handler) {
-            handler(respStatus == PLURLResponseSuccess);
-        }
-    }];
+    BOOL success = [super requestURLPath:[PLConfig sharedConfig].paymentURLPath
+                              withParams:params
+                         responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
+                    {
+                        if (respStatus == PLURLResponseSuccess) {
+                            paymentInfo.paymentStatus = @(PLPaymentStatusProcessed);
+                            [paymentInfo save];
+                        } else {
+                            DLog(@"Payment: fails to commit the order with orderId:%@", paymentInfo.orderId);
+                        }
+                        
+                        if (handler) {
+                            handler(respStatus == PLURLResponseSuccess);
+                        }
+                    }];
     return success;
 }
 
@@ -96,20 +135,5 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     if (responseHandler) {
         responseHandler(status, nil);
     }
-}
-
-- (BOOL)processPendingOrder {
-    NSArray *order = [PLUtil orderForSavePending];
-    if (order.count == PLPendingOrderItemCount) {
-        return [self paidWithOrderId:order[PLPendingOrderId]
-                               price:order[PLPendingOrderPrice]
-                              result:PAYRESULT_SUCCESS
-                           contentId:order[PLPendingOrderProgramId]
-                         contentType:order[PLPendingOrderProgramType]
-                        payPointType:order[PLPendingOrderPayPointType]
-                         paymentType:((NSNumber *)order[PLPendingOrderPaymentType]).unsignedIntegerValue
-                   completionHandler:nil];
-    }
-    return NO;
 }
 @end

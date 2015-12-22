@@ -145,7 +145,7 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[PLUserAccessModel sharedModel] requestUserAccess];
     }
     
-    [[PLPaymentModel sharedModel] processPendingOrder];
+    [[PLPaymentModel sharedModel] startRetryingToCommitUnprocessedOrders];
     return YES;
 }
 
