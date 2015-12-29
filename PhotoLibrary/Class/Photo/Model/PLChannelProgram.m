@@ -15,7 +15,11 @@
 @implementation PLChannelPrograms
 
 - (NSNumber *)payableFee {
+#ifdef DEBUG
+    return @1;
+#else
     return self.payAmount1;
+#endif
 }
 
 - (PLPaymentUsage)payableUsage {

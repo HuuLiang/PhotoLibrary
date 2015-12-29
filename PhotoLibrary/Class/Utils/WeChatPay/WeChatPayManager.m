@@ -25,7 +25,7 @@
     return _theInstance;
 }
 
-- (void)startWeChatPayWithOrderNo:(NSString *)orderNo price:(double)price completionHandler:(WeChatPayCompletionHandler)handler {
+- (void)startWeChatPayWithOrderNo:(NSString *)orderNo price:(NSUInteger)price completionHandler:(WeChatPayCompletionHandler)handler {
     _handler = handler;
     
     //创建支付签名对象
@@ -40,7 +40,7 @@
     [req setAttach:[PLConfig sharedConfig].paymentReservedData];
     
     //获取到实际调起微信支付的参数后，在app端调起支付
-    NSMutableDictionary *dict = [req sendPayWithOrderNo:orderNo price:@(price).unsignedIntegerValue];
+    NSMutableDictionary *dict = [req sendPayWithOrderNo:orderNo price:price];
     
     if(dict == nil){
         //错误提示

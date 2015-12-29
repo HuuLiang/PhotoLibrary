@@ -15,7 +15,6 @@
 #import "PLPaymentModel.h"
 #import "PLUserAccessModel.h"
 #import "PLSystemConfigModel.h"
-#import "IpaynowPluginApi.h"
 #import "WXApi.h"
 #import "WeChatPayManager.h"
 #import "PLWeChatPayQueryOrderRequest.h"
@@ -161,7 +160,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [IpaynowPluginApi willEnterForeground];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -174,7 +172,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     [WXApi handleOpenURL:url delegate:self];
     return YES;
 }

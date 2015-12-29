@@ -48,7 +48,6 @@ typedef NS_ENUM(NSUInteger, PLChannelCategory) {
 #import <UIButton+WebCache.h>
 #import <UIImageView+WebCache.h>
 #import <UIImage+ImageWithColor.h>
-#import "PayNowDef.h"
 #import "NSObject+Properties.h"
 #import "PLExtensions.h"
 #import "PLConfig.h"
