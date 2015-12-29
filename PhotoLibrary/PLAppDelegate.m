@@ -40,7 +40,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     
     PLPhotoViewController *photoVC       = [[PLPhotoViewController alloc] init];
     photoVC.title = @"图库";
-    photoVC.bottomAdBanner = YES;
     UINavigationController *photoNav     = [[UINavigationController alloc] initWithRootViewController:photoVC];
     photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:photoVC.title
                                                                          image:[UIImage imageNamed:@"normal_photo_bar"]
@@ -48,7 +47,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     
     PLVideoViewController *videoVC     = [[PLVideoViewController alloc] init];
     videoVC.title = @"视频";
-    videoVC.bottomAdBanner = YES;
     UINavigationController *videoNav   = [[UINavigationController alloc] initWithRootViewController:videoVC];
     videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
                                                                          image:[UIImage imageNamed:@"normal_video_bar"]
@@ -56,7 +54,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
     settingVC.title = @"设置";
-    settingVC.bottomAdBanner = YES;
     UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
     settingNav.tabBarItem              = [[UITabBarItem alloc] initWithTitle:settingVC.title
                                                                     image:[UIImage imageNamed:@"normal_setting_bar"]

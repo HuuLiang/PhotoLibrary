@@ -110,7 +110,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
+            make.edges.equalTo(self.view);
         }];
     }
     

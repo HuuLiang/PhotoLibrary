@@ -91,12 +91,4 @@ return _##propertyName; \
 
 #define kAutoPopupPaymentInScrollingPage (2)
 
-#define EnableBaiduMobBannerAd
-#ifdef EnableBaiduMobBannerAd
-#import "BaiduMobAdView.h"
-#else
-@protocol BaiduMobAdViewDelegate <NSObject>
-@end
-typedef UIView BaiduMobAdView;
-#endif
 #endif /* PLPrefixHeader_pch */
