@@ -174,9 +174,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 -(void)checkPayment{
-    if ([PLUtil PLisPaid]) {
-        return;
-    }
     NSArray<PLPaymentInfo *> *payingPaymentInfos = [PLUtil payingPaymentInfos];
     [payingPaymentInfos enumerateObjectsUsingBlock:^(PLPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         PLPaymentType paymentType = obj.paymentType.unsignedIntegerValue;

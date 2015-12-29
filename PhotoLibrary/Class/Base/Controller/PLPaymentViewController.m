@@ -128,19 +128,19 @@
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
-    
-    PLPaymentInfo *paymentInfo = [[PLPaymentInfo alloc]init];
-    paymentInfo.orderId =orderNo;
-    paymentInfo.orderPrice=[payable payableFee];
-    paymentInfo.contentId = [payable contentId];
-    paymentInfo.paymentType = @(paymentType);
-    paymentInfo.payPointType = [payable contentType];
-    paymentInfo.paymentResult = @(PAYRESULT_UNKNOWN);
-    paymentInfo.paymentStatus = @(PLPaymentStatusPaying);
-    [paymentInfo save];
-    self.PLpaymentInfo=paymentInfo;
 
     if (paymentType==PLPaymentTypeWeChatPay) {
+        PLPaymentInfo *paymentInfo = [[PLPaymentInfo alloc]init];
+        paymentInfo.orderId =orderNo;
+        paymentInfo.orderPrice=[payable payableFee];
+        paymentInfo.contentId = [payable contentId];
+        paymentInfo.paymentType = @(paymentType);
+        paymentInfo.payPointType = [payable contentType];
+        paymentInfo.paymentResult = @(PAYRESULT_UNKNOWN);
+        paymentInfo.paymentStatus = @(PLPaymentStatusPaying);
+        [paymentInfo save];
+        self.PLpaymentInfo=paymentInfo;
+        
         [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:[payable payableFee].unsignedIntegerValue completionHandler:^(PAYRESULT payResult) {
             @strongify(self);
             [self notifyPaymentResult:payResult withPaymentInfo:self.PLpaymentInfo];
