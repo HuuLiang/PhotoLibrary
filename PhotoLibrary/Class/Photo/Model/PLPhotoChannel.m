@@ -42,6 +42,7 @@
     return self.payAmount.unsignedIntegerValue == 0;
 }
 
+/**取出存入本地的 照片栏*/
 + (instancetype)persistentPhotoChannel {
     NSDictionary *channelDic = [[NSUserDefaults standardUserDefaults] objectForKey:kPhotoChannelIdKeyName];
     return [self photoChannelFromDictionary:channelDic];
@@ -75,6 +76,7 @@
     return dic;
 }
 
+/**写入本地*/
 - (void)writeToPersistence {
     [[NSUserDefaults standardUserDefaults] setObject:self.dictionary forKey:kPhotoChannelIdKeyName];
     [[NSUserDefaults standardUserDefaults] synchronize];

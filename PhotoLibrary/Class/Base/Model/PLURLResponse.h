@@ -13,7 +13,7 @@
 @property (nonatomic) NSNumber *success;
 @property (nonatomic) NSString *resultCode;
 
-
+/**解析字典，转模型*/
 - (void)parseResponseWithDictionary:(NSDictionary *)dic;
 
 @end

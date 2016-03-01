@@ -45,18 +45,22 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     return kSignKey;
 }
 
+/**给出参数，加密*/
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params {
+    
     NSDictionary *signParams = @{  @"appId":[PLUtil appId],
                                    @"key":kSignKey,
                                    @"imsi":@"999999999999999",
                                    @"channelNo":[PLConfig sharedConfig].channelNo,
                                    @"pV":[PLUtil pV] };
     
-    NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];
-    NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"]];
+    NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];//返回的是加密后的字符串
+    NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"]];//转码加密..后的数据
     return @{@"data":encryptedDataString, @"appId":[PLUtil appId]};
 }
 
+
+/**下单时间*/
 - (void)startRetryingToCommitUnprocessedOrders {
     if (!self.retryingTimer) {
         @weakify(self);
@@ -64,7 +68,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
             @strongify(self);
             DLog(@"Payment: on retrying to commit unprocessed orders!");
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [self commitUnprocessedOrders];
+                [self commitUnprocessedOrders];//提交支付信息
             });
         } repeats:YES];
     }
@@ -74,25 +78,27 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     [self.retryingTimer invalidate];
     self.retryingTimer = nil;
 }
-
+/**提交订单*/
 - (void)commitUnprocessedOrders {
     NSArray<PLPaymentInfo *> *unprocessedPaymentInfos = [PLUtil paidNotProcessedPaymentInfos];
     [unprocessedPaymentInfos enumerateObjectsUsingBlock:^(PLPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self commitPaymentInfo:obj];
+        [self commitPaymentInfo:obj];//提交支付信息
     }];
 }
-
+#pragma mark - 提交支付信息接口
+/**提交支付信息..返回是否成功*/
 - (BOOL)commitPaymentInfo:(PLPaymentInfo *)paymentInfo {
     return [self commitPaymentInfo:paymentInfo withCompletionHandler:nil];
 }
-
+/**提交支付信息，返回是否提交成功*/
 - (BOOL)commitPaymentInfo:(PLPaymentInfo *)paymentInfo withCompletionHandler:(PLPaidCompletionHandler)handler {
+    
     NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(0)};
     
     if (nil == [PLUtil userId] || paymentInfo.orderId.length == 0) {
         return NO;
     }
-    
+    //PLPaymentInfo支付信息
     NSDictionary *params = @{@"uuid":[PLUtil userId],
                              @"orderNo":paymentInfo.orderId,
                              @"imsi":@"999999999999999",
@@ -107,7 +113,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"versionNo":@([PLUtil appVersion]),
                              @"status":statusDic[paymentInfo.paymentResult],
                              @"pV":[PLUtil pV],
-                             @"payTime":paymentInfo.paymentTime};
+                             @"payTime":paymentInfo.paymentTime};   //支付参数
     
     BOOL success = [super requestURLPath:[PLConfig sharedConfig].paymentURLPath
                               withParams:params
@@ -115,12 +121,12 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                     {
                         if (respStatus == PLURLResponseSuccess) {
                             paymentInfo.paymentStatus = @(PLPaymentStatusProcessed);
-                            [paymentInfo save];
+                            [paymentInfo save];//保存支付状态
                         } else {
                             DLog(@"Payment: fails to commit the order with orderId:%@", paymentInfo.orderId);
                         }
                         
-                        if (handler) {
+                        if (handler) {//返回支付是否成功的状态
                             handler(respStatus == PLURLResponseSuccess);
                         }
                     }];

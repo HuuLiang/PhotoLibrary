@@ -9,10 +9,12 @@
 #import "PLEncryptedURLRequest.h"
 #import "PLSystemConfig.h"
 
+//.........一个继承于PLURLResponse的类
 @interface PLSystemConfigResponse : PLURLResponse
 @property (nonatomic,retain) NSArray<PLSystemConfig> *confis;
 @end
 
+//.........获取系统数据的模型
 typedef void (^PLFetchSystemConfigCompletionHandler)(BOOL success);
 
 @interface PLSystemConfigModel : PLEncryptedURLRequest
@@ -22,6 +24,7 @@ typedef void (^PLFetchSystemConfigCompletionHandler)(BOOL success);
 
 + (instancetype)sharedModel;
 
+/**获取系统数据*/
 - (BOOL)fetchSystemConfigWithCompletionHandler:(PLFetchSystemConfigCompletionHandler)handler;
 
 @end

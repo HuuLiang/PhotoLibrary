@@ -25,13 +25,14 @@ NSString *const kNetworkErrorMessageKey = @"PLNetworkErrorMessageKey";
 }
 
 - (void)initialize {
+    //注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNetworkError:) name:kNetworkErrorNotification object:nil];
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
+/**接到通知后响应时间*/
 - (void)onNetworkError:(NSNotification *)notification {
     NSDictionary *userInfo = notification.userInfo;
     PLURLResponseStatus resp = (PLURLResponseStatus)(((NSNumber *)userInfo[kNetworkErrorCodeKey]).unsignedIntegerValue);

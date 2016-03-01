@@ -14,6 +14,7 @@
 + (NSDictionary *)commonParams;
 + (NSArray *)keyOrdersOfCommonParams;
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params;
+/**解析AFN返回的数据*/
 - (id)decryptResponse:(id)encryptedResponse;
 
 @end

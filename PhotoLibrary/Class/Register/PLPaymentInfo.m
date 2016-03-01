@@ -22,6 +22,7 @@ static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_pa
 
 @implementation PLPaymentInfo
 
+#pragma mark 返回加密后的订单号
 - (NSString *)paymentId {
     if (_paymentId) {
         return _paymentId;
@@ -30,7 +31,7 @@ static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_pa
     _paymentId = [NSUUID UUID].UUIDString.md5;
     return _paymentId;
 }
-
+#pragma mark 支付信息的字典转模型
 + (instancetype)paymentInfoFromDictionary:(NSDictionary *)payment {
     PLPaymentInfo *paymentInfo = [[self alloc] init];
     paymentInfo.paymentId = payment[kPaymentInfoPaymentIdKeyName];
@@ -46,6 +47,7 @@ static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_pa
     return paymentInfo;
 }
 
+#pragma mark 支付信息的模型转字典
 - (NSDictionary *)dictionaryFromCurrentPaymentInfo {
     NSMutableDictionary *payment = [NSMutableDictionary dictionary];
     [payment safelySetObject:self.paymentId forKey:kPaymentInfoPaymentIdKeyName];
@@ -61,7 +63,7 @@ static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_pa
     return payment;
 }
 
-
+#pragma mark 保存支付信息
 - (void)save {
     NSArray *paymentInfos = [[NSUserDefaults standardUserDefaults] objectForKey:kPaymentInfoKeyName];
     

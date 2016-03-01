@@ -151,6 +151,7 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
 #pragma mark - UITableViewDataSource,UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+   
     UITableViewCell *cell = self.cells[@(indexPath.row)];
     if (cell) {
         return cell;
@@ -160,11 +161,18 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     UIView *subview;
-    if (indexPath.row == PLSettingCellTopImage) {
-        subview = self.topImageView;
-    } else if (indexPath.row == PLSettingCellChannels) {
-        subview = self.lockScrollView;
-    } else if (indexPath.row == PLSettingCellAgreement) {
+//    if (indexPath.row == PLSettingCellTopImage) {
+//        subview = self.topImageView;
+//    } else if (indexPath.row == PLSettingCellChannels) {
+//        subview = self.lockScrollView;
+//    } else if (indexPath.row == PLSettingCellAgreement) {
+//        subview = self.agreementWebView;
+//    }
+    
+    
+    if (indexPath.row == 0) {
+         subview = self.lockScrollView;
+    }else if(indexPath.row == 2){
         subview = self.agreementWebView;
     }
     
@@ -176,10 +184,13 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (indexPath.row == PLSettingCellTopImage) {
-        return CGRectGetWidth(tableView.frame) / 3;
-    } else if (indexPath.row == PLSettingCellChannels) {
+//        return CGRectGetWidth(tableView.frame) / 3;
         return CGRectGetWidth(tableView.frame) / 3.5;
+    } else if (indexPath.row == PLSettingCellChannels) {
+//        return CGRectGetWidth(tableView.frame) / 3.5;
+        return 0;
     } else if (indexPath.row == PLSettingCellAgreement) {
         const CGFloat topImageHeight = [self tableView:tableView
                                heightForRowAtIndexPath:[NSIndexPath indexPathForRow:PLSettingCellTopImage

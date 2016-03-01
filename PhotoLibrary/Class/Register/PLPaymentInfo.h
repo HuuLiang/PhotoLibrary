@@ -11,8 +11,8 @@
 typedef NS_ENUM(NSUInteger, PLPaymentStatusInfo) {
     PLPaymentStatusUnknown,
     PLPaymentStatusPaying,
-    PLPaymentStatusNotProcessed,
-    PLPaymentStatusProcessed
+    PLPaymentStatusNotProcessed,//没处理
+    PLPaymentStatusProcessed//处理了
 };
 
 @interface PLPaymentInfo : NSObject
@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, PLPaymentStatusInfo) {
 @property (nonatomic) NSNumber *paymentResult;
 @property (nonatomic) NSNumber *paymentStatus;
 
+/**返回支付信息*/
 + (instancetype)paymentInfoFromDictionary:(NSDictionary *)payment;
 - (void)save;
 

@@ -26,7 +26,7 @@
     @weakify(self);
     BOOL ret = [self requestURLPath:[PLConfig sharedConfig].photoChannelURLPath withParams:nil responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);
-        if (respStatus == PLURLResponseSuccess) {
+        if (respStatus == PLURLResponseSuccess) {//返回结果成功
             PLPhotoChannelResponse *channelResp = self.response;
             self->_fetchedChannels = channelResp.columnList;
             

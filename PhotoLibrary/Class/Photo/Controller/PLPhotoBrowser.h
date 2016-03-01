@@ -19,12 +19,16 @@
 
 @end
 
-@interface PLPhotoBrowser : PLBaseViewController
 
+
+@interface PLPhotoBrowser : PLBaseViewController    //制作照片查看器
+/**单个Cell中的图片模型*/
 @property (nonatomic,retain) PLProgram *photoAlbum;
+@property (nonatomic,strong)  id fetchedData;
 @property (nonatomic,assign) id<PLPhotoBrowserDelegate> delegate;
 
 - (instancetype)initWithAlbum:(PLProgram *)album;
+/**在哪个视图上显示*/
 - (void)showInView:(UIView *)view;
 - (void)hide;
 

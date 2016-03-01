@@ -25,6 +25,7 @@ static const CGFloat kPadding = 5;
 
 + (instancetype)buttonWithTitle:(NSString *)title imageURL:(NSURL *)imageURL {
     PLPopupMenuButton *button = [[self alloc] init];
+#warning ----------
     return button;
 }
 
@@ -45,6 +46,7 @@ static const CGFloat kPadding = 5;
         _thumbImageView.clipsToBounds = YES;
         [self addSubview:_thumbImageView];
         
+        /**button的titlelabel*/
         _thumbTitleLabel = [[UILabel alloc] init];
         _thumbTitleLabel.font = [UIFont boldSystemFontOfSize:15.];
         _thumbTitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -52,6 +54,7 @@ static const CGFloat kPadding = 5;
         _thumbTitleLabel.text = title;
         [self addSubview:_thumbTitleLabel];
         
+        /**button的imageview*/
         _markImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"popup_menu_marked"]];
         _markImageView.hidden = YES;
         [self addSubview:_markImageView];
@@ -65,7 +68,7 @@ static const CGFloat kPadding = 5;
     }
     return self;
 }
-
+#pragma mark - 重写属性的set 方法
 - (void)setTitle:(NSString *)title {
     _title = title;
     _thumbTitleLabel.text = title;
@@ -100,7 +103,7 @@ static const CGFloat kPadding = 5;
         _thumbImageView.image = isLocked ? [self.originalThumbImage grayishImage] : self.originalThumbImage;
     }
 }
-
+/**返回button的frame*/
 - (CGRect)titleRectForContentRect:(CGRect)contentRect {
     CGRect imageRect = [self imageRectForContentRect:contentRect];
     CGFloat width = CGRectGetWidth(contentRect)*0.7-CGRectGetWidth(imageRect)-kPadding*2;

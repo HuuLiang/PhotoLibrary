@@ -33,7 +33,7 @@
                         PLChannelPrograms *programs;
                         if (respStatus == PLURLResponseSuccess) {
                             programs = (PLChannelProgramResponse *)self.response;
-                            self.fetchedPrograms = programs;
+                            self.fetchedPrograms = programs;//在这里保存到自己的全局变量，共外界调用
                         }
                         
                         if (handler) {

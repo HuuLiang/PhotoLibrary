@@ -13,6 +13,7 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
 
 @implementation PLConfig
 
+/**对象一旦创建就会获取所有用到的URL*/
 + (instancetype)sharedConfig {
     static PLConfig *_config;
     static dispatch_once_t onceToken;
@@ -31,6 +32,7 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
     return _standbyConfig;
 }
 
+/**根据plist文件的名字获取该文件*/
 + (instancetype)configWithName:(NSString *)configName {
     NSString *configPath = [[NSBundle mainBundle] pathForResource:configName ofType:@"plist"];
     NSDictionary *configDic = [[NSDictionary alloc] initWithContentsOfFile:configPath];
@@ -45,7 +47,7 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
     }
     return self;
 }
-
+/**解析字典*/
 - (void)parseConfigWithDictionary:(NSDictionary *)dic {
     [dic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         

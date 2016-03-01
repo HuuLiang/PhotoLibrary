@@ -28,7 +28,7 @@ static NSString *const kSuccessResponse = @"SUCCESS";
 - (BOOL)shouldPostErrorNotification {
     return NO;
 }
-
+/**激活用户，回调出userId*/
 - (BOOL)activateWithCompletionHandler:(PLActivateHandler)handler {
     NSString *sdkV = [NSString stringWithFormat:@"%d.%d",
                       __IPHONE_OS_VERSION_MAX_ALLOWED / 10000,
@@ -49,7 +49,8 @@ static NSString *const kSuccessResponse = @"SUCCESS";
     
     BOOL success = [self requestURLPath:[PLConfig sharedConfig].registerURLPath withParams:params responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
         NSString *userId;
-        if (respStatus == PLURLResponseSuccess) {
+        if (respStatus == PLURLResponseSuccess) {//请求数据成功
+
             NSString *resp = self.response;
             NSArray *resps = [resp componentsSeparatedByString:@";"];
             
@@ -59,7 +60,7 @@ static NSString *const kSuccessResponse = @"SUCCESS";
             }
         }
         
-        if (handler) {
+        if (handler) {//传入的handler不为nil激活handler代码块
             handler(respStatus == PLURLResponseSuccess && userId, userId);
         }
     }];

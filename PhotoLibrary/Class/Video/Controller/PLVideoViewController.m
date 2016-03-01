@@ -35,14 +35,14 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
     layout.minimumInteritemSpacing = kInteritemSpacing;
     layout.minimumLineSpacing = kLineSpacing;
     layout.sectionInset = UIEdgeInsetsMake(kLineSpacing, kLineSpacing, kLineSpacing, kLineSpacing);
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [_collectionView registerClass:[PLVideoCell class] forCellWithReuseIdentifier:kVideoCellReusableIdentifier];
-    _collectionView.pagingEnabled = YES;
+    _collectionView.pagingEnabled = NO;
     [self.view addSubview:_collectionView];
     {
         [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -97,6 +97,11 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     @weakify(self);
+    
+//
+//    PLVideo *video = self.videos[indexPath.row];
+//    [self playVideo:video];
+
     id<PLPayable> payable = self.videoModel.fetchedVideos;
     [self payForPayable:payable withCompletionHandler:^(BOOL success) {
         @strongify(self);
@@ -106,9 +111,10 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
         }
     }];
 }
-
+#pragma mark - scrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    NSUInteger currentPage = CGRectGetWidth(scrollView.bounds) > 0 ? lround(scrollView.contentOffset.x / CGRectGetWidth(scrollView.bounds)) + 1 : 1;
+    
+    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? lround(scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds)) + 1 : 1;
     
     PLVideos *videos = self.videoModel.fetchedVideos;
     if (currentPage == (videos.items.unsignedIntegerValue+3) / 4) {

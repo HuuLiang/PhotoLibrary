@@ -6,7 +6,7 @@ pod 'Masonry', '~> 0.6.2'
 pod 'SDWebImage', '~> 3.7.3'
 pod 'MBProgressHUD', '~> 0.9.1'
 #pod 'SIAlertView'
-#pod 'MJRefresh', '~> 2.4.7'
+pod 'MJRefresh', '~> 2.4.7'
 pod 'SFHFKeychainUtils', '~> 0.0.1'
 pod 'OpenSSL', '~> 1.0.204'
 

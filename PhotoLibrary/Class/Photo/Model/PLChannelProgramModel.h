@@ -17,6 +17,7 @@ typedef void (^PLFetchChannelProgramCompletionHandler)(BOOL success, PLChannelPr
 
 @interface PLChannelProgramModel : PLEncryptedURLRequest
 
+/**这个外界会使用*/
 @property (nonatomic,retain) PLChannelPrograms *fetchedPrograms;
 
 - (BOOL)fetchProgramsWithColumnId:(NSNumber *)columnId

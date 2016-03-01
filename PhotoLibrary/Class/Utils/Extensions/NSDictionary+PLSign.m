@@ -96,7 +96,7 @@ NSString *const kEncryptionDataName = @"data";
 - (NSString *)encryptedStringWithSign:(NSString *)sign
                              password:(NSString *)pwd
                           excludeKeys:(NSArray *)excludedKeys {
-    return [self encryptedStringWithSign:sign password:pwd excludeKeys:excludedKeys shouldIncludeSign:YES];
+    return [self encryptedStringWithSign:sign password:pwd excludeKeys:excludedKeys shouldIncludeSign:YES];//转码
 }
 
 - (NSString *)encryptedStringWithSign:(NSString *)sign

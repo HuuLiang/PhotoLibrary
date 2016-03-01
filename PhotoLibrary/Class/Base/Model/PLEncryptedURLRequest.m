@@ -30,12 +30,12 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
 + (NSArray *)keyOrdersOfCommonParams {
     return @[@"appId",kEncryptionKeyName,@"imsi",@"channelNo",@"pV"];
 }
-
+/**编码*/
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params {
     NSMutableDictionary *mergedParams = params ? params.mutableCopy : [NSMutableDictionary dictionary];
     NSDictionary *commonParams = [[self class] commonParams];
     if (commonParams) {
-        [mergedParams addEntriesFromDictionary:commonParams];
+        [mergedParams addEntriesFromDictionary:commonParams];//合并字典
     }
     
     return [mergedParams encryptedDictionarySignedTogetherWithDictionary:commonParams keyOrders:[[self class] keyOrdersOfCommonParams] passwordKeyName:kEncryptionKeyName];
@@ -48,7 +48,9 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
 - (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(PLURLResponseHandler)responseHandler {
     return [super requestURLPath:urlPath standbyURLPath:standbyUrlPath withParams:[self encryptWithParams:params] responseHandler:responseHandler];
 }
+#pragma mark - JSON 解析
 
+/**解码*/
 - (id)decryptResponse:(id)encryptedResponse {
     if (![encryptedResponse isKindOfClass:[NSDictionary class]]) {
         return nil;
@@ -56,17 +58,19 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     
     NSDictionary *originalResponse = (NSDictionary *)encryptedResponse;
     NSArray *keys = [originalResponse objectForKey:kEncryptionKeyName];
+    
     NSString *dataString = [originalResponse objectForKey:kEncryptionDataName];
     if (!keys || !dataString) {
         return nil;
     }
     
-    NSString *decryptedString = [dataString decryptedStringWithKeys:keys];
+    NSString *decryptedString = [dataString decryptedStringWithKeys:keys];//解码
+    
     id jsonObject = [NSJSONSerialization JSONObjectWithData:[decryptedString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     if (jsonObject == nil) {
         jsonObject = decryptedString;
     }
-    return jsonObject;
+    return jsonObject;//返回json解析之后的数据
 }
 
 - (void)processResponseObject:(id)responseObject withResponseHandler:(PLURLResponseHandler)responseHandler {
@@ -76,8 +80,9 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
         return ;
     }
     
-    id decryptedResponse = [self decryptResponse:responseObject];
+    id decryptedResponse = [self decryptResponse:responseObject];//json解析之后的数据
     DLog(@"Decrypted response: %@", decryptedResponse);
+    /**处理返回的json解析数据*/
     [super processResponseObject:decryptedResponse withResponseHandler:responseHandler];
 }
 @end

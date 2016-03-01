@@ -24,7 +24,7 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
     [self loadPhotoChannels];
 }
 
-- (void)loadPhotoChannels {
+- (void)loadPhotoChannels {//从模型中获取数据，接口在模型中通过config获得
     @weakify(self);
     [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
         @strongify(self);

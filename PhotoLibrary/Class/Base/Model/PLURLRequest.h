@@ -36,8 +36,9 @@ typedef void (^PLURLResponseHandler)(PLURLResponseStatus respStatus, NSString *e
 - (BOOL)shouldPostErrorNotification;
 - (PLURLRequestMethod)requestMethod;
 
+/**数据请求接口.1*/
 - (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(PLURLResponseHandler)responseHandler;
-
+/**数据请求接口.2*/
 - (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(PLURLResponseHandler)responseHandler;
 
 // For subclass pre/post processing response object

@@ -30,7 +30,7 @@
 + (Class)responseClass {
     return [PLSystemConfigResponse class];
 }
-
+/**获取系统配置参数*/
 - (BOOL)fetchSystemConfigWithCompletionHandler:(PLFetchSystemConfigCompletionHandler)handler {
     @weakify(self);
     BOOL success = [self requestURLPath:[PLConfig sharedConfig].systemConfigURLPath

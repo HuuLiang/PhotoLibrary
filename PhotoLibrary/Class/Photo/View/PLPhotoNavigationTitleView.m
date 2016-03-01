@@ -35,7 +35,7 @@ static const CGFloat kThumbImageViewSize = 40;
     }
     return self;
 }
-
+#pragma mark - 自定义初始化导航栏的视图
 - (void)initUI {
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.font = [UIFont boldSystemFontOfSize:18.];
@@ -63,14 +63,14 @@ static const CGFloat kThumbImageViewSize = 40;
     _thumbImageView.hidden = YES;
     [self addSubview:_thumbImageView];
 }
-
+#pragma mark －－－titlelabel的制动布局－－－－
 - (void)titleLabelRemakeConstraints {
     [_titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
         make.centerX.equalTo(self).offset(_thumbImageView.image?-kThumbImageViewSize/2:0);
     }];
 }
-
+#pragma mark －－－imageview的制动布局－－－－
 - (void)imageViewRemakeConstraints {
     [_thumbImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
@@ -84,7 +84,7 @@ static const CGFloat kThumbImageViewSize = 40;
         make.size.mas_equalTo(CGSizeMake(kThumbImageViewSize, kThumbImageViewSize));
     }];
 }
-
+#pragma mark - 重写的set方法...title...subtitle...image
 - (void)setTitle:(NSString *)title {
     _title = title;
     _titleLabel.text = title;

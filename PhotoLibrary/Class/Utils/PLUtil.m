@@ -113,11 +113,11 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
         return paymentInfo.paymentStatus.unsignedIntegerValue == PLPaymentStatusPaying;
     }];
 }
-
+/**是否注册*/
 + (BOOL)isRegistered {
     return [self userId] != nil;
 }
-
+/**注册*/
 + (void)setRegisteredWithUserId:(NSString *)userId {
 #ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     [SFHFKeychainUtils storeUsername:kRegisterKeyChainUsername.md5
@@ -256,7 +256,7 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     
     return name;
 }
-
+/**app版本*/
 + (NSUInteger)appVersion {
     NSString *ver = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
     return ver.floatValue * 100;

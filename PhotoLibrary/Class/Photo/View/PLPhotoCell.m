@@ -16,6 +16,7 @@ static const CGFloat kImageOffset = 5;
 @end
 
 @implementation PLPhotoCell
+
 @synthesize imageView = _imageView;
 @synthesize backgroundImageView = _backgroundImageView;
 
@@ -46,6 +47,8 @@ static const CGFloat kImageOffset = 5;
     
     _imageView.layer.borderWidth = 0.5;
     _imageView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
+//    _imageView.layer.borderColor = [UIColor redColor].CGColor
+    ;
     [self addSubview:_imageView];
     {
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -55,6 +58,7 @@ static const CGFloat kImageOffset = 5;
     return _imageView;
 }
 
+#pragma mark - 设置cell的图片
 - (void)setImageURL:(NSURL *)imageURL {
 //    if (_imageURL == imageURL) {
 //        return ;

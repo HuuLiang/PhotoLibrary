@@ -15,10 +15,15 @@
 #import "PLPaymentInfo.h"
 #import "WeChatPayManager.h"
 
+#import "PLPhotoBrowser.h"
+#import "UIView+GetController.h"
+
 @interface PLPaymentViewController ()
 @property (nonatomic,retain) PLPaymentPopView *popView;
 
 @property (nonatomic,retain) PLPaymentInfo *PLpaymentInfo;
+
+@property (nonatomic,strong) PLPhotoBrowser *browser;
 
 
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
@@ -30,6 +35,7 @@
 @implementation PLPaymentViewController
 @synthesize paymentTypeMap = _paymentTypeMap;
 
+/**初始化支付界面控制器*/
 + (instancetype)sharedPaymentVC {
     static PLPaymentViewController *_sharedPaymentVC;
     static dispatch_once_t onceToken;
@@ -39,6 +45,7 @@
     return _sharedPaymentVC;
 }
 
+/**支付界面弹框*/
 - (PLPaymentPopView *)popView {
     if (_popView) {
         return _popView;
@@ -46,14 +53,26 @@
     
     @weakify(self);
     _popView = [[PLPaymentPopView alloc] init];
+    
     _popView.paymentAction = ^(PLPaymentType type) {
         @strongify(self);
         [self pay:self.payableObject withPaymentType:type];
     };
+    /**返回block激活后进来*/
     _popView.backAction = ^{
         @strongify(self);
-        [self hidePayment];
         
+
+        
+        if([self.delegate respondsToSelector:@selector(dismissViewController)]){
+        
+            [self.delegate dismissViewController];
+        }
+        
+        
+        
+        [self hidePayment]; //隐藏支付弹窗
+
         if (self.completionHandler) {
             self.completionHandler(NO);
         }
@@ -61,11 +80,14 @@
     return _popView;
 }
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     [self.view addSubview:self.popView];
+
     {
         [self.popView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.view);
@@ -73,7 +95,7 @@
         }];
     }
 }
-
+/**弹出支付界面*/
 - (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler {
     if (self.view.superview) {
         [self.view removeFromSuperview];
@@ -84,11 +106,11 @@
     self.popView.usage = [payable payableUsage];
     self.view.frame = view.bounds;
     self.view.alpha = 0;
-    if (view == [UIApplication sharedApplication].keyWindow) {
-        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
-    } else {
+//    if (view == [UIApplication sharedApplication].keyWindow) {
+//        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
+//    } else {
         [view addSubview:self.view];
-    }
+//    }
     
     [UIView animateWithDuration:0.25 animations:^{
         self.view.alpha = 1.0;
@@ -118,10 +140,13 @@
     [UIView animateWithDuration:0.25 animations:^{
         self.view.alpha = 0;
     } completion:^(BOOL finished) {
+
         [self.view removeFromSuperview];
+        
     }];
 }
 
+/**支付方式*/
 - (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType {
     @weakify(self);
     NSString *channelNo = [PLConfig sharedConfig].channelNo;
@@ -129,7 +154,7 @@
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
 
-    if (paymentType==PLPaymentTypeWeChatPay) {
+    if (paymentType==PLPaymentTypeWeChatPay) {//如果是微信支付
         PLPaymentInfo *paymentInfo = [[PLPaymentInfo alloc]init];
         paymentInfo.orderId =orderNo;
         paymentInfo.orderPrice=[payable payableFee];
@@ -214,7 +239,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/**提交支付结果*/
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(PLPaymentInfo *)paymentInfo {
     NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
     [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
@@ -223,21 +248,23 @@
     paymentInfo.paymentTime = [dateFormmater stringFromDate:[NSDate date]];
     [paymentInfo save];
     
-    if (result == PAYRESULT_SUCCESS) {
-        [PLPaymentUtil setPaidForPayable:self.payableObject];
+    if (result == PAYRESULT_SUCCESS) {//如果支付成功
+        
+        [PLPaymentUtil setPaidForPayable:self.payableObject];//设置这个东西已经支付过
         [self hidePayment];
         [[PLHudManager manager] showHudWithText:@"支付成功"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];//通知支付成功
         if (self.completionHandler) {
-            self.completionHandler(YES);
+            self.completionHandler(YES);//激活支付完成
         }
-        [PLStatistics statPayment:self.payableObject];
+        [PLStatistics statPayment:self.payableObject];//友盟统计
     } else if (result == PAYRESULT_ABANDON) {
         [[PLHudManager manager] showHudWithText:@"支付取消"];
     } else {
         [[PLHudManager manager] showHudWithText:@"支付失败"];
     }
     
+    //提交支付信息
     [[PLPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
     
 }

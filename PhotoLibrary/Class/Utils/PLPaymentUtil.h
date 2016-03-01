@@ -11,7 +11,10 @@
 
 @interface PLPaymentUtil : NSObject
 
+/**判段当前的payable是否已经支付过*/
 + (BOOL)isPaidForPayable:(id<PLPayable>)payable;
+
+/**设置支付*/
 + (void)setPaidForPayable:(id<PLPayable>)payable;
 
 + (void)setPaidPendingWithOrder:(NSArray *)order programId:(NSNumber *)programId forUsage:(PLPaymentUsage)usage;

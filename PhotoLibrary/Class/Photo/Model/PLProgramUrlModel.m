@@ -38,8 +38,8 @@
         NSArray *urlList;
         if (respStatus == PLURLResponseSuccess) {
             PLProgramUrlResponse *resp = self.response;
-            urlList = resp.programUrlList;
-            self.fetchedUrlList = urlList;
+            urlList = resp.programUrlList;//返回的图片路径数组
+            self.fetchedUrlList = urlList;//
         }
         
         if (handler) {

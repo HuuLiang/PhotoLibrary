@@ -77,6 +77,7 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
     // Dispose of any resources that can be recreated.
 }
 
+/**在view窗口显示*/
 - (void)showInView:(UIView *)view inPosition:(CGPoint)pos {
     if (self.menuItems.count == 0) {
         [self.view pl_beginLoading];
@@ -94,7 +95,7 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
         self.view.alpha = 1;
     }];
 }
-
+/**在window窗口显示*/
 - (void)showInWindowInPosition:(CGPoint)pos {
     UIView *maskView = [[UIApplication sharedApplication].keyWindow pl_dimView];
     [self showInView:maskView inPosition:pos];
@@ -108,7 +109,7 @@ static const void *kMenuButtonAssociatedKey = &kMenuButtonAssociatedKey;
     
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     if ([keyWindow.pl_maskView.subviews containsObject:self.view]) {
-        [keyWindow pl_restoreView];
+        [keyWindow pl_restoreView];//移除view
     }
     
     [UIView animateWithDuration:kAnimationDuration animations:^{

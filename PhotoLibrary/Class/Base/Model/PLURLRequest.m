@@ -90,6 +90,7 @@
     return _standbyRequestOpManager;
 }
 
+#pragma mark - 数据请求基于AFN封装的部分
 -(BOOL)requestURLPath:(NSString *)urlPath
            withParams:(NSDictionary *)params
             isStandby:(BOOL)isStandBy
@@ -106,8 +107,9 @@
     DLog(@"Requesting %@ !\nwith parameters: %@\n", urlPath, params);
     
     @weakify(self);
-    self.response = [[[[self class] responseClass] alloc] init];
+    self.response = [[[[self class] responseClass] alloc] init];//初始化response，一般这里是....model进来
     
+//========待激活的代码块区==由AFN中激活success/failure==================
     void (^success)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         
@@ -120,6 +122,7 @@
         
         if (shouldNotifyError) {
             if ([self shouldPostErrorNotification]) {
+                
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
                                                                     object:self
                                                                   userInfo:@{kNetworkErrorCodeKey:@(PLURLResponseFailedByNetwork),
@@ -131,7 +134,7 @@
             responseHandler(PLURLResponseFailedByNetwork,error.localizedDescription);
         }
     };
-    
+//==============================================================
     AFHTTPRequestOperation *requestOp;
     if (self.requestMethod == PLURLGetRequest) {
         requestOp = [isStandBy?self.standbyRequestOpManager:self.requestOpManager GET:urlPath parameters:params success:success failure:failure];
@@ -170,15 +173,18 @@
 {
     return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
 }
-
+/**处理返回对像*/
 - (void)processResponseObject:(id)responseObject withResponseHandler:(PLURLResponseHandler)responseHandler {
     PLURLResponseStatus status = PLURLResponseNone;
     NSString *errorMessage;
     if ([responseObject isKindOfClass:[NSDictionary class]]) {
         if ([self.response isKindOfClass:[PLURLResponse class]]) {
             PLURLResponse *urlResp = self.response;
-            [urlResp parseResponseWithDictionary:responseObject];
-            
+            [urlResp parseResponseWithDictionary:responseObject];//数据解析
+            /**PLURLResponse的返回的属性
+             @property (nonatomic) NSNumber *success;
+             @property (nonatomic) NSString *resultCode;
+              */
             status = urlResp.success.boolValue ? PLURLResponseSuccess : PLURLResponseFailedByInterface;
             errorMessage = (status == PLURLResponseSuccess) ? nil : [NSString stringWithFormat:@"ResultCode: %@", urlResp.resultCode];
         } else {

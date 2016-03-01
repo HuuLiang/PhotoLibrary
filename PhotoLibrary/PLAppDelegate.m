@@ -9,6 +9,8 @@
 #import "PLAppDelegate.h"
 #import "PLPhotoViewController.h"
 #import "PLVideoViewController.h"
+/**新添加的免费控制器*/
+#import "PLFreeViewController.h"
 #import "PLSettingViewController.h"
 #import "PLErrorHandler.h"
 #import "PLActivateModel.h"
@@ -30,6 +32,7 @@
 
 DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
+#pragma mark - 初始化window
 - (UIWindow *)window {
     if (_window) {
         return _window;
@@ -51,6 +54,14 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
                                                                          image:[UIImage imageNamed:@"normal_video_bar"]
                                                                  selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
+    /**免费的控制器*/
+    PLFreeViewController *freeVC = [[PLFreeViewController alloc] init];
+    freeVC.title = @"免费";
+    UINavigationController *freeNav   = [[UINavigationController alloc] initWithRootViewController:freeVC];
+    freeNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:freeVC.title
+                                                                       image:[UIImage imageNamed:@"tab_icon"]
+                                                               selectedImage:[UIImage imageNamed:@"tab_icon_press"]];
+    
     
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
     settingVC.title = @"设置";
@@ -60,13 +71,15 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
                                                             selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
+    tabBarController.viewControllers     = @[photoNav,videoNav,freeNav,settingNav];
     tabBarController.tabBar.translucent  = NO;
+    //设置tabbar选中的渲染效果
     tabBarController.tabBar.tintColor = [UIColor blackColor];
     _window.rootViewController           = tabBarController;
     return _window;
 }
 
+#pragma mark - 设置控制器共有的规格
 - (void)setupCommonStyles {
     [UIViewController aspect_hookSelector:@selector(viewDidLoad)
                               withOptions:AspectPositionAfter
@@ -122,13 +135,22 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
                                  } error:nil];
 }
 
+#pragma mark - Appdelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [WXApi registerApp:[PLConfig sharedConfig].weChatPayAppId];
+    //初始化错误处理（实际就是注册通知）
     [[PLErrorHandler sharedHandler] initialize];
+    
+    //程序一加载就开启友盟访问统计
     [PLStatistics start];
+    
+    //设置控制器通用的风格
     [self setupCommonStyles];
-    [self.window makeKeyAndVisible];
+    
+    [self.window makeKeyAndVisible];//代替下面两行
+//    [self.window makeKeyWindow];
+//    self.window.hidden = NO;
     
     if (![PLUtil isRegistered]) {
         [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
@@ -140,7 +162,7 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     } else {
         [[PLUserAccessModel sharedModel] requestUserAccess];
     }
-    
+    //提交订单
     [[PLPaymentModel sharedModel] startRetryingToCommitUnprocessedOrders];
     return YES;
 }
@@ -168,11 +190,13 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+//当用户通过其它应用启动本应用时，会回调这个方法，url参数是其它应用调用openURL:方法时传过来的。支付完成之后回到本应用
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     [WXApi handleOpenURL:url delegate:self];
     return YES;
+    
 }
-
+#pragma mark - 检查是否支付过
 -(void)checkPayment{
     NSArray<PLPaymentInfo *> *payingPaymentInfos = [PLUtil payingPaymentInfos];
     [payingPaymentInfos enumerateObjectsUsingBlock:^(PLPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

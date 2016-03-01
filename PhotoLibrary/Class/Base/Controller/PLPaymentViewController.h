@@ -8,11 +8,20 @@
 
 #import "PLBaseViewController.h"
 #import "PLPayable.h"
+@protocol PLPaymentViewControllerDelegate<NSObject>
+
+@optional
+
+- (void)dismissViewController;
+
+@end
 
 @interface PLPaymentViewController : PLBaseViewController
+@property (nonatomic,weak) id<PLPaymentViewControllerDelegate> delegate;
 
 + (instancetype)sharedPaymentVC;
 
+/**在哪个界面上显示支付弹窗*/
 - (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler;
 - (void)hidePayment;
 

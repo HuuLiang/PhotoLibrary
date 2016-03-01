@@ -14,7 +14,7 @@ static const CGFloat kPLMaskViewDimAnimationDuration = 0.3;
 
 @implementation UIView (PLDim)
 
-- (UIView *)pl_maskView {
+- (UIView *)pl_maskView {//蒙版
     UIView *maskView = objc_getAssociatedObject(self, kPLMaskViewAssociatedKey);
     if (maskView && [self.subviews containsObject:maskView]) {
         return maskView;

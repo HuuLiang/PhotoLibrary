@@ -23,6 +23,7 @@
     return _theInstance;
 }
 
+/**获取用户访问请求*/
 - (BOOL)requestUserAccess {
     NSString *userId = [PLUtil userId];
     if (!userId) {
