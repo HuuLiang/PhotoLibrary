@@ -69,7 +69,6 @@
 		B93E82571C8054BB00C38211 /* PLFreePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E82561C8054BB00C38211 /* PLFreePhoto.m */; };
 		B93E825A1C8054F100C38211 /* PLFreePhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E82591C8054F100C38211 /* PLFreePhotoModel.m */; };
 		B93E825D1C817D0100C38211 /* FreePhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E825C1C817D0100C38211 /* FreePhotoCell.m */; };
-		B93E82601C83554F00C38211 /* UIView+GetController.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E825F1C83554F00C38211 /* UIView+GetController.m */; };
 		BC27E3741C1FBC7200BCD6FD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3731C1FBC7200BCD6FD /* WebKit.framework */; };
 		BC27E3761C1FBC8B00BCD6FD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3751C1FBC8B00BCD6FD /* CoreMotion.framework */; };
 		BC27E3781C1FBC9700BCD6FD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3771C1FBC9700BCD6FD /* AdSupport.framework */; };
@@ -241,8 +240,6 @@
 		B93E82591C8054F100C38211 /* PLFreePhotoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLFreePhotoModel.m; sourceTree = "<group>"; };
 		B93E825B1C817D0100C38211 /* FreePhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreePhotoCell.h; sourceTree = "<group>"; };
 		B93E825C1C817D0100C38211 /* FreePhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreePhotoCell.m; sourceTree = "<group>"; };
-		B93E825E1C83554F00C38211 /* UIView+GetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+GetController.h"; sourceTree = "<group>"; };
-		B93E825F1C83554F00C38211 /* UIView+GetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GetController.m"; sourceTree = "<group>"; };
 		BC27E3731C1FBC7200BCD6FD /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		BC27E3751C1FBC8B00BCD6FD /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		BC27E3771C1FBC9700BCD6FD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -559,8 +556,6 @@
 				B93E81D51C7F001B00C38211 /* UIView+PLLoading.m */,
 				B93E82491C7FF54F00C38211 /* UIScrollView+Refish.h */,
 				B93E824A1C7FF54F00C38211 /* UIScrollView+Refish.m */,
-				B93E825E1C83554F00C38211 /* UIView+GetController.h */,
-				B93E825F1C83554F00C38211 /* UIView+GetController.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -971,7 +966,6 @@
 				B93E820A1C7F001B00C38211 /* PLActivateModel.m in Sources */,
 				B93E82331C7F001B00C38211 /* PLUtil.m in Sources */,
 				B93E82271C7F001B00C38211 /* NSObject+Properties.m in Sources */,
-				B93E82601C83554F00C38211 /* UIView+GetController.m in Sources */,
 				B93E82121C7F001B00C38211 /* PLUserAccessModel.m in Sources */,
 				B93E821C1C7F001B00C38211 /* PLPhotoChannelModel.m in Sources */,
 				B93E821F1C7F001B00C38211 /* PLPhotoNavigationTitleView.m in Sources */,
@@ -1072,8 +1066,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jiangxi Electronic Group Corporation Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jiangxi Electronic Group Corporation Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
@@ -1097,7 +1091,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "4c339e76-24bd-41ec-9155-f8e1771217b7";
+				PROVISIONING_PROFILE = "5cb6f49d-860c-4326-b9de-7daca80ecf59";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1119,8 +1113,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jiangxi Electronic Group Corporation Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jiangxi Electronic Group Corporation Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -1137,7 +1131,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "4c339e76-24bd-41ec-9155-f8e1771217b7";
+				PROVISIONING_PROFILE = "5cb6f49d-860c-4326-b9de-7daca80ecf59";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1148,7 +1142,7 @@
 			baseConfigurationReference = 6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PhotoLibrary/Info.plist;
@@ -1161,7 +1155,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.photolib2016.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5cb6f49d-860c-4326-b9de-7daca80ecf59";
 			};
 			name = Debug;
 		};
@@ -1170,7 +1164,7 @@
 			baseConfigurationReference = 363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd.";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PhotoLibrary/Info.plist;
@@ -1183,7 +1177,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.photolib2016.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5cb6f49d-860c-4326-b9de-7daca80ecf59";
 			};
 			name = Release;
 		};
