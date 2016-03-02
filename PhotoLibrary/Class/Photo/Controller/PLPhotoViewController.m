@@ -16,7 +16,7 @@
 #import "PLPhotoBrowser.h"
 #import <objc/runtime.h>
 #import "PLPaymentViewController.h"
-
+#import "UIScrollView+Refish.h"
 static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentifier";
 static NSString *const kHeaderReusableIdentifier = @"HeaderReusableIdentifier";
 static NSString *const kFooterReusableIdentifier = @"FooterReusableIdentifier";
@@ -30,6 +30,7 @@ static NSString *const kSectionBackgroundColor = @"#503d3c";
     /**CollectionView*/
     UICollectionView *_layoutCollectionView;
     UIButton *_floatingButton;
+    NSUInteger _currentPage;
     
     PLPhotoNavigationTitleView *_navTitleView;
 }
@@ -101,7 +102,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _currentPage = 1;
     /**设置layout*/
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = kPhotoCellInterspace;
@@ -178,6 +179,23 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         _navTitleView.title = @"图库";
         [self loadPhotoChannels];//下载频道
     }
+    
+    /**刷新相关*/
+    [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
+        @strongify(self)
+
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:_currentPage++];
+    }];
+    
+    [_layoutCollectionView PL_triggerPullToRefresh];
+    
+    [_layoutCollectionView PL_addPagingRefreshWithHandler:^{
+        
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:_currentPage+1];
+        
+    }];
+
+    
 }
 #pragma mark －－－下载获取照片的人频道 ...该地方有3个－－－－
 //在模型中下载数据，返回的数据已经存入模型中的数组中
@@ -189,7 +207,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         if (!self || !success || channels.count == 0) {
             return ;
         }
-        
+
         /**返回图片模型*/
         PLPhotoChannel *channelToShow = [channels bk_match:^BOOL(id obj) {
             if (((PLPhotoChannel *)obj).payAmount.unsignedIntegerValue == 0) {
@@ -218,6 +236,19 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 /**根据图片的频道 获取频道的模型数据*/
 - (void)loadPhotosInChannel:(PLPhotoChannel *)photoChannel withPage:(NSUInteger)page {// shouldReload:(BOOL)shouldReload {
     
+    if(self.photoPrograms.count&&self.photoPrograms.count>= self.channelProgramModel.fetchedPrograms.items.integerValue){//刷新到最后一个时候
+        
+        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
+        
+        [_layoutCollectionView PL_endPullToRefresh];
+        
+        [_layoutCollectionView PL_pagingRefreshNoMoreData];
+        
+        _currentPage--;
+        
+        return;//结束刷新
+    }
+
     _navTitleView.title = photoChannel.name ?: @"图库";//设定导航栏的标题
     _navTitleView.imageURL = photoChannel.columnImg?[NSURL URLWithString:photoChannel.columnImg]:nil;
     
@@ -232,10 +263,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
              if (!self || !success) {
                  return ;
              }
-             
-             if (page == 1) {
-                 [self.photoPrograms removeAllObjects];//photoPrograms全局的用来存储返回的图片数组的元素的数组
-             }
+             [_layoutCollectionView PL_endPullToRefresh];
+
              //保存下载好的数据到数组，
              [self.photoPrograms addObjectsFromArray:programs.programList];//programs.programList就是返回的所有节目的相关内容
              [self->_layoutCollectionView reloadData];
@@ -267,7 +296,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return (self.photoPrograms.count + 3) / 4;
+//    return (self.photoPrograms.count + 3) / 4;
+    return 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -287,7 +317,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 }
 /**每一个section的item个数*/
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 4;
+//    return 4;
+    return _photoPrograms.count;
 }
 /**单独定义collectionView的layout的item的size*/
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -324,41 +355,41 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         }
 //#endif
 }
-#pragma mark - 自定义下拉刷新
-/**scrollview停止滚动*/
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-
-    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds) + 1 : 1;
-    
-    PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
-    if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
-        return ;
-    }
-    
-//    if (![PLPaymentUtil isPaidForPayable:channelPrograms]) {
+//#pragma mark - 自定义下拉刷新
+///**scrollview停止滚动*/
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//
+//    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds) + 1 : 1;
+//    
+//    PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
+//    if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
 //        return ;
 //    }
-    
-    NSUInteger pagesForOneRequest = channelPrograms.pageSize.unsignedIntegerValue / 4;//分页
-    NSUInteger loadedPages = channelPrograms.page.unsignedIntegerValue * pagesForOneRequest;
-    if (currentPage % pagesForOneRequest == 0 && loadedPages == currentPage) {//下载下一页的图片
-        [self loadPhotosInChannel:self.currentPhotoChannel withPage:channelPrograms.page.unsignedIntegerValue+1];
-    }
-}
-/**scrollview开始减速*/
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-    
-    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds) + 1 : 1;
-    
-    PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
-//    if (currentPage == kAutoPopupPaymentInScrollingPage) {
-//        [self payForPayable:channelPrograms withCompletionHandler:nil];
+//    
+////    if (![PLPaymentUtil isPaidForPayable:channelPrograms]) {
+////        return ;
+////    }
+//    
+//    NSUInteger pagesForOneRequest = channelPrograms.pageSize.unsignedIntegerValue / 4;//分页
+//    NSUInteger loadedPages = channelPrograms.page.unsignedIntegerValue * pagesForOneRequest;
+//    if (currentPage % pagesForOneRequest == 0 && loadedPages == currentPage) {//下载下一页的图片
+//        [self loadPhotosInChannel:self.currentPhotoChannel withPage:channelPrograms.page.unsignedIntegerValue+1];
 //    }
-    
-    if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
-        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
-    }
-}
+//}
+///**scrollview开始减速*/
+//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+//    
+//    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds) + 1 : 1;
+//    
+//    PLChannelPrograms *channelPrograms = self.channelProgramModel.fetchedPrograms;
+////    if (currentPage == kAutoPopupPaymentInScrollingPage) {
+////        [self payForPayable:channelPrograms withCompletionHandler:nil];
+////    }
+//    
+//    if (currentPage == (channelPrograms.items.unsignedIntegerValue+3) / 4) {
+//        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
+//    }
+//}
 
 #pragma mark - PLPhotoBrowserDelegate
 

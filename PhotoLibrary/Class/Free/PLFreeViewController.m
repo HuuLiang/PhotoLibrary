@@ -77,13 +77,12 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
      _currentPage = 1;
     
     /**设置自定义的collectionView*/
     [self setCollectionView];
-    
-    //下载数据
-    [self loadFreePhotoWithPageNo:_currentPage];
     
 }
 
@@ -114,16 +113,14 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
         }];
     }
 
-//    /**关于刷新*/
-//    @weakify(self);//下拉刷新
-//    [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
-//        @strongify(self);
-//        [self loadChannels];
-//    }];
-//    //    [_layoutCollectionView PL_triggerPullToRefresh];
+ /**关于刷新*/
+    @weakify(self);//下拉刷新
+    [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
+        @strongify(self);
+        [self loadFreePhotoWithPageNo:_currentPage++];
+    }];
+        [_layoutCollectionView PL_triggerPullToRefresh];
     
-    @weakify(self);
-    //下拉刷新时候调用－－－－－－－－－－－－－－－－－－－－
     [_layoutCollectionView PL_addPagingRefreshWithHandler:^{
         @strongify(self);
     
@@ -142,7 +139,8 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
         
         [_layoutCollectionView PL_endPullToRefresh];
         
-        [_layoutCollectionView PL_pagingRefreshNoMoreData];        
+        [_layoutCollectionView PL_pagingRefreshNoMoreData];
+        
         _currentPage--;
         
         return;//结束刷新
@@ -190,7 +188,6 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
 
     if (self.freePhotoItemArray.count) {
 

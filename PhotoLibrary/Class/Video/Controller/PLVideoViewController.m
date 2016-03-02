@@ -9,7 +9,7 @@
 #import "PLVideoViewController.h"
 #import "PLVideoModel.h"
 #import "PLVideoCell.h"
-
+#import "UIScrollView+Refish.h"
 static NSString *const kVideoCellReusableIdentifier = @"VideoCellReusableIdentifier";
 static const CGFloat kInteritemSpacing = 2;
 static const CGFloat kLineSpacing = kInteritemSpacing;
@@ -17,6 +17,7 @@ static const CGFloat kLineSpacing = kInteritemSpacing;
 @interface PLVideoViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     UICollectionView *_collectionView;
+    NSUInteger _currentPage;
 }
 @property (nonatomic,retain) PLVideoModel *videoModel;
 @property (nonatomic,retain) NSMutableArray *videos;
@@ -30,7 +31,7 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    _currentPage = 1;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = kInteritemSpacing;
     layout.minimumLineSpacing = kLineSpacing;
@@ -49,11 +50,40 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
             make.edges.equalTo(self.view);
         }];
     }
+//    [self loadVideosWithPage:_currentPage];
     
-    [self loadVideosWithPage:1];
+    @weakify(self)
+    [_collectionView PL_addPullToRefreshWithHandler:^{
+        @strongify(self)
+         [self loadVideosWithPage:_currentPage++];
+    }];
+   
+    [_collectionView PL_triggerPullToRefresh];
+    
+    [_collectionView PL_addPagingRefreshWithHandler:^{
+        
+        [self loadVideosWithPage:_currentPage+1];
+
+    }];
 }
 
 - (void)loadVideosWithPage:(NSUInteger)page {
+    
+    
+    if(self.videos.count&&self.videos.count>= self.videoModel.fetchedVideos.items.integerValue){//刷新到最后一个时候
+        
+        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
+        
+        [_collectionView PL_endPullToRefresh];
+        
+        [_collectionView PL_pagingRefreshNoMoreData];
+        
+        _currentPage--;
+        
+        return;//结束刷新
+    }
+
+    
     @weakify(self);
 //    NSUInteger loadPage = shouldReload ? 1 : self.videoModel.fetchedVideos.page.unsignedIntegerValue + 1;
     [self.videoModel fetchVideosWithPageNo:page completionHandler:^(BOOL success, PLVideos *videos) {
@@ -61,11 +91,11 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
         if (!self) {
             return ;
         }
-        
+        [_collectionView PL_endPullToRefresh];
         if (success) {
-            if (page == 1) {
-                [self.videos removeAllObjects];
-            }
+//            if (page == 1) {
+//                [self.videos removeAllObjects];
+//            }
             [self.videos addObjectsFromArray:videos.programList];
             [self->_collectionView reloadData];
         }
@@ -111,30 +141,30 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
         }
     }];
 }
-#pragma mark - scrollViewDelegate
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
-    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? lround(scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds)) + 1 : 1;
-    
-    PLVideos *videos = self.videoModel.fetchedVideos;
-    if (currentPage == (videos.items.unsignedIntegerValue+3) / 4) {
-        return ;
-    }
-    
-    NSUInteger pagesForOneRequest = videos.pageSize.unsignedIntegerValue / 4;
-    NSUInteger loadedPages = videos.page.unsignedIntegerValue * pagesForOneRequest;
-    if (currentPage % pagesForOneRequest == 0 && loadedPages == currentPage) {
-        [self loadVideosWithPage:videos.page.unsignedIntegerValue+1];
-    }
-}
-
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-    NSUInteger currentPage = CGRectGetWidth(scrollView.bounds) > 0 ? lround(scrollView.contentOffset.x / CGRectGetWidth(scrollView.bounds)) + 1 : 1;
-    
-    PLVideos *videos = self.videoModel.fetchedVideos;
-    if (currentPage == (videos.items.unsignedIntegerValue+3) / 4) {
-        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
-    }
-}
+//#pragma mark - scrollViewDelegate
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    
+//    NSUInteger currentPage = CGRectGetHeight(scrollView.bounds) > 0 ? lround(scrollView.contentOffset.y / CGRectGetHeight(scrollView.bounds)) + 1 : 1;
+//    
+//    PLVideos *videos = self.videoModel.fetchedVideos;
+//    if (currentPage == (videos.items.unsignedIntegerValue+3) / 4) {
+//        return ;
+//    }
+//    
+//    NSUInteger pagesForOneRequest = videos.pageSize.unsignedIntegerValue / 4;
+//    NSUInteger loadedPages = videos.page.unsignedIntegerValue * pagesForOneRequest;
+//    if (currentPage % pagesForOneRequest == 0 && loadedPages == currentPage) {
+//        [self loadVideosWithPage:videos.page.unsignedIntegerValue+1];
+//    }
+//}
+//
+//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+//    NSUInteger currentPage = CGRectGetWidth(scrollView.bounds) > 0 ? lround(scrollView.contentOffset.x / CGRectGetWidth(scrollView.bounds)) + 1 : 1;
+//    
+//    PLVideos *videos = self.videoModel.fetchedVideos;
+//    if (currentPage == (videos.items.unsignedIntegerValue+3) / 4) {
+//        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
+//    }
+//}
 
 @end
