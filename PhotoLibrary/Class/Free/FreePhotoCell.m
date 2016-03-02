@@ -35,12 +35,13 @@ static const CGFloat kImageOffset = 5;
 }
 
 - (UIImageView *)coverImageView {
-//    
-//    if (_coverImageView) {
-//        return _coverImageView;
-//    }
+    
+    if (_coverImageView) {
+        return _coverImageView;
+    }
 
     _coverImageView = [[UIImageView alloc] init];
+    [_coverImageView removeFromSuperview];
     _coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     _coverImageView.clipsToBounds = YES;
     _coverImageView.layer.cornerRadius = 4;
@@ -81,21 +82,16 @@ static const CGFloat kImageOffset = 5;
 
     [self.coverImageView sd_setImageWithURL:imageURL];
     
-    
-    _freeIconImageView.image = [UIImage imageNamed:@"icon_word"];
-    
-
 }
 - (void)setImageURL:(NSURL *)imageURL withFreeIcon:(BOOL)hasFreeIcon
 {
-    _imageURL = imageURL;
-    _bgImageView.hidden = imageURL == nil;
-    _coverImageView.layer.borderWidth = imageURL == nil ? 0 : 0.5;
-    
-    [self.coverImageView sd_setImageWithURL:imageURL];
-    
+
+    self.imageURL = imageURL;
     if (hasFreeIcon) {
+        _freeIconImageView.hidden = NO;
         _freeIconImageView.image = [UIImage imageNamed:@"icon_word"];
+    }else{
+        _freeIconImageView.hidden = YES;
     }
 }
 @end
