@@ -84,6 +84,7 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
     /**设置自定义的collectionView*/
     [self setCollectionView];
     
+//     [self loadFreePhotoWithPageNo:_currentPage];
 }
 
 #pragma mark - 设置CollectionView
@@ -119,12 +120,11 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
         @strongify(self);
         [self loadFreePhotoWithPageNo:_currentPage++];
     }];
-        [_layoutCollectionView PL_triggerPullToRefresh];
-    
+    [_layoutCollectionView PL_triggerPullToRefresh];
     [_layoutCollectionView PL_addPagingRefreshWithHandler:^{
         @strongify(self);
     
-        [self loadFreePhotoWithPageNo:_currentPage+1];
+        [self loadFreePhotoWithPageNo:_currentPage++];
     }];
 }
 
