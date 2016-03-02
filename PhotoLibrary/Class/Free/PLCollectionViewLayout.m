@@ -12,10 +12,12 @@ typedef NSMutableDictionary<NSIndexPath *,UICollectionViewLayoutAttributes*> Lay
 @interface PLCollectionViewLayout ()
 @property (nonatomic,strong) LayoutAttributesMutableDictionary *layoutAttributes;
 @property (nonatomic,assign) CGSize collectionViewContentSize;
+@property (nonatomic,strong) NSMutableArray<UICollectionViewLayoutAttributes*> *attsArray;
 @end
 @implementation PLCollectionViewLayout
 
 DefineLazyPropertyInitialization(LayoutAttributesMutableDictionary, layoutAttributes);
+DefineLazyPropertyInitialization(NSMutableArray, attsArray);
 
 - (CGSize)adBannerSize {
     const CGFloat cvW = CGRectGetWidth(self.collectionView.bounds);
@@ -44,9 +46,7 @@ DefineLazyPropertyInitialization(LayoutAttributesMutableDictionary, layoutAttrib
     for (int i = 0; i< numberOfItems; ++i) {
 
         UICollectionViewLayoutAttributes *layoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
-//        if (i==2) {
-//            layoutAttributes.frame = CGRectMake(0, CGRectGetMaxY(lastLayerFrame)+self.interItemSpacing, self.adBannerSize.width, self.adBannerSize.height);
-//        }
+
         if ([self hasAdBannerForItem:i]) {//是广告
             layoutAttributes.frame = CGRectMake(0, CGRectGetMaxY(lastLayerFrame)+self.interItemSpacing, self.adBannerSize.width, self.adBannerSize.height);
         }
@@ -71,20 +71,23 @@ DefineLazyPropertyInitialization(LayoutAttributesMutableDictionary, layoutAttrib
             
             [self.layoutAttributes setObject:layoutAttributes forKey:layoutAttributes.indexPath];
         }
+        
+        [self.attsArray addObject:layoutAttributes];
     }
     self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, CGRectGetMaxY(lastLayerFrame));//设置contentsize的大小，没这个不能滚动
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
     
-    return [self.layoutAttributes.allValues bk_select:^BOOL(id obj) {
-        UICollectionViewLayoutAttributes *attributes = obj;
-        return CGRectIntersectsRect(rect, attributes.frame);
-    }];
+    return self.attsArray;
+//    return [self.layoutAttributes.allValues bk_select:^BOOL(id obj) {
+//        UICollectionViewLayoutAttributes *attributes = obj;
+//        return CGRectIntersectsRect(rect, attributes.frame);
+//    }];
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {//这个方法没有调用过
+    
     return self.layoutAttributes[indexPath];//字典
     
 }
