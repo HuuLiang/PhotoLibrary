@@ -15,16 +15,10 @@
 #import "PLPaymentInfo.h"
 #import "WeChatPayManager.h"
 
-#import "PLPhotoBrowser.h"
-#import "UIView+GetController.h"
-
 @interface PLPaymentViewController ()
 @property (nonatomic,retain) PLPaymentPopView *popView;
 
 @property (nonatomic,retain) PLPaymentInfo *PLpaymentInfo;
-
-@property (nonatomic,strong) PLPhotoBrowser *browser;
-
 
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
 @property (nonatomic,assign) id<PLPayable> payableObject;
@@ -63,14 +57,6 @@
         @strongify(self);
         
 
-        
-        if([self.delegate respondsToSelector:@selector(dismissViewController)]){
-        
-            [self.delegate dismissViewController];
-        }
-        
-        
-        
         [self hidePayment]; //隐藏支付弹窗
 
         if (self.completionHandler) {
@@ -106,11 +92,11 @@
     self.popView.usage = [payable payableUsage];
     self.view.frame = view.bounds;
     self.view.alpha = 0;
-//    if (view == [UIApplication sharedApplication].keyWindow) {
-//        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
-//    } else {
+    if (view == [UIApplication sharedApplication].keyWindow) {
+        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
+    } else {
         [view addSubview:self.view];
-//    }
+    }
     
     [UIView animateWithDuration:0.25 animations:^{
         self.view.alpha = 1.0;

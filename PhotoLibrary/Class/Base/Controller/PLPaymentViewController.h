@@ -8,16 +8,8 @@
 
 #import "PLBaseViewController.h"
 #import "PLPayable.h"
-@protocol PLPaymentViewControllerDelegate<NSObject>
-
-@optional
-
-- (void)dismissViewController;
-
-@end
 
 @interface PLPaymentViewController : PLBaseViewController
-@property (nonatomic,weak) id<PLPaymentViewControllerDelegate> delegate;
 
 + (instancetype)sharedPaymentVC;
 
