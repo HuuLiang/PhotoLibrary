@@ -58,9 +58,13 @@ DefineLazyPropertyInitialization(NSMutableArray, attsArray);
                  x = CGRectGetMaxX(lastLayerFrame)+self.interItemSpacing;
                  y = lastLayerFrame.origin.y;
                 
-            }else{//放左边
+            }else if(i == 0){//放左边
                  x = 0;
-                 y = CGRectGetMaxY(lastLayerFrame)+self.interItemSpacing;
+                 y = CGRectGetMaxY(lastLayerFrame);
+            }else{//放左边
+                x = 0;
+                y=CGRectGetMaxY(lastLayerFrame)+ self.interItemSpacing;
+            
             }
             
             layoutAttributes.frame = CGRectMake(x, y, self.nomalSize.width, self.nomalSize.height);
