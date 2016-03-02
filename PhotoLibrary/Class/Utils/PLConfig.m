@@ -36,6 +36,7 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
 + (instancetype)configWithName:(NSString *)configName {
     NSString *configPath = [[NSBundle mainBundle] pathForResource:configName ofType:@"plist"];
     NSDictionary *configDic = [[NSDictionary alloc] initWithContentsOfFile:configPath];
+
     PLConfig *config = [[self alloc] initWithDictionary:configDic];
     return config;
 }

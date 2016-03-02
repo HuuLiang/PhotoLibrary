@@ -21,6 +21,7 @@
 @property (nonatomic,readonly) NSString *systemConfigURLPath;
 @property (nonatomic,readonly) NSString *userAccessURLPath;
 @property (nonatomic,readonly) NSString *agreementURLPath;
+@property (nonatomic,readonly) NSString *freePhotoURLPath;
 
 @property (nonatomic,readonly) NSString *systemConfigPayAmount;
 @property (nonatomic,readonly) NSString *systemConfigSpreadTopImage;

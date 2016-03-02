@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BaseURL</key>
-	<string>http://tuku.ihuiyx.com</string>
+	<string>http://120.24.252.114:8096</string>
 	<key>PhotoChannelURLPath</key>
 	<string>/gallery/column.htm</string>
 	<key>PhotoChannelProgramURLPath</key>
@@ -12,6 +12,8 @@
 	<string>/gallery/programUrl.htm</string>
 	<key>VideoURLPath</key>
 	<string>/gallery/hotVideo.htm</string>
+	<key>FreePhotoURLPath</key>
+	<string>/gallery/free.htm</string>
 	<key>SystemConfigURLPath</key>
 	<string>/gallery/systemConfig.htm</string>
 	<key>RegisterURLPath</key>
