@@ -15,7 +15,7 @@
 }
 - (BOOL)fetchFreePhotosWithPageNo:(NSInteger)pageNo completionHandler:(PLFetchFreePhotosCompletionHandler)handler{
     @weakify(self);
-    BOOL ret = [self requestURLPath:@"http://120.24.252.114:8096/gallery/free.htm"
+    BOOL ret = [self requestURLPath:[PLConfig sharedConfig].freePhotoURLPath
                          withParams:@{@"page":@(pageNo)}
                     responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
                 {
