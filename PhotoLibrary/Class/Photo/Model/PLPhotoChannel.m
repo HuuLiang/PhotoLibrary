@@ -12,6 +12,9 @@
 
 - (NSNumber *)payableFee {
 #ifdef DEBUG
+    if (self.payAmount.unsignedIntegerValue == 0) {
+        return nil;
+    }
     return @1;
 #else
     return self.payAmount;
