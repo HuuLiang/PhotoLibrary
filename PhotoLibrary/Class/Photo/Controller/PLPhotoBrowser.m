@@ -21,7 +21,7 @@
 #import "PLFreeViewController.h"
 static const CGFloat kViewFadeAnimationDuration = 0.3;
 
-@interface PLPhotoBrowser () <MWPhotoBrowserDelegate,PLPaymentViewControllerDelegate>
+@interface PLPhotoBrowser () <MWPhotoBrowserDelegate>
 {
     UILabel *_titleLabel;
 }
@@ -58,6 +58,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _isSuccess = NO;
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.font = [UIFont boldSystemFontOfSize:14.];
@@ -148,13 +149,14 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     
     self.view.frame = view.bounds;
     self.view.alpha = 0;
-//
-//    if ([view.subviews containsObject:[PLHudManager manager].hudView]) {
-//        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
-//    }else {
+    
+    UIView *hudView = [PLHudManager manager].hudView;
+    if ([view.subviews containsObject:hudView]) {
+        [view insertSubview:self.view belowSubview:[PLHudManager manager].hudView];
+    }else {
         [view addSubview:self.view];//PhotoVC.View
         
-//    }
+    }
     
     [UIView animateWithDuration:kViewFadeAnimationDuration animations:^{
         self.view.alpha = 1;
@@ -180,10 +182,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         }];
     }
 }
-#pragma mark - PLPaymentViewControllerDelegate
-- (void)dismissViewController{
 
-}
 - (void)setPhotos:(NSArray<MWPhoto *> *)photos {
     _photos = photos;
     
@@ -208,7 +207,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     if ([self.delegate isKindOfClass:[PLFreeViewController class]]&&index>=3){
         
         id<PLPayable>payable = self.fetchedData;
-        
+
         [self payForPayable:payable withCompletionHandler:^(BOOL success) {
             
             _isSuccess = success;
@@ -226,8 +225,6 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     }
     
 }
-
-#warning 如果要查看图片数组时候，当浏览图片到第二页时候，弹出支付界面可以在这个地方设置
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
     
