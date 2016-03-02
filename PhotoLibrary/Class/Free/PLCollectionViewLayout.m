@@ -8,15 +8,15 @@
 
 #import "PLCollectionViewLayout.h"
 static const CGFloat kPhotoCellInterspace = 5;
-typedef NSMutableDictionary<NSIndexPath *,UICollectionViewLayoutAttributes*> LayoutAttributesMutableDictionary;
+//typedef NSMutableDictionary<NSIndexPath *,UICollectionViewLayoutAttributes*> LayoutAttributesMutableDictionary;
 @interface PLCollectionViewLayout ()
-@property (nonatomic,strong) LayoutAttributesMutableDictionary *layoutAttributes;
+//@property (nonatomic,strong) LayoutAttributesMutableDictionary *layoutAttributes;
 @property (nonatomic,assign) CGSize collectionViewContentSize;
 @property (nonatomic,strong) NSMutableArray<UICollectionViewLayoutAttributes*> *attsArray;
 @end
 @implementation PLCollectionViewLayout
 
-DefineLazyPropertyInitialization(LayoutAttributesMutableDictionary, layoutAttributes);
+//DefineLazyPropertyInitialization(LayoutAttributesMutableDictionary, layoutAttributes);
 DefineLazyPropertyInitialization(NSMutableArray, attsArray);
 
 - (CGSize)adBannerSize {
@@ -29,11 +29,12 @@ DefineLazyPropertyInitialization(NSMutableArray, attsArray);
 }
 
 /**准备工作*/
-- (void)prepareLayout
+- (void)prepareLayout//执行一次
 {
     [super prepareLayout];
     
-    [self.layoutAttributes removeAllObjects];
+//    [self.layoutAttributes removeAllObjects];
+    [self.attsArray removeAllObjects];
     
     NSUInteger numberOfItems = [self.collectionView numberOfItemsInSection:0];
     
@@ -69,15 +70,15 @@ DefineLazyPropertyInitialization(NSMutableArray, attsArray);
         if (!CGRectEqualToRect(layoutAttributes.frame, CGRectZero)) {//frame有大小
             lastLayerFrame = layoutAttributes.frame;
             
-            [self.layoutAttributes setObject:layoutAttributes forKey:layoutAttributes.indexPath];
+//            [self.layoutAttributes setObject:layoutAttributes forKey:layoutAttributes.indexPath];
+            [self.attsArray addObject:layoutAttributes];
         }
         
-        [self.attsArray addObject:layoutAttributes];
     }
     self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, CGRectGetMaxY(lastLayerFrame));//设置contentsize的大小，没这个不能滚动
 }
 
-- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
+- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {//会执行两次
     
     return self.attsArray;
 //    return [self.layoutAttributes.allValues bk_select:^BOOL(id obj) {
@@ -86,11 +87,11 @@ DefineLazyPropertyInitialization(NSMutableArray, attsArray);
 //    }];
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {//这个方法没有调用过
-    
-    return self.layoutAttributes[indexPath];//字典
-    
-}
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {//这个方法没有调用过
+//    
+//    return self.layoutAttributes[indexPath];//字典
+//    
+//}
 /**判断是否是广告view*/
 - (BOOL)hasAdBannerForItem:(NSUInteger)item {
     if ([self.delegate respondsToSelector:@selector(collectionView:layout:hasAdBannerForItem:)]) {
