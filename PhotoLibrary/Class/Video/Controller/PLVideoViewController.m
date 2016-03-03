@@ -62,7 +62,7 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
     
     [_collectionView PL_addPagingRefreshWithHandler:^{
         
-        [self loadVideosWithPage:_currentPage+1];
+        [self loadVideosWithPage:_currentPage++];
 
     }];
 }

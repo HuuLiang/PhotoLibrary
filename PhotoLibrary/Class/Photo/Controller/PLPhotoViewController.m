@@ -102,7 +102,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _currentPage = 1;
+    _currentPage = 0;
     /**设置layout*/
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = kPhotoCellInterspace;
@@ -174,24 +174,24 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     self.navigationItem.titleView = _navTitleView;
     
     if (self.currentPhotoChannel) {
-        [self loadPhotosInChannel:self.currentPhotoChannel withPage:1];//第二次之后只会进来，这时候self.currentPhotoChannel已经有值
+        [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
+        @strongify(self)
+            
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
+        }];
+        
     } else {
         _navTitleView.title = @"图库";
         [self loadPhotoChannels];//下载频道
     }
     
-    /**刷新相关*/
-    [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
-        @strongify(self)
 
-        [self loadPhotosInChannel:self.currentPhotoChannel withPage:_currentPage++];
-    }];
     
     [_layoutCollectionView PL_triggerPullToRefresh];
     
     [_layoutCollectionView PL_addPagingRefreshWithHandler:^{
         
-        [self loadPhotosInChannel:self.currentPhotoChannel withPage:_currentPage+1];
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
         
     }];
 
@@ -264,7 +264,9 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
                  return ;
              }
              [_layoutCollectionView PL_endPullToRefresh];
-
+             if(page==1){
+                 [self.photoPrograms removeAllObjects];
+             }
              //保存下载好的数据到数组，
              [self.photoPrograms addObjectsFromArray:programs.programList];//programs.programList就是返回的所有节目的相关内容
              [self->_layoutCollectionView reloadData];
