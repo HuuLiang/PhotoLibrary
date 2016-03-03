@@ -10,6 +10,8 @@
 #import "PLPayable.h"
 
 @interface PLPaymentViewController : PLBaseViewController
+@property (nonatomic) BOOL bottomAdBanner;
+@property (nonatomic) CGFloat adBannerHeight;
 
 + (instancetype)sharedPaymentVC;
 

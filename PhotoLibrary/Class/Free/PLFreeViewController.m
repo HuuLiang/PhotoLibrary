@@ -93,7 +93,7 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
 {
     PLCollectionViewLayout *layout = [[PLCollectionViewLayout alloc] init];
     
-    layout.interItemSpacing = 8;
+    layout.interItemSpacing = 5;
     
     layout.delegate = self;
     
@@ -110,7 +110,8 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
     /**自动布局*/
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(layout.interItemSpacing, layout.interItemSpacing, layout.interItemSpacing, layout.interItemSpacing));
+//            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(layout.interItemSpacing, layout.interItemSpacing, layout.interItemSpacing, layout.interItemSpacing));
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(5, 5, self.adBannerHeight, 5));
         }];
     }
 

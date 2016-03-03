@@ -25,7 +25,7 @@ DefineLazyPropertyInitialization(NSMutableArray, attsArray);
 }
 
 - (CGSize)nomalSize{
-    return CGSizeMake(self.collectionView.frame.size.width/2 - kPhotoCellInterspace , (self.collectionView.frame.size.width/2 - kPhotoCellInterspace)/(345/423.));//345/423.宽高比
+    return CGSizeMake(self.collectionView.frame.size.width/2 - kPhotoCellInterspace*0.5 , (self.collectionView.frame.size.width/2 - kPhotoCellInterspace)/(345/423.));//345/423.宽高比
 }
 
 /**准备工作*/

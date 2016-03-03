@@ -21,11 +21,66 @@
 @import AVFoundation.AVAsset;
 @import AVFoundation.AVAssetImageGenerator;
 
-@interface PLBaseViewController ()
+static const CGFloat kDefaultAdBannerHeight = 30;
+
+@interface PLBaseViewController () <BaiduMobAdViewDelegate>
+//- (UIViewController *)playerVCWithVideo:(PLVideo *)video;
+@property (nonatomic,retain) BaiduMobAdView *adView;
+
 @end
 
 
 @implementation PLBaseViewController
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _adBannerHeight = kDefaultAdBannerHeight;
+    }
+    return self;
+}
+
+- (BaiduMobAdView *)adView {
+#ifdef EnableBaiduMobBannerAd
+    if (_adView) {
+        return _adView;
+    }
+    
+    _adView = [[BaiduMobAdView alloc] init];
+    _adView.frame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
+    _adView.AdUnitTag = [PLConfig sharedConfig].baiduBannerAdId;
+    _adView.AdType = BaiduMobAdViewTypeBanner;
+    _adView.delegate = self;
+    [_adView start];
+#endif
+    return _adView;
+}
+
+- (CGFloat)adBannerHeight {
+#ifdef EnableBaiduMobBannerAd
+    return _adBannerHeight;
+#else
+    return 0;
+#endif
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (_bottomAdBanner && self.adView) {
+        CGRect newFrame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
+        if (!CGRectEqualToRect(newFrame, self.adView.frame)) {
+            if ([self.view.subviews containsObject:self.adView]) {
+                [self.adView removeFromSuperview];
+                self.adView = nil;
+            }
+        }
+        
+        if (![self.view.subviews containsObject:self.adView]) {
+            [self.view addSubview:self.adView];
+        }
+    }
+}
+
 
 /**返回播放视频的控制器*/
 - (UIViewController *)playerVCWithVideo:(PLVideo *)video {
@@ -118,4 +173,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - BaiduMobAdViewDelegate
+
+- (NSString *)publisherId {
+    return [PLConfig sharedConfig].baiduAdAppId;
+}
+
 @end

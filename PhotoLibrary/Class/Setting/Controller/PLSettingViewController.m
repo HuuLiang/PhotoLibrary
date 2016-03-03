@@ -83,7 +83,9 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
     [self.view addSubview:_layoutTableView];
     {
         [_layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+//            make.edges.equalTo(self.view);
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
+
         }];
     }
     
