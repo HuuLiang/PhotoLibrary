@@ -14,7 +14,7 @@
 #ifdef DEBUG
     return @1;
 #else
-    return self.payAmount;
+    return self.payAmount1;
 #endif
 }
 
