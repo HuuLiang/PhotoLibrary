@@ -71,6 +71,13 @@
 		B93E825D1C817D0100C38211 /* FreePhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E825C1C817D0100C38211 /* FreePhotoCell.m */; };
 		B946258A1C884D3D00C78D61 /* baidumobadsdk.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B94625831C884D3D00C78D61 /* baidumobadsdk.bundle */; };
 		B946258B1C884D3D00C78D61 /* libBaiduMobAdSdk64bit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B94625891C884D3D00C78D61 /* libBaiduMobAdSdk64bit.a */; };
+		B96C73B41CB6A45E002AB634 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96C73B11CB6A45E002AB634 /* AlipaySDK.framework */; };
+		B96C73B51CB6A45E002AB634 /* IapppayAlphaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96C73B21CB6A45E002AB634 /* IapppayAlphaKit.framework */; };
+		B96C73B61CB6A45E002AB634 /* IapppayAlphaResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B96C73B31CB6A45E002AB634 /* IapppayAlphaResource.bundle */; };
+		B9F0C15B1CB68F0900B6413E /* KbPaymentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C15A1CB68F0900B6413E /* KbPaymentManager.m */; };
+		B9F0C1611CB6901C00B6413E /* PLPaymentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */; };
+		B9F0C1641CB6905500B6413E /* PLPaymentConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1631CB6905500B6413E /* PLPaymentConfigModel.m */; };
+		B9F90CC41CB6A034007E7524 /* WeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F90CC31CB6A034007E7524 /* WeChatPayQueryOrderRequest.m */; };
 		BC27E3741C1FBC7200BCD6FD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3731C1FBC7200BCD6FD /* WebKit.framework */; };
 		BC27E3761C1FBC8B00BCD6FD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3751C1FBC8B00BCD6FD /* CoreMotion.framework */; };
 		BC27E3781C1FBC9700BCD6FD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3771C1FBC9700BCD6FD /* AdSupport.framework */; };
@@ -255,6 +262,17 @@
 		B94625871C884D3D00C78D61 /* BaiduMobAdVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobAdVideoView.h; sourceTree = "<group>"; };
 		B94625881C884D3D00C78D61 /* BaiduMobAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobAdView.h; sourceTree = "<group>"; };
 		B94625891C884D3D00C78D61 /* libBaiduMobAdSdk64bit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobAdSdk64bit.a; sourceTree = "<group>"; };
+		B96C73B11CB6A45E002AB634 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		B96C73B21CB6A45E002AB634 /* IapppayAlphaKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IapppayAlphaKit.framework; sourceTree = "<group>"; };
+		B96C73B31CB6A45E002AB634 /* IapppayAlphaResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IapppayAlphaResource.bundle; sourceTree = "<group>"; };
+		B9F0C1591CB68F0900B6413E /* KbPaymentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentManager.h; sourceTree = "<group>"; };
+		B9F0C15A1CB68F0900B6413E /* KbPaymentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentManager.m; sourceTree = "<group>"; };
+		B9F0C15F1CB6901C00B6413E /* PLPaymentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfig.h; sourceTree = "<group>"; };
+		B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentConfig.m; sourceTree = "<group>"; };
+		B9F0C1621CB6905500B6413E /* PLPaymentConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfigModel.h; sourceTree = "<group>"; };
+		B9F0C1631CB6905500B6413E /* PLPaymentConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentConfigModel.m; sourceTree = "<group>"; };
+		B9F90CC21CB6A034007E7524 /* WeChatPayQueryOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeChatPayQueryOrderRequest.h; sourceTree = "<group>"; };
+		B9F90CC31CB6A034007E7524 /* WeChatPayQueryOrderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeChatPayQueryOrderRequest.m; sourceTree = "<group>"; };
 		BC27E3731C1FBC7200BCD6FD /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		BC27E3751C1FBC8B00BCD6FD /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		BC27E3771C1FBC9700BCD6FD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -295,10 +313,12 @@
 				B946258B1C884D3D00C78D61 /* libBaiduMobAdSdk64bit.a in Frameworks */,
 				B93E823A1C7F001B00C38211 /* libWeChatSDK.a in Frameworks */,
 				BC27E3741C1FBC7200BCD6FD /* WebKit.framework in Frameworks */,
+				B96C73B51CB6A45E002AB634 /* IapppayAlphaKit.framework in Frameworks */,
 				BCB1AFDC1C0D5408008AA006 /* libsqlite3.tbd in Frameworks */,
 				BCB1AFDA1C0D53FF008AA006 /* libc++.tbd in Frameworks */,
 				BCB1AFD81C0D53F6008AA006 /* libz.tbd in Frameworks */,
 				BCB1AFD61C0D53F0008AA006 /* AVFoundation.framework in Frameworks */,
+				B96C73B41CB6A45E002AB634 /* AlipaySDK.framework in Frameworks */,
 				BCB1AFD41C0D53E8008AA006 /* CoreTelephony.framework in Frameworks */,
 				BCB1AFD21C0D53DE008AA006 /* SystemConfiguration.framework in Frameworks */,
 				1E7191C12321BBD3A2FB1628 /* libPods.a in Frameworks */,
@@ -367,6 +387,7 @@
 		B93E817A1C7F001A00C38211 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				B96C73AF1CB6A45E002AB634 /* iAppPay */,
 				B93E817B1C7F001A00C38211 /* Controller */,
 				B93E81801C7F001A00C38211 /* Model */,
 				B93E81961C7F001B00C38211 /* View */,
@@ -388,8 +409,14 @@
 		B93E81801C7F001A00C38211 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B9F0C1591CB68F0900B6413E /* KbPaymentManager.h */,
+				B9F0C15A1CB68F0900B6413E /* KbPaymentManager.m */,
 				B93E81811C7F001A00C38211 /* PLActivateModel.h */,
 				B93E81821C7F001A00C38211 /* PLActivateModel.m */,
+				B9F0C15F1CB6901C00B6413E /* PLPaymentConfig.h */,
+				B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */,
+				B9F0C1621CB6905500B6413E /* PLPaymentConfigModel.h */,
+				B9F0C1631CB6905500B6413E /* PLPaymentConfigModel.m */,
 				B93E81831C7F001A00C38211 /* PLEncryptedURLRequest.h */,
 				B93E81841C7F001A00C38211 /* PLEncryptedURLRequest.m */,
 				B93E81851C7F001A00C38211 /* PLPayable.h */,
@@ -595,6 +622,8 @@
 				B93E81EB1C7F001B00C38211 /* ApiXml.mm */,
 				B93E81EC1C7F001B00C38211 /* payRequsestHandler.h */,
 				B93E81ED1C7F001B00C38211 /* payRequsestHandler.mm */,
+				B9F90CC21CB6A034007E7524 /* WeChatPayQueryOrderRequest.h */,
+				B9F90CC31CB6A034007E7524 /* WeChatPayQueryOrderRequest.m */,
 				B93E81EE1C7F001B00C38211 /* WeChatPayManager.h */,
 				B93E81EF1C7F001B00C38211 /* WeChatPayManager.m */,
 				B93E81F01C7F001B00C38211 /* WXUtil.h */,
@@ -729,6 +758,24 @@
 				B94625891C884D3D00C78D61 /* libBaiduMobAdSdk64bit.a */,
 			);
 			path = ios_api;
+			sourceTree = "<group>";
+		};
+		B96C73AF1CB6A45E002AB634 /* iAppPay */ = {
+			isa = PBXGroup;
+			children = (
+				B96C73B01CB6A45E002AB634 /* DependenceSDK */,
+				B96C73B21CB6A45E002AB634 /* IapppayAlphaKit.framework */,
+				B96C73B31CB6A45E002AB634 /* IapppayAlphaResource.bundle */,
+			);
+			path = iAppPay;
+			sourceTree = "<group>";
+		};
+		B96C73B01CB6A45E002AB634 /* DependenceSDK */ = {
+			isa = PBXGroup;
+			children = (
+				B96C73B11CB6A45E002AB634 /* AlipaySDK.framework */,
+			);
+			path = DependenceSDK;
 			sourceTree = "<group>";
 		};
 		BCB1AF441C0D51E6008AA006 = {
@@ -866,6 +913,7 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = SEPTC82S94;
 					};
 					BCB1AF651C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -907,6 +955,7 @@
 				BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */,
 				B946258A1C884D3D00C78D61 /* baidumobadsdk.bundle in Resources */,
 				BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */,
+				B96C73B61CB6A45E002AB634 /* IapppayAlphaResource.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1010,6 +1059,7 @@
 				B93E822D1C7F001B00C38211 /* UIView+PLLoading.m in Sources */,
 				B93E820F1C7F001B00C38211 /* PLSystemConfigModel.m in Sources */,
 				B93E82471C7F039F00C38211 /* PLCollectionViewLayout.m in Sources */,
+				B9F0C1641CB6905500B6413E /* PLPaymentConfigModel.m in Sources */,
 				B93E822F1C7F001B00C38211 /* PLErrorHandler.m in Sources */,
 				B93E822B1C7F001B00C38211 /* UIImage+Grayish.m in Sources */,
 				B93E820E1C7F001B00C38211 /* PLSystemConfig.m in Sources */,
@@ -1024,6 +1074,7 @@
 				B93E82181C7F001B00C38211 /* PLPopupMenuController.m in Sources */,
 				B93E82221C7F001B00C38211 /* PLSettingViewController.m in Sources */,
 				B93E82261C7F001B00C38211 /* NSMutableDictionary+SafeCoding.m in Sources */,
+				B9F0C1611CB6901C00B6413E /* PLPaymentConfig.m in Sources */,
 				B93E820B1C7F001B00C38211 /* PLEncryptedURLRequest.m in Sources */,
 				B93E82211C7F001B00C38211 /* PLPaymentInfo.m in Sources */,
 				B93E82201C7F001B00C38211 /* PLPopupMenuButton.m in Sources */,
@@ -1036,8 +1087,10 @@
 				B93E82241C7F001B00C38211 /* PLSettingChannelLockScrollView.m in Sources */,
 				B93E823C1C7F001B00C38211 /* PLVideo.m in Sources */,
 				B93E821A1C7F001B00C38211 /* PLChannelProgramModel.m in Sources */,
+				B9F0C15B1CB68F0900B6413E /* KbPaymentManager.m in Sources */,
 				B93E823D1C7F001B00C38211 /* PLVideoModel.m in Sources */,
 				B93E82251C7F001B00C38211 /* NSDictionary+PLSign.m in Sources */,
+				B9F90CC41CB6A034007E7524 /* WeChatPayQueryOrderRequest.m in Sources */,
 				B93E82321C7F001B00C38211 /* PLStatistics.m in Sources */,
 				B93E825D1C817D0100C38211 /* FreePhotoCell.m in Sources */,
 			);
@@ -1179,9 +1232,15 @@
 			baseConfigurationReference = 6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Utils/iAppPay/DependenceSDK",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Utils/iAppPay",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Base/iAppPay/DependenceSDK",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Base/iAppPay",
+				);
 				INFOPLIST_FILE = PhotoLibrary/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1191,9 +1250,9 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/WeChatSDK",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.appp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bd3622d2-5ef8-49a2-b18a-81b952e4a330";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1202,9 +1261,15 @@
 			baseConfigurationReference = 363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Utils/iAppPay/DependenceSDK",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Utils/iAppPay",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Base/iAppPay/DependenceSDK",
+					"$(PROJECT_DIR)/PhotoLibrary/Class/Base/iAppPay",
+				);
 				INFOPLIST_FILE = PhotoLibrary/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1214,9 +1279,9 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/WeChatSDK",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.appp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bd3622d2-5ef8-49a2-b18a-81b952e4a330";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

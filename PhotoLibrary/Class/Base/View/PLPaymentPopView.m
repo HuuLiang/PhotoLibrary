@@ -147,19 +147,19 @@ static const CGFloat kBackButtonInsets = 10;
                 make.size.mas_equalTo(self.payButtonSize);
             }];
         }
-        /**银联支付button*/
-        UIButton *upPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [upPayButton setImage:[UIImage imageNamed:@"uppay_normal"] forState:UIControlStateNormal];
-        [upPayButton setImage:[UIImage imageNamed:@"uppay_highlight"] forState:UIControlStateHighlighted];
-        [upPayButton addTarget:self action:@selector(onUPPay) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:upPayButton];
-        {
-            [upPayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(self.upPayButtonOrigin.x);
-                make.top.equalTo(self).offset(self.upPayButtonOrigin.y);
-                make.size.mas_equalTo(self.payButtonSize);
-            }];
-        }
+//        /**银联支付button*/
+//        UIButton *upPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [upPayButton setImage:[UIImage imageNamed:@"uppay_normal"] forState:UIControlStateNormal];
+//        [upPayButton setImage:[UIImage imageNamed:@"uppay_highlight"] forState:UIControlStateHighlighted];
+//        [upPayButton addTarget:self action:@selector(onUPPay) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:upPayButton];
+//        {
+//            [upPayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.left.equalTo(self).offset(self.upPayButtonOrigin.x);
+//                make.top.equalTo(self).offset(self.upPayButtonOrigin.y);
+//                make.size.mas_equalTo(self.payButtonSize);
+//            }];
+//        }
         /**返回button*/
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"payment_back"] forState:UIControlStateNormal];
@@ -208,21 +208,21 @@ static const CGFloat kBackButtonInsets = 10;
 /**支付宝支付*/
 - (void)onAlipay {
     if (self.paymentAction) {
-        self.paymentAction(PLPaymentTypeAlipay);
+        self.paymentAction(PLPaymentTypeAlipay,PLPaymentTypeAlipay);
     }
 }
 /**微信支付*/
 - (void)onWeChatPay {
     if (self.paymentAction) {
-        self.paymentAction(PLPaymentTypeWeChatPay);
+        self.paymentAction(PLPaymentTypeWeChatPay,PLPaymentTypeWeChatPay);
     }
 }
 /**银联支付*/
-- (void)onUPPay {
-    if (self.paymentAction) {
-        self.paymentAction(PLPaymentTypeUPPay);
-    }
-}
+//- (void)onUPPay {
+//    if (self.paymentAction) {
+//        self.paymentAction(PLPaymentTypeUPPay);
+//    }
+//}
 /**返回*/
 - (void)onBack {
     if (self.backAction) {

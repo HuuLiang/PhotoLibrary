@@ -103,12 +103,93 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 - (void)viewDidLoad {
     [super viewDidLoad];
     _currentPage = 0;
+    
+    [self setCollectionView];
+    [self setChannelBtn];
+    
+    _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
+    
+    /**设置导航栏的标题所在的图片*/
+    self.navigationItem.titleView = _navTitleView;
+    
+    [self addRefresh];
+    
+    
+}
+
+- (void)addRefresh{
+
+    @weakify(self)
+    if (self.currentPhotoChannel) {
+        [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
+            @strongify(self)
+            
+            [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
+        }];
+        
+    } else {
+        _navTitleView.title = @"图库";
+        [self loadPhotoChannels];//下载频道
+    }
+    
+    
+    
+    [_layoutCollectionView PL_triggerPullToRefresh];
+    
+    [_layoutCollectionView PL_addPagingRefreshWithHandler:^{
+        
+        [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
+        
+    }];
+    
+
+
+}
+- (void)setChannelBtn{
+
+    /**设置设图表面浮动图片*/
+    _floatingButton = [[UIButton alloc] init];
+    UIImage *flickerImage = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"photo_floating_icon_normal"],
+                                                               [UIImage imageNamed:@"photo_floating_icon_highlight"]] duration:0.5];
+    [_floatingButton setImage:flickerImage forState:UIControlStateNormal];
+    [self.view addSubview:_floatingButton];
+    {
+        [_floatingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(87, 88.5));
+            make.left.bottom.equalTo(_layoutCollectionView).insets(UIEdgeInsetsMake(0, 15, 15, 0));
+            
+        }];
+    }
+    
+    /**按钮添加点击响应事件*/
+    @weakify(self);
+    [_floatingButton bk_addEventHandler:^(id sender) {
+        @strongify(self);
+        
+        UIButton *button = sender;
+        
+        //坐标参考点转化
+        CGPoint point = [self.view convertPoint:CGPointMake(button.frame.origin.x,
+                                                            button.frame.origin.y+button.frame.size.height) toView:self.view.window];
+        //调用[self popupMenuController]
+        
+        
+        self.popupMenuController.selectedPhotoChannel = self.currentPhotoChannel;
+        [self.popupMenuController showInWindowInPosition:point];
+    } forControlEvents:UIControlEventTouchUpInside];
+    
+
+
+
+}
+- (void)setCollectionView{
+
     /**设置layout*/
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = kPhotoCellInterspace;
     layout.minimumLineSpacing = kPhotoCellInterspace;
     layout.sectionInset = UIEdgeInsetsMake(kPhotoCellInterspace, kPhotoCellInterspace, kPhotoCellInterspace, kPhotoCellInterspace);
-//    layout.itemSize = ...也可以在代理里面设置单个的item 的size
+    //    layout.itemSize = ...也可以在代理里面设置单个的item 的size
     
     //滚动方向
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -128,76 +209,17 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     [_layoutCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:kFooterReusableIdentifier];
     
     _layoutCollectionView.backgroundColor = self.view.backgroundColor;
-//    _layoutCollectionView.pagingEnabled = YES;
+
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.edges.equalTo(self.view);
+            //            make.edges.equalTo(self.view);
             make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
-
-        }];
-    }
-    
-    /**设置设图表面浮动图片*/
-    _floatingButton = [[UIButton alloc] init];
-    UIImage *flickerImage = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"photo_floating_icon_normal"],
-                                                               [UIImage imageNamed:@"photo_floating_icon_highlight"]] duration:0.5];
-    [_floatingButton setImage:flickerImage forState:UIControlStateNormal];
-    [self.view addSubview:_floatingButton];
-    {
-        [_floatingButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(87, 88.5));
-            make.left.bottom.equalTo(_layoutCollectionView).insets(UIEdgeInsetsMake(0, 15, 15, 0));
-
-        }];
-    }
-    
-    /**按钮添加点击响应事件*/
-    @weakify(self);
-    [_floatingButton bk_addEventHandler:^(id sender) {
-        @strongify(self);
-        
-        UIButton *button = sender;
-        
-        //坐标参考点转化
-        CGPoint point = [self.view convertPoint:CGPointMake(button.frame.origin.x,
-                                                             button.frame.origin.y+button.frame.size.height) toView:self.view.window];
-        //调用[self popupMenuController]
-        
-        
-        self.popupMenuController.selectedPhotoChannel = self.currentPhotoChannel;
-        [self.popupMenuController showInWindowInPosition:point];
-    } forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
-    
-    /**设置导航栏的标题所在的图片*/
-    self.navigationItem.titleView = _navTitleView;
-    
-    if (self.currentPhotoChannel) {
-        [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
-        @strongify(self)
             
-        [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
         }];
-        
-    } else {
-        _navTitleView.title = @"图库";
-        [self loadPhotoChannels];//下载频道
     }
-    
 
-    
-    [_layoutCollectionView PL_triggerPullToRefresh];
-    
-    [_layoutCollectionView PL_addPagingRefreshWithHandler:^{
-        
-        [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
-        
-    }];
 
-    
 }
 #pragma mark －－－下载获取照片的人频道 ...该地方有3个－－－－
 //在模型中下载数据，返回的数据已经存入模型中的数组中
@@ -237,7 +259,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 /**根据图片的频道 获取频道的模型数据*/
 - (void)loadPhotosInChannel:(PLPhotoChannel *)photoChannel withPage:(NSUInteger)page {// shouldReload:(BOOL)shouldReload {
-    
+
     if(self.photoPrograms.count&&self.photoPrograms.count>= self.channelProgramModel.fetchedPrograms.items.integerValue){//刷新到最后一个时候
         
         [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
@@ -305,12 +327,13 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     PLPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotoCellReusableIdentifier forIndexPath:indexPath];
     
-    NSUInteger programIndex = indexPath.section*4+indexPath.row;
-    if (programIndex < self.photoPrograms.count) {
+    
+    if (indexPath.item < self.photoPrograms.count) {
         //self.photoPrograms数组中返回的是加载的图片模型数组
-        PLProgram *program = self.photoPrograms[programIndex];
+        PLProgram *program = self.photoPrograms[indexPath.item];
         cell.imageURL = [NSURL URLWithString:program.coverImg];
     } else {
         cell.imageURL = nil;

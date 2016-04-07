@@ -20,6 +20,13 @@ static NSString *const kPaymentInfoPaymentResultKeyName = @"kuaibov_paymentinfo_
 static NSString *const kPaymentInfoPaymentStatusKeyName = @"kuaibov_paymentinfo_paymentstatus_keyname";
 static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_paymenttime_keyname";
 
+static NSString *const kPaymentInfoPaymentReservedDataKeyName = @"kuaibov_paymentinfo_paymentreserveddata_keyname";
+
+
+static NSString *const kPaymentInfoPaymentAppId = @"kuaibov_paymentinfo_paymentappid_keyname";
+static NSString *const kPaymentInfoPaymentMchId = @"kuaibov_paymentinfo_paymentmchid_keyname";
+static NSString *const kPaymentInfoPaymentSignKey = @"kuaibov_paymentinfo_paymentsignkey_keyname";
+static NSString *const kPaymentInfoPaymentNotifyUrl = @"kuaibov_paymentinfo_paymentnotifyurl_keyname";
 @implementation PLPaymentInfo
 
 #pragma mark 返回加密后的订单号
@@ -44,6 +51,11 @@ static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_pa
     paymentInfo.paymentResult = payment[kPaymentInfoPaymentResultKeyName];
     paymentInfo.paymentStatus = payment[kPaymentInfoPaymentStatusKeyName];
     paymentInfo.paymentTime = payment[kPaymentInfoPaymentTimeKeyName];
+    paymentInfo.reservedData = payment[kPaymentInfoPaymentReservedDataKeyName];
+    paymentInfo.appId = payment[kPaymentInfoPaymentAppId];
+    paymentInfo.mchId = payment[kPaymentInfoPaymentMchId];
+    paymentInfo.notifyUrl = payment[kPaymentInfoPaymentNotifyUrl];
+    paymentInfo.signKey = payment[kPaymentInfoPaymentSignKey];
     return paymentInfo;
 }
 
@@ -60,7 +72,14 @@ static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_pa
     [payment safelySetObject:self.paymentResult forKey:kPaymentInfoPaymentResultKeyName];
     [payment safelySetObject:self.paymentStatus forKey:kPaymentInfoPaymentStatusKeyName];
     [payment safelySetObject:self.paymentTime forKey:kPaymentInfoPaymentTimeKeyName];
+    
+    [payment safelySetObject:self.reservedData forKey:kPaymentInfoPaymentReservedDataKeyName];
+    [payment safelySetObject:self.appId forKey:kPaymentInfoPaymentAppId];
+    [payment safelySetObject:self.mchId forKey:kPaymentInfoPaymentMchId];
+    [payment safelySetObject:self.notifyUrl forKey:kPaymentInfoPaymentNotifyUrl];
+    [payment safelySetObject:self.signKey forKey:kPaymentInfoPaymentSignKey];
     return payment;
+
 }
 
 #pragma mark 保存支付信息

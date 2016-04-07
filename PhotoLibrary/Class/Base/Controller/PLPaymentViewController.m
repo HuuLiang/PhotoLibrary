@@ -14,7 +14,8 @@
 #import "PLProgram.h"
 #import "PLPaymentInfo.h"
 #import "WeChatPayManager.h"
-
+#import "KbPaymentManager.h"
+#import "PLPaymentConfig.h"
 @interface PLPaymentViewController ()
 @property (nonatomic,retain) PLPaymentPopView *popView;
 
@@ -45,24 +46,32 @@
         return _popView;
     }
     
-    @weakify(self);
+   
     _popView = [[PLPaymentPopView alloc] init];
     
-    _popView.paymentAction = ^(PLPaymentType type) {
+    /**
+     *  支付button点击回调
+     */
+     @weakify(self);
+    _popView.paymentAction = ^(PLPaymentType type ,PLPaymentType subType) {
         @strongify(self);
-        [self pay:self.payableObject withPaymentType:type];
+
+        [self pay:self.payableObject withPaymentType:type andSubPaymentType:subType];
+       
     };
+    
+    
     /**返回block激活后进来*/
     _popView.backAction = ^{
         @strongify(self);
         
-
         [self hidePayment]; //隐藏支付弹窗
 
         if (self.completionHandler) {
             self.completionHandler(NO);
         }
     };
+    
     return _popView;
 }
 
@@ -70,7 +79,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     [self.view addSubview:self.popView];
 
@@ -132,100 +141,66 @@
     }];
 }
 
-/**支付方式*/
-- (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType {
+/**
+ *  支付
+ *
+ *  @param payable          遵守id<PLPayable>协议的模块
+ *  @param paymentType 首选支付类型（比如本地的微信支付、微信支付/爱贝支付）
+ *  @param subType     支付方式子类型（微信支付、支付宝支付）
+ */
+- (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType andSubPaymentType:(PLPaymentType)subType{
     @weakify(self);
-    NSString *channelNo = [PLConfig sharedConfig].channelNo;
-    channelNo = [channelNo substringFromIndex:channelNo.length-14];
-    NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
-    NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
-
-    if (paymentType==PLPaymentTypeWeChatPay) {//如果是微信支付
-        PLPaymentInfo *paymentInfo = [[PLPaymentInfo alloc]init];
-        paymentInfo.orderId =orderNo;
-        paymentInfo.orderPrice=[payable payableFee];
-        paymentInfo.contentId = [payable contentId];
-        paymentInfo.paymentType = @(paymentType);
-        paymentInfo.payPointType = [payable contentType];
-        paymentInfo.paymentResult = @(PAYRESULT_UNKNOWN);
-        paymentInfo.paymentStatus = @(PLPaymentStatusPaying);
-        [paymentInfo save];
-        self.PLpaymentInfo=paymentInfo;
+    
+        NSUInteger price = [[payable payableFee] integerValue];
+    
+    /**
+     *  重新调整支付方式
+     */
+    void (^callPay)(PLPaymentType,PLPaymentType) = ^(PLPaymentType type,PLPaymentType subType){
         
-        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:[payable payableFee].unsignedIntegerValue completionHandler:^(PAYRESULT payResult) {
-            @strongify(self);
+        [[KbPaymentManager sharedManager] startPaymentWithType:type subType:paymentType price:price forProgram:payable completionHandler:^(PAYRESULT payResult, PLPaymentInfo *paymentInfo) {
+            @strongify(self)
+            
             [self notifyPaymentResult:payResult withPaymentInfo:self.PLpaymentInfo];
+            
         }];
-    }else{
-        [[PLHudManager manager] showHudWithText:@"无法获取支付信息"];
-//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
-//        IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-//        preSign.consumerId = [PLConfig sharedConfig].channelNo;
-//        preSign.mhtOrderNo = orderNo;
-//        preSign.mhtOrderName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
-//        preSign.mhtOrderType = kPayNowNormalOrderType;
-//        preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
-//#ifdef DEBUG
-//        preSign.mhtOrderAmt = @"10";
-//#else
-//        preSign.mhtOrderAmt = [payable payableFee].stringValue;
-//#endif
-//        preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
-//        preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
-//        preSign.mhtCharset = kPayNowDefaultCharset;
-//        preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
-//        [[PLPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
-//            @strongify(self);
-//            if (success && [PLPaymentSignModel sharedModel].appId.length > 0) {
-//                [IpaynowPluginApi pay:signedData AndScheme:[PLConfig sharedConfig].payNowScheme viewController:self delegate:self];
-//            } else {
-//                [[PLHudManager manager] showHudWithText:@"无法获取支付信息"];
-//            }
-//        }];
+     };
+    
+    if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeWeChat)
+        ) {//爱贝微信支付
+
+        callPay(PLPaymentTypeIAppPay,PLPaymentTypeWeChatPay);
+
+    }else  if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeAlipay)
+               ) {//爱贝支付宝支付
+        
+        callPay(PLPaymentTypeIAppPay,PLPaymentTypeAlipay);
+        
+    }else if([PLPaymentConfig sharedConfig].weixinInfo||[PLPaymentConfig sharedConfig].alipayInfo){//获取的是本地的 支付宝或者微信支付
+    
+        if (paymentType==PLPaymentTypeWeChatPay) {//本地微信
+            
+           callPay(PLPaymentTypeWeChatPay,PLPaymentTypeWeChatPay);
+            
+        }else if (paymentType==PLPaymentTypeAlipay){//本地支付宝
+            
+            [[PLHudManager manager] showHudWithText:@"无法获取支付信息"];
+//               callPay(PLPaymentTypeAlipay,PLPaymentTypeAlipay);
+        }
+        
+    }else{//没有获取任何支付数据
+       [[PLHudManager manager] showHudWithText:@"无法获取支付信息"];
     }
 }
 
-//- (NSDictionary *)paymentTypeMap {
-//    if (_paymentTypeMap) {
-//        return _paymentTypeMap;
-//    }
-//    
-//    _paymentTypeMap = @{@(PLPaymentTypeAlipay):@(PayNowChannelTypeAlipay),
-//                          @(PLPaymentTypeWeChatPay):@(PayNowChannelTypeWeChatPay),
-//                          @(PLPaymentTypeUPPay):@(PayNowChannelTypeUPPay)};
-//    return _paymentTypeMap;
-//}
-//
-//- (PLPaymentType)paymentTypeFromPayNowType:(PayNowChannelType)type {
-//    __block PLPaymentType retType = PLPaymentTypeNone;
-//    [self.paymentTypeMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//        if ([(NSNumber *)obj isEqualToNumber:@(type)]) {
-//            retType = ((NSNumber *)key).unsignedIntegerValue;
-//            *stop = YES;
-//            return ;
-//        }
-//    }];
-//    return retType;
-//}
 
-//- (PayNowChannelType)payNowTypeFromPaymentType:(PLPaymentType)type {
-//    return ((NSNumber *)self.paymentTypeMap[@(type)]).unsignedIntegerValue;
-//}
-//
-//- (PAYRESULT)paymentResultFromPayNowResult:(IPNPayResult)result {
-//    NSDictionary *resultMap = @{@(IPNPayResultSuccess):@(PAYRESULT_SUCCESS),
-//                                @(IPNPayResultFail):@(PAYRESULT_FAIL),
-//                                @(IPNPayResultCancel):@(PAYRESULT_ABANDON),
-//                                @(IPNPayResultUnknown):@(PAYRESULT_UNKNOWN)};
-//    return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
-//}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 /**提交支付结果*/
+/**
+ *  支付完成之后提示并保存支付结果到本地
+ *
+ *  @param result      支付结果不管 成功、失败、还是取消
+ *  @param paymentInfo 支付参数
+ */
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(PLPaymentInfo *)paymentInfo {
     NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
     [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];

@@ -21,7 +21,7 @@
 #import "WeChatPayManager.h"
 #import "PLWeChatPayQueryOrderRequest.h"
 #import "PLPaymentViewController.h"
-
+#import "KbPaymentManager.h"
 @interface PLAppDelegate ()<WXApiDelegate>
 
 @property (nonatomic,retain) PLWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
@@ -145,8 +145,12 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 #pragma mark - Appdelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [WXApi registerApp:[PLConfig sharedConfig].weChatPayAppId];
+
+    //不管是爱贝支付还是微信支付都在这个里面初始化配置
+    [[KbPaymentManager sharedManager] setup];
+
+//    [WXApi registerApp:[PLConfig sharedConfig].weChatPayAppId];
+    
     //初始化错误处理（实际就是注册通知）
     [[PLErrorHandler sharedHandler] initialize];
     
@@ -156,9 +160,8 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     //设置控制器通用的风格
     [self setupCommonStyles];
     
-    [self.window makeKeyAndVisible];//代替下面两行
-//    [self.window makeKeyWindow];
-//    self.window.hidden = NO;
+    [self.window makeKeyAndVisible];
+
     
     if (![PLUtil isRegistered]) {
         [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
@@ -175,34 +178,25 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self checkPayment];
+    
+       [self checkPayment];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
 //当用户通过其它应用启动本应用时，会回调这个方法，url参数是其它应用调用openURL:方法时传过来的。支付完成之后回到本应用
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    [WXApi handleOpenURL:url delegate:self];
+    
+    [[KbPaymentManager sharedManager] handleOpenURL:url];
+//    [WXApi handleOpenURL:url delegate:self];
     return YES;
     
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options
+{
+  [[KbPaymentManager sharedManager] handleOpenURL:url];
+    return YES;
 }
 #pragma mark - 检查是否支付过
 -(void)checkPayment{

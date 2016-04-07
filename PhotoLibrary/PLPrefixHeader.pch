@@ -18,7 +18,8 @@ typedef NS_ENUM(NSUInteger, PLPaymentType) {
     PLPaymentTypeNone,
     PLPaymentTypeAlipay = 1001,
     PLPaymentTypeWeChatPay = 1008,
-    PLPaymentTypeUPPay = 1009
+//    PLPaymentTypeUPPay = 1009
+    PLPaymentTypeIAppPay = 1009
 };
 
 typedef NS_ENUM(NSInteger, PAYRESULT)
@@ -90,6 +91,18 @@ return _##propertyName; \
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 #define kAutoPopupPaymentInScrollingPage (2)
+
+//-------------------ABOUT PAYMENT_CONFIG--------------------------
+#define KB_CHANNEL_NO          [PLConfig sharedConfig].channelNo
+#define KB_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
+#define KB_REST_APP_ID          @"QUBA_2002"
+#define KB_REST_PV              @200
+//http://pay.iqu8.net
+//http://appcdn.mqu8.com
+#define KB_PAYMENT_CONFIG_URL           @"http://pay.iqu8.net/paycenter/payConfig.json"
+#define KB_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
+#define KB_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"
+#define KB_PAYMENT_RESERVE_DATA         [NSString stringWithFormat:@"%@$%@", KB_REST_APP_ID, KB_CHANNEL_NO]
 
 //－－－－－－－－－－－－－－－－－－－－－－－
 #define EnableBaiduMobBannerAd

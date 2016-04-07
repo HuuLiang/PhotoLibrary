@@ -31,15 +31,15 @@ static const CGFloat kImageOffset = 5;
                 make.edges.equalTo(self).insets(UIEdgeInsetsMake(kImageOffset/2, kImageOffset/2, 0, 0));
             }];
         }
+        
+        [self addImageView];
+
     }
     return self;
 }
 
-- (UIImageView *)imageView {
-    if (_imageView) {
-        return _imageView;
-    }
-    
+- (void)addImageView{
+
     _imageView = [[UIImageView alloc] init];
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
     _imageView.clipsToBounds = YES;
@@ -47,7 +47,7 @@ static const CGFloat kImageOffset = 5;
     
     _imageView.layer.borderWidth = 0.5;
     _imageView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
-//    _imageView.layer.borderColor = [UIColor redColor].CGColor
+    //    _imageView.layer.borderColor = [UIColor redColor].CGColor
     ;
     [self addSubview:_imageView];
     {
@@ -55,8 +55,32 @@ static const CGFloat kImageOffset = 5;
             make.edges.equalTo(self).with.insets(UIEdgeInsetsMake(0, 0, kImageOffset, kImageOffset));
         }];
     }
-    return _imageView;
+
+
+
 }
+//- (UIImageView *)imageView {
+//    if (_imageView) {
+//        return _imageView;
+//    }
+//    
+//    _imageView = [[UIImageView alloc] init];
+//    _imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    _imageView.clipsToBounds = YES;
+//    _imageView.layer.cornerRadius = 4;
+//    
+//    _imageView.layer.borderWidth = 0.5;
+//    _imageView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
+////    _imageView.layer.borderColor = [UIColor redColor].CGColor
+//    ;
+//    [self addSubview:_imageView];
+//    {
+//        [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(self).with.insets(UIEdgeInsetsMake(0, 0, kImageOffset, kImageOffset));
+//        }];
+//    }
+//    return _imageView;
+//}
 
 #pragma mark - 设置cell的图片
 - (void)setImageURL:(NSURL *)imageURL {

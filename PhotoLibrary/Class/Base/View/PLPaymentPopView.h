@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^PLPaymentAction)(PLPaymentType type);
+typedef void (^PLPaymentAction)(PLPaymentType type,PLPaymentType subType);
 typedef void (^PLBackAction)(void);
 
 @interface PLPaymentPopView : UIView
