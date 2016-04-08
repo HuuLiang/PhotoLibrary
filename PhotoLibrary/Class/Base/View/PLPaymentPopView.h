@@ -2,26 +2,23 @@
 //  PLPaymentPopView.h
 //  PhotoLibrary
 //
-//  Created by Sean Yue on 15/11/13.
+//  Created by Sean Yue on 15/12/26.
 //  Copyright © 2015年 iqu8. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef void (^PLPaymentAction)(PLPaymentType type,PLPaymentType subType);
-typedef void (^PLBackAction)(void);
+typedef void (^PLPaymentAction)(id sender);
 
-@interface PLPaymentPopView : UIView
+@interface PLPaymentPopView : UITableView
 
-@property (nonatomic) PLPaymentUsage usage;
-@property (nonatomic,copy) PLPaymentAction paymentAction;
-@property (nonatomic,copy) PLBackAction backAction;
-
+@property (nonatomic,retain) UIImage *headerImage;
+//@property (nonatomic,retain) UIImage *footerImage;
+@property (nonatomic,copy) PLPaymentAction closeAction;
 @property (nonatomic) NSNumber *showPrice;
-@property (nonatomic,readonly) CGSize contentSize;
+@property (nonatomic,retain) UIColor *priceColor;
 
-+ (instancetype)sharedInstance;
+- (void)addPaymentWithImage:(UIImage *)image title:(NSString *)title available:(BOOL)available action:(PLPaymentAction)action;
+- (CGFloat)viewHeightRelativeToWidth:(CGFloat)width;
 
-- (void)showInView:(UIView *)view;
-- (void)hide;
 @end

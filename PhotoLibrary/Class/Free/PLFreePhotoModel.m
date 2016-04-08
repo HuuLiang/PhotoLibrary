@@ -15,7 +15,7 @@
 }
 - (BOOL)fetchFreePhotosWithPageNo:(NSInteger)pageNo completionHandler:(PLFetchFreePhotosCompletionHandler)handler{
     @weakify(self);
-    BOOL ret = [self requestURLPath:[PLConfig sharedConfig].freePhotoURLPath
+    BOOL ret = [self requestURLPath:PL_FREE_PHOTO_URL
                          withParams:@{@"page":@(pageNo)}
                     responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
                 {

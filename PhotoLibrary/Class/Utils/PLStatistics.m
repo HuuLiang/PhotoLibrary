@@ -28,7 +28,7 @@ static NSString *const kUnlockPhotoChannelEventId = @"PL_UNLOCK_CHANNEL";
     if (bundleVersion) {
         [MobClick setAppVersion:bundleVersion];
     }
-    [MobClick startWithAppkey:[PLConfig sharedConfig].umengAppId reportPolicy:BATCH channelId:[PLConfig sharedConfig].channelNo];
+    [MobClick startWithAppkey:PL_UMENG_APP_ID reportPolicy:BATCH channelId:PL_CHANNEL_NO];
 }
 /**统计打开app相册的访问*/
 + (void)statUnlockAlbum:(PLChannelPrograms *)album {
@@ -64,7 +64,7 @@ static NSString *const kUnlockPhotoChannelEventId = @"PL_UNLOCK_CHANNEL";
 }
 /**获取渠道*/
 + (NSDictionary *)baseAttributes {
-    return @{@"渠道号":[PLConfig sharedConfig].channelNo};
+    return @{@"渠道号":PL_CHANNEL_NO};
 }
 /**统计支付访问*/
 + (void)statPayment:(id<PLPayable>)payable {

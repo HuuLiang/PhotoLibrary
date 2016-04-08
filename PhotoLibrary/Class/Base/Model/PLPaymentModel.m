@@ -48,15 +48,15 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 /**给出参数，加密*/
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params {
     
-    NSDictionary *signParams = @{  @"appId":[PLUtil appId],
+    NSDictionary *signParams = @{  @"appId":PL_REST_APP_ID,
                                    @"key":kSignKey,
                                    @"imsi":@"999999999999999",
-                                   @"channelNo":[PLConfig sharedConfig].channelNo,
-                                   @"pV":[PLUtil pV] };
+                                   @"channelNo":[PLConfiguration sharedConfig].channelNo,
+                                   @"pV":PL_REST_PV};
     
     NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];//返回的是加密后的字符串
     NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"]];//转码加密..后的数据
-    return @{@"data":encryptedDataString, @"appId":[PLUtil appId]};
+    return @{@"data":encryptedDataString, @"appId":PL_REST_APP_ID};
 }
 
 
@@ -104,18 +104,18 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
                              @"payMoney":paymentInfo.orderPrice.stringValue,
-                             @"channelNo":[PLConfig sharedConfig].channelNo,
+                             @"channelNo":[PLConfiguration sharedConfig].channelNo,
                              @"contentId":paymentInfo.contentId.stringValue ?: @"0",
                              @"contentType":paymentInfo.contentType.stringValue ?: @"0",
                              @"pluginType":paymentInfo.paymentType,
                              @"payPointType":paymentInfo.payPointType ?: @"1",
-                             @"appId":[PLUtil appId],
+                             @"appId":PL_REST_APP_ID,
                              @"versionNo":@([PLUtil appVersion]),
                              @"status":statusDic[paymentInfo.paymentResult],
-                             @"pV":[PLUtil pV],
+                             @"pV":PL_REST_PV,
                              @"payTime":paymentInfo.paymentTime};   //支付参数
     
-    BOOL success = [super requestURLPath:[PLConfig sharedConfig].paymentURLPath
+    BOOL success = [super requestURLPath:PL_PAYMENT_COMMIT_URL
                               withParams:params
                          responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
                     {

@@ -34,7 +34,7 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                       __IPHONE_OS_VERSION_MAX_ALLOWED / 10000,
                       (__IPHONE_OS_VERSION_MAX_ALLOWED % 10000) / 100];
     
-    NSDictionary *params = @{@"cn":[PLConfig sharedConfig].channelNo,
+    NSDictionary *params = @{@"cn":[PLConfiguration sharedConfig].channelNo,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
                              @"sms":@"00000000000",
@@ -47,7 +47,7 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                              @"appV":@([PLUtil appVersion]).stringValue,
                              @"appVN":@""};
     
-    BOOL success = [self requestURLPath:[PLConfig sharedConfig].registerURLPath withParams:params responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
+    BOOL success = [self requestURLPath:PL_ACTIVATE_URL withParams:params responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
         NSString *userId;
         if (respStatus == PLURLResponseSuccess) {//请求数据成功
 

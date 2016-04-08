@@ -13,35 +13,6 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSUInteger, PLPaymentType) {
-    PLPaymentTypeNone,
-    PLPaymentTypeAlipay = 1001,
-    PLPaymentTypeWeChatPay = 1008,
-//    PLPaymentTypeUPPay = 1009
-    PLPaymentTypeIAppPay = 1009
-};
-
-typedef NS_ENUM(NSInteger, PAYRESULT)
-{
-    PAYRESULT_SUCCESS   = 0,
-    PAYRESULT_FAIL      = 1,
-    PAYRESULT_ABANDON   = 2,
-    PAYRESULT_UNKNOWN   = 3
-};
-
-typedef NS_ENUM(NSUInteger, PLPaymentUsage) {
-    PLPaymentForUnknown,
-    PLPaymentForPhotoChannel,
-    PLPaymentForPhotoAlbum,
-    PLPaymentForVideo
-};
-
-typedef NS_ENUM(NSUInteger, PLChannelCategory) {
-    PLPhotoChannelCategory,
-    PLVideoChannelCategory
-};
-
 #import <Aspects.h>
 #import <Masonry.h>
 #import <BlocksKit.h>
@@ -49,6 +20,7 @@ typedef NS_ENUM(NSUInteger, PLChannelCategory) {
 #import <UIButton+WebCache.h>
 #import <UIImageView+WebCache.h>
 #import <UIImage+ImageWithColor.h>
+#import "PLCommonDef.h"
 #import "NSObject+Properties.h"
 #import "PLExtensions.h"
 #import "PLConfig.h"
@@ -57,61 +29,7 @@ typedef NS_ENUM(NSUInteger, PLChannelCategory) {
 #import "PLHudManager.h"
 #import "PLErrorHandler.h"
 #import "PLStatistics.h"
+#import "PLPaymentManager.h"
 
-// DLog
-#ifdef  DEBUG
-#define DLog(fmt,...) {NSLog((@"%s [Line:%d]" fmt),__PRETTY_FUNCTION__,__LINE__,##__VA_ARGS__);}
-#else
-#define DLog(...)
-#endif
-
-#define DefineLazyPropertyInitialization(propertyType, propertyName) \
--(propertyType *)propertyName { \
-if (_##propertyName) { \
-return _##propertyName; \
-} \
-_##propertyName = [[propertyType alloc] init]; \
-return _##propertyName; \
-}
-
-#define kPaymentNotificationName  @"photolib_payment_notification"
-
-//#define kPaidNotificationName @"photolib_paid_notification"
-#define kPaymentNotificationOrderNoKey @"photolib_payment_notification_order_key"
-#define kPaymentNotificationPriceKey @"photolib_payment_notification_price_key"
-#define kPaymentNotificationPaymentType @"photolib_payment_notification_payment_type"
-
-#define kPaymentInfoKeyName @"PL_paymentinfo_keyname"
-
-
-#define kPhotoChannelIdKeyName @"PhotoChannelIdKeyName"
-#define kDefaultPageSize  20
-
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
-
-#define kAutoPopupPaymentInScrollingPage (2)
-
-//-------------------ABOUT PAYMENT_CONFIG--------------------------
-#define KB_CHANNEL_NO          [PLConfig sharedConfig].channelNo
-#define KB_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
-#define KB_REST_APP_ID          @"QUBA_2002"
-#define KB_REST_PV              @200
-//http://pay.iqu8.net
-//http://appcdn.mqu8.com
-#define KB_PAYMENT_CONFIG_URL           @"http://pay.iqu8.net/paycenter/payConfig.json"
-#define KB_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
-#define KB_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"
-#define KB_PAYMENT_RESERVE_DATA         [NSString stringWithFormat:@"%@$%@", KB_REST_APP_ID, KB_CHANNEL_NO]
-
-//－－－－－－－－－－－－－－－－－－－－－－－
-#define EnableBaiduMobBannerAd
-#ifdef EnableBaiduMobBannerAd
-#import "BaiduMobAdView.h"
-#else
-@protocol BaiduMobAdViewDelegate <NSObject>
-@end
-typedef UIView BaiduMobAdView;
-#endif
 //－－－－－－－－－－－－－－－－－－－－－－－－－
 #endif /* PLPrefixHeader_pch */

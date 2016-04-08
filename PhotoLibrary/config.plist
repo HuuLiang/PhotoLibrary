@@ -2,51 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BaseURL</key>
-	<string>http://tuku.ihuiyx.com</string>
-	<key>PhotoChannelURLPath</key>
-	<string>/gallery/column.htm</string>
-	<key>PhotoChannelProgramURLPath</key>
-	<string>/gallery/program.htm</string>
-	<key>PhotoUrlListURLPath</key>
-	<string>/gallery/programUrl.htm</string>
-	<key>VideoURLPath</key>
-	<string>/gallery/hotVideo.htm</string>
-	<key>FreePhotoURLPath</key>
-	<string>/gallery/free.htm</string>
-	<key>SystemConfigURLPath</key>
-	<string>/gallery/systemConfig.htm</string>
-	<key>RegisterURLPath</key>
-	<string>/gallery/activat.htm</string>
-	<key>UserAccessURLPath</key>
-	<string>/gallery/userAccess.htm</string>
-	<key>AlipayConfigURLPath</key>
-	<string>/gallery/aliConfig.htm</string>
-	<key>WeChatPayConfigURLPath</key>
-	<string>/gallery/weixinConfig.htm</string>
-	<key>AgreementURLPath</key>
-	<string>/gallery/agreement.html</string>
 	<key>ChannelNo</key>
 	<string>QB_ATLAS_TEST_T0000001</string>
-	<key>SystemConfigPayAmount</key>
-	<string>PAY_AMOUNT</string>
-	<key>SystemConfigSpreadTopImage</key>
-	<string>SPREAD_TOP_IMG</string>
-	<key>PayNowScheme</key>
-	<string>comphotolibraryapppaynowurlscheme</string>
-	<key>WeChatPayAppId</key>
-	<string>wx4af04eb5b3dbfb56</string>
-	<key>WeChatPayMchId</key>
-	<string>1281148901</string>
-	<key>WeChatPayPrivateKey</key>
-	<string>hangzhouquba20151112qwertyuiopas</string>
-	<key>WeChatPayNotifyURL</key>
-	<string>http://phas.ihuiyx.com/pd-has/notifyWx.json</string>
-	<key>BaiduAdAppId</key>
-	<string>d1c5f7d1</string>
-	<key>BaiduBannerAdId</key>
-	<string>2367758</string>
-	<key>UmengAppId</key>
-	<string>566e5951e0f55a8e94000436</string>
 </dict>
 </plist>

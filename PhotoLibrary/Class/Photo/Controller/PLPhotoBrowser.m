@@ -208,7 +208,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         
         id<PLPayable>payable = self.fetchedData;
 
-        [self payForPayable:payable withCompletionHandler:^(BOOL success) {
+        [self payForPayable:payable withCompletionHandler:^(BOOL success, id obj) {
             
             _isSuccess = success;
             
@@ -234,7 +234,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         
         id<PLPayable>payable = self.fetchedData;
         
-        [self payForPayable:payable withCompletionHandler:^(BOOL success) {
+        [self payForPayable:payable withCompletionHandler:^(BOOL success, id obj) {
             if (success) {
                 //如果没有支付，弹出支付界面
             }

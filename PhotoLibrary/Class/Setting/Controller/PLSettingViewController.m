@@ -50,7 +50,7 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
         @strongify(self);
         if (channelCategory == PLPhotoChannelCategory) {
             if (![PLPaymentUtil isPaidForPayable:self.photoChannelModel.fetchedChannels[index]]) {
-                [self payForPayable:self.photoChannelModel.fetchedChannels[index] withCompletionHandler:^(BOOL success) {
+                [self payForPayable:self.photoChannelModel.fetchedChannels[index] withCompletionHandler:^(BOOL success, id obj) {
                     if (success) {
                         [self loadPhotoChannels];
                     }
@@ -58,7 +58,7 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
             }
         } else {
             if (![PLPaymentUtil isPaidForPayable:self.videoChannelModel.fetchedVideos]) {
-                [self payForPayable:self.videoChannelModel.fetchedVideos withCompletionHandler:^(BOOL success) {
+                [self payForPayable:self.videoChannelModel.fetchedVideos withCompletionHandler:^(BOOL success, id obj) {
                     if (success) {
                         [self loadVideoChannels];
                     }
@@ -95,8 +95,8 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
 //    }];
     
     [self.navigationController.navigationBar bk_whenTouches:1 tapped:5 handler:^{
-        NSString *baseURLString = [[PLConfig sharedConfig].baseURL stringByReplacingCharactersInRange:NSMakeRange(0, [PLConfig sharedConfig].baseURL.length-6) withString:@"******"];
-        [[PLHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@", baseURLString, [PLConfig sharedConfig].channelNo]];
+        NSString *baseURLString = [PL_BASE_URL stringByReplacingCharactersInRange:NSMakeRange(0, PL_BASE_URL.length-6) withString:@"******"];
+        [[PLHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@\npV:%@", baseURLString, PL_CHANNEL_NO, PL_REST_PV]];
     }];
 }
 
@@ -120,7 +120,7 @@ DefineLazyPropertyInitialization(PLVideoModel, videoChannelModel)
     [self loadPhotoChannels];
     [self loadVideoChannels];
     
-    NSString *agreementUrlString = [[PLConfig sharedConfig].baseURL stringByAppendingString:[PLConfig sharedConfig].agreementURLPath];
+    NSString *agreementUrlString = [PL_BASE_URL stringByAppendingString:PL_AGREEMENT_URL];
     NSURLRequest *agreementRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:agreementUrlString]];
     [self.agreementWebView loadRequest:agreementRequest];
 }

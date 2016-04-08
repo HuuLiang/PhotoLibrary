@@ -18,7 +18,7 @@
             completionHandler:(PLFetchVideosCompletionHandler)handler
 {
     @weakify(self);
-    BOOL ret = [self requestURLPath:[PLConfig sharedConfig].videoURLPath
+    BOOL ret = [self requestURLPath:PL_VIDEO_URL
                          withParams:@{@"page":@(pageNo)}
                     responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
     {

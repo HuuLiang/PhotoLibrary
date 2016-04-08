@@ -47,7 +47,7 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     
     _adView = [[BaiduMobAdView alloc] init];
     _adView.frame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
-    _adView.AdUnitTag = [PLConfig sharedConfig].baiduBannerAdId;
+    _adView.AdUnitTag = PL_BAIDU_BANNER_ID;
     _adView.AdType = BaiduMobAdViewTypeBanner;
     _adView.delegate = self;
     [_adView start];
@@ -129,17 +129,17 @@ static const CGFloat kDefaultAdBannerHeight = 30;
 /**接收到支付通知*/
 - (void)onPaymentNotification:(NSNotification *)notification {}
 
-- (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler {
+- (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler {
     if ([payable payableUsage] == PLPaymentForUnknown) {
         if (handler) {//支付失败，回调为NO
-            handler(NO);
+            handler(NO, nil);
         }
         return ;
     }
     
     if ([PLPaymentUtil isPaidForPayable:payable]) {//PLPaymentUtil查看，保存支付纪录的类
         if (handler) {//支付成功,回调为YES
-            handler(YES);
+            handler(YES, payable);
         }
         return ;
     }
@@ -178,7 +178,7 @@ static const CGFloat kDefaultAdBannerHeight = 30;
 #pragma mark - BaiduMobAdViewDelegate
 
 - (NSString *)publisherId {
-    return [PLConfig sharedConfig].baiduAdAppId;
+    return PL_BAIDU_AD_APP_ID;
 }
 
 @end

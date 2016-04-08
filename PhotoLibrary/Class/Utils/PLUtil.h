@@ -25,33 +25,15 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (void)setRegisteredWithUserId:(NSString *)userId;
 
 + (NSArray<PLPaymentInfo *> *)payingPaymentInfos;
-
-//+ (BOOL)isPaid;
-//+ (void)setPaid;
-//+ (void)setPaidPendingWithOrder:(NSArray *)order;
-//
-//+ (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo;
-//+ (NSDictionary<NSString *, id> *)payingOrder;
-//
-//+ (void)setPaidForPhotoChannel:(NSNumber *)columnId;
-//+ (BOOL)isPaidForPhotoChannel:(NSNumber *)columnId;
-//
-//// Methods for convenience
-//+ (NSString *)payingOrderNo;
-//+ (PLPaymentType)payingOrderPaymentType;
-//+ (void)setPayingOrderWithOrderNo:(NSString *)orderNo paymentType:(PLPaymentType)paymentType;
++ (NSArray<PLPaymentInfo *> *)paidNotProcessedPaymentInfos;
++ (BOOL)isPaid;
 
 + (NSString *)accessId;
-
-+ (NSArray *)orderForSavePending; // For last time not saved successfully to remote
-
 + (NSString *)userId;
 + (NSString *)deviceName;
 + (NSUInteger)appVersion;
-+ (NSString *)appId;
-+ (NSNumber *)pV;
-+ (NSArray<PLPaymentInfo *> *)paidNotProcessedPaymentInfos;
-+ (BOOL)PLisPaid;
+
+
 
 // For test only
 + (void)removeKeyChainEntries;

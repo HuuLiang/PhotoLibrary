@@ -31,7 +31,7 @@
     }
     
     @weakify(self);
-    BOOL ret = [super requestURLPath:[PLConfig sharedConfig].userAccessURLPath
+    BOOL ret = [super requestURLPath:PL_USER_ACCESS_URL
                          withParams:@{@"userId":userId,@"accessId":[PLUtil accessId]}
                     responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
     {

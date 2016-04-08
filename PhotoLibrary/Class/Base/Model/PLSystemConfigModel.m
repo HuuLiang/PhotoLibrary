@@ -33,8 +33,7 @@
 /**获取系统配置参数*/
 - (BOOL)fetchSystemConfigWithCompletionHandler:(PLFetchSystemConfigCompletionHandler)handler {
     @weakify(self);
-    BOOL success = [self requestURLPath:[PLConfig sharedConfig].systemConfigURLPath
-                         standbyURLPath:[PLConfig sharedStandbyConfig].systemConfigURLPath
+    BOOL success = [self requestURLPath:PL_SYSTEM_CONFIG_URL
                              withParams:nil
                         responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
     {
@@ -46,9 +45,9 @@
             [resp.confis enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 PLSystemConfig *config = obj;
                 
-                if ([config.name isEqualToString:[PLConfig sharedConfig].systemConfigPayAmount]) {
+                if ([config.name isEqualToString:PL_SYSTEM_CONFIG_PAY_AMOUNT]) {
                     self.payAmount = config.value.doubleValue / 100.;
-                } else if ([config.name isEqualToString:[PLConfig sharedConfig].systemConfigSpreadTopImage]) {
+                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_SPREAD_TOP_IMAGE]) {
                     self.spreadTopImage = config.value;
                 }
             }];

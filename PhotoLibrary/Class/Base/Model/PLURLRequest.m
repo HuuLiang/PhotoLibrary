@@ -56,11 +56,11 @@
 }
 
 - (NSURL *)baseURL {
-    return [NSURL URLWithString:[PLConfig sharedConfig].baseURL];
+    return [NSURL URLWithString:PL_BASE_URL];
 }
 
 - (NSURL *)standbyBaseURL {
-    return [NSURL URLWithString:[PLConfig sharedStandbyConfig].baseURL];
+    return nil;
 }
 
 - (BOOL)shouldPostErrorNotification {

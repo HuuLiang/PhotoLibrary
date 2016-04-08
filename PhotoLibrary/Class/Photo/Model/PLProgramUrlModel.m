@@ -29,7 +29,7 @@
     @weakify(self);
     
     NSDictionary *params = @{@"programId":programId, @"urlPage":@(pageNo), @"urlPageSize":@(pageSize)};
-    BOOL ret = [self requestURLPath:[PLConfig sharedConfig].photoUrlListURLPath
+    BOOL ret = [self requestURLPath:PL_PHOTO_URL_LIST_URL
                          withParams:params
                     responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
     {

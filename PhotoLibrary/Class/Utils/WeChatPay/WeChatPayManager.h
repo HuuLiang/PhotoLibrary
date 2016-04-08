@@ -17,7 +17,5 @@ typedef void (^WeChatPayCompletionHandler)(PAYRESULT payResult);
  *  新的API
  */
 - (void)startWithPayment:(PLPaymentInfo *)paymentInfo completionHandler:(WeChatPayCompletionHandler)handler;
-
-- (void)startWeChatPayWithOrderNo:(NSString *)orderNo price:(NSUInteger)price completionHandler:(WeChatPayCompletionHandler)handler;
 - (void)sendNotificationByResult:(PAYRESULT)result;
 @end

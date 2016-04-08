@@ -25,7 +25,6 @@ static const CGFloat kPadding = 5;
 
 + (instancetype)buttonWithTitle:(NSString *)title imageURL:(NSURL *)imageURL {
     PLPopupMenuButton *button = [[self alloc] init];
-#warning ----------
     return button;
 }
 

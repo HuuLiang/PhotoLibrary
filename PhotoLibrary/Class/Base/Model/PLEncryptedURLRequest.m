@@ -19,11 +19,11 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
 }
 
 + (NSDictionary *)commonParams {
-    return @{@"appId":[PLUtil appId],
+    return @{@"appId":PL_REST_APP_ID,
              kEncryptionKeyName:[self class].signKey,
              @"imsi":@"999999999999999",
-             @"channelNo":[PLConfig sharedConfig].channelNo,
-             @"pV":[PLUtil pV]
+             @"channelNo":PL_CHANNEL_NO,
+             @"pV":PL_REST_PV
              };
 }
 

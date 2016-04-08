@@ -10,13 +10,11 @@
 #import "PLPayable.h"
 
 @interface PLPaymentViewController : PLBaseViewController
-@property (nonatomic) BOOL bottomAdBanner;
-@property (nonatomic) CGFloat adBannerHeight;
 
 + (instancetype)sharedPaymentVC;
 
 /**在哪个界面上显示支付弹窗*/
-- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler;
+- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler;
 - (void)hidePayment;
 
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(PLPaymentInfo *)paymentInfo;

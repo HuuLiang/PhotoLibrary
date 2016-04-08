@@ -90,7 +90,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         @strongify(self);
         
         [self.popupMenuController hide];
-        [self payForPayable:selectedChannel withCompletionHandler:^(BOOL success) {
+        [self payForPayable:selectedChannel withCompletionHandler:^(BOOL success, id obj) {
             if (success) {
                 self.currentPhotoChannel = selectedChannel;
                 [self.popupMenuController hide];
@@ -371,7 +371,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 //#else
     @weakify(self);
         if (indexOfAlbum < self.photoPrograms.count) {
-            [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success) {
+            [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success, id obj) {
                 @strongify(self);
                 if (success) {//如果支付成功打开图片浏览器
                     PLChannelProgram *photoProgram = self.photoPrograms[indexOfAlbum];

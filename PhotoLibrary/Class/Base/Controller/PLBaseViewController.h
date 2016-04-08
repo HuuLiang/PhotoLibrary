@@ -10,14 +10,11 @@
 #import "PLPayable.h"
 
 @class PLVideo;
-
-typedef void (^PLPaymentCompletionHandler)(BOOL success);
-
 @interface PLBaseViewController : UIViewController
 @property (nonatomic) BOOL bottomAdBanner;
 @property (nonatomic) CGFloat adBannerHeight;
 
-- (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler;
+- (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler;
 - (void)playVideo:(PLVideo *)video;
 - (void)onPaymentNotification:(NSNotification *)notification;
 

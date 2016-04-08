@@ -24,7 +24,7 @@
 
 - (BOOL)fetchPhotoChannelsWithCompletionHandler:(PLFetchPhotoChannelsCompletionHandler)handler {
     @weakify(self);
-    BOOL ret = [self requestURLPath:[PLConfig sharedConfig].photoChannelURLPath withParams:nil responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
+    BOOL ret = [self requestURLPath:PL_PHOTO_CHANNEL_URL withParams:nil responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);
         if (respStatus == PLURLResponseSuccess) {//返回结果成功
             PLPhotoChannelResponse *channelResp = self.response;

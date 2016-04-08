@@ -9,7 +9,6 @@
 #import "PLAppDelegate.h"
 #import "PLPhotoViewController.h"
 #import "PLVideoViewController.h"
-/**新添加的免费控制器*/
 #import "PLFreeViewController.h"
 #import "PLSettingViewController.h"
 #import "PLErrorHandler.h"
@@ -17,20 +16,13 @@
 #import "PLPaymentModel.h"
 #import "PLUserAccessModel.h"
 #import "PLSystemConfigModel.h"
-#import "WXApi.h"
-#import "WeChatPayManager.h"
-#import "PLWeChatPayQueryOrderRequest.h"
-#import "PLPaymentViewController.h"
-#import "KbPaymentManager.h"
-@interface PLAppDelegate ()<WXApiDelegate>
+#import "PLPaymentManager.h"
 
-@property (nonatomic,retain) PLWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
+@interface PLAppDelegate ()
 
 @end
 
 @implementation PLAppDelegate
-
-DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
 #pragma mark - 初始化window
 - (UIWindow *)window {
@@ -147,10 +139,8 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     //不管是爱贝支付还是微信支付都在这个里面初始化配置
-    [[KbPaymentManager sharedManager] setup];
+    [[PLPaymentManager sharedManager] setup];
 
-//    [WXApi registerApp:[PLConfig sharedConfig].weChatPayAppId];
-    
     //初始化错误处理（实际就是注册通知）
     [[PLErrorHandler sharedHandler] initialize];
     
@@ -179,59 +169,22 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-       [self checkPayment];
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[PLPaymentManager sharedManager] checkPayment];
 }
 
 
 //当用户通过其它应用启动本应用时，会回调这个方法，url参数是其它应用调用openURL:方法时传过来的。支付完成之后回到本应用
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    [[KbPaymentManager sharedManager] handleOpenURL:url];
-//    [WXApi handleOpenURL:url delegate:self];
+    [[PLPaymentManager sharedManager] handleOpenURL:url];
     return YES;
-    
 }
+
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options
 {
-  [[KbPaymentManager sharedManager] handleOpenURL:url];
+    [[PLPaymentManager sharedManager] handleOpenURL:url];
     return YES;
 }
-#pragma mark - 检查是否支付过
--(void)checkPayment{
-    NSArray<PLPaymentInfo *> *payingPaymentInfos = [PLUtil payingPaymentInfos];
-    [payingPaymentInfos enumerateObjectsUsingBlock:^(PLPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        PLPaymentType paymentType = obj.paymentType.unsignedIntegerValue;
-        if (paymentType == PLPaymentTypeWeChatPay) {
-            [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
-                if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    PLPaymentViewController *paymentVC = [PLPaymentViewController sharedPaymentVC];
-                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
-                }
-            }];
-        }
-    }];
-}
-
-#pragma mark - WeChat delegate
-
-- (void)onReq:(BaseReq *)req {
-    
-}
-
-- (void)onResp:(BaseResp *)resp {
-    if([resp isKindOfClass:[PayResp class]]){
-        PAYRESULT payResult;
-        if (resp.errCode == WXErrCodeUserCancel) {
-            payResult = PAYRESULT_ABANDON;
-        } else if (resp.errCode == WXSuccess) {
-            payResult = PAYRESULT_SUCCESS;
-        } else {
-            payResult = PAYRESULT_FAIL;
-        }
-        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
-    }
-}
-
 @end

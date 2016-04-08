@@ -13,9 +13,9 @@
 #import <objc/runtime.h>
 #import "PLProgram.h"
 #import "PLPaymentInfo.h"
-#import "WeChatPayManager.h"
-#import "KbPaymentManager.h"
+#import "PLPaymentManager.h"
 #import "PLPaymentConfig.h"
+
 @interface PLPaymentViewController ()
 @property (nonatomic,retain) PLPaymentPopView *popView;
 
@@ -24,7 +24,7 @@
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
 @property (nonatomic,assign) id<PLPayable> payableObject;
 
-@property (nonatomic,copy) PLPaymentCompletionHandler completionHandler;
+@property (nonatomic,copy) PLCompletionHandler completionHandler;
 @end
 
 @implementation PLPaymentViewController
@@ -46,36 +46,38 @@
         return _popView;
     }
     
-   
+    @weakify(self);
+    void (^Pay)(PLPaymentType type, PLPaymentType subType) = ^(PLPaymentType type, PLPaymentType subType)
+    {
+        @strongify(self);
+        [self pay:self.payableObject withPaymentType:type andSubPaymentType:subType];
+        [self hidePayment];
+    };
+    
     _popView = [[PLPaymentPopView alloc] init];
     
-    /**
-     *  支付button点击回调
-     */
-     @weakify(self);
-    _popView.paymentAction = ^(PLPaymentType type ,PLPaymentType subType) {
-        @strongify(self);
+    if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & PLIAppPayTypeWeChat)
+        || [PLPaymentConfig sharedConfig].weixinInfo) {
+        BOOL useBuildInWeChatPay = [PLPaymentConfig sharedConfig].weixinInfo != nil;
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
+            Pay(useBuildInWeChatPay?PLPaymentTypeWeChatPay:PLPaymentTypeIAppPay, useBuildInWeChatPay?PLPaymentTypeNone:PLPaymentTypeWeChatPay);
+        }];
+    }
+    
+    if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & PLIAppPayTypeAlipay)
+        || [PLPaymentConfig sharedConfig].alipayInfo) {
+        BOOL useBuildInAlipay = [PLPaymentConfig sharedConfig].alipayInfo != nil;
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
+            Pay(useBuildInAlipay?PLPaymentTypeAlipay:PLPaymentTypeIAppPay, useBuildInAlipay?PLPaymentTypeNone:PLPaymentTypeAlipay);
+        }];
+    }
 
-        [self pay:self.payableObject withPaymentType:type andSubPaymentType:subType];
-       
-    };
-    
-    
-    /**返回block激活后进来*/
-    _popView.backAction = ^{
+    _popView.closeAction = ^(id sender){
         @strongify(self);
-        
-        [self hidePayment]; //隐藏支付弹窗
-
-        if (self.completionHandler) {
-            self.completionHandler(NO);
-        }
+        [self hidePayment];
     };
-    
     return _popView;
 }
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,19 +88,19 @@
     {
         [self.popView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.view);
-            make.size.mas_equalTo(self.popView.contentSize);
+            const CGFloat width = kScreenWidth * 0.95;
+            make.size.mas_equalTo(CGSizeMake(width, [self.popView viewHeightRelativeToWidth:width]));
         }];
     }
 }
 /**弹出支付界面*/
-- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLPaymentCompletionHandler)handler {
+- (void)popupPaymentInView:(UIView *)view forPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler {
     if (self.view.superview) {
         [self.view removeFromSuperview];
     }
     
     self.completionHandler = handler;
     self.payableObject = payable;
-    self.popView.usage = [payable payableUsage];
     self.view.frame = view.bounds;
     self.view.alpha = 0;
     if (view == [UIApplication sharedApplication].keyWindow) {
@@ -110,25 +112,18 @@
     [UIView animateWithDuration:0.25 animations:^{
         self.view.alpha = 1.0;
     }];
-    
-//    [self fetchPayAmount];
 }
-
-//- (void)fetchPayAmount {
-//    @weakify(self);
-//    PLSystemConfigModel *systemConfigModel = [PLSystemConfigModel sharedModel];
-//    [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
-//        @strongify(self);
-//        if (success) {
-//            self.payAmount = @(systemConfigModel.payAmount);
-//        }
-//    }];
-//}
 
 - (void)setPayableObject:(id<PLPayable>)payableObject {
     _payableObject = payableObject;
     
     self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
+    
+    NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):@"payment_channel",
+                                   @(PLPaymentForPhotoAlbum):@"payment_album",
+                                   @(PLPaymentForVideo):@"payment_video"};
+    self.popView.headerImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:headerImages[@(payableObject.payableUsage)] ofType:@"jpg"]];
+    self.popView.priceColor = [payableObject payableUsage] == PLPaymentForPhotoChannel ? [UIColor yellowColor] : [UIColor redColor];
 }
 
 - (void)hidePayment {
@@ -150,47 +145,16 @@
  */
 - (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType andSubPaymentType:(PLPaymentType)subType{
     @weakify(self);
-    
-        NSUInteger price = [[payable payableFee] integerValue];
-    
-    /**
-     *  重新调整支付方式
-     */
-    void (^callPay)(PLPaymentType,PLPaymentType) = ^(PLPaymentType type,PLPaymentType subType){
-        
-        [[KbPaymentManager sharedManager] startPaymentWithType:type subType:paymentType price:price forProgram:payable completionHandler:^(PAYRESULT payResult, PLPaymentInfo *paymentInfo) {
-            @strongify(self)
-            
-            [self notifyPaymentResult:payResult withPaymentInfo:self.PLpaymentInfo];
-            
-        }];
-     };
-    
-    if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeWeChat)
-        ) {//爱贝微信支付
-
-        callPay(PLPaymentTypeIAppPay,PLPaymentTypeWeChatPay);
-
-    }else  if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeAlipay)
-               ) {//爱贝支付宝支付
-        
-        callPay(PLPaymentTypeIAppPay,PLPaymentTypeAlipay);
-        
-    }else if([PLPaymentConfig sharedConfig].weixinInfo||[PLPaymentConfig sharedConfig].alipayInfo){//获取的是本地的 支付宝或者微信支付
-    
-        if (paymentType==PLPaymentTypeWeChatPay) {//本地微信
-            
-           callPay(PLPaymentTypeWeChatPay,PLPaymentTypeWeChatPay);
-            
-        }else if (paymentType==PLPaymentTypeAlipay){//本地支付宝
-            
-            [[PLHudManager manager] showHudWithText:@"无法获取支付信息"];
-//               callPay(PLPaymentTypeAlipay,PLPaymentTypeAlipay);
-        }
-        
-    }else{//没有获取任何支付数据
-       [[PLHudManager manager] showHudWithText:@"无法获取支付信息"];
-    }
+    NSUInteger price = [[payable payableFee] integerValue];
+    [[PLPaymentManager sharedManager] startPaymentWithType:paymentType
+                                                   subType:subType
+                                                     price:price*100
+                                                forPayable:payable
+                                         completionHandler:^(PAYRESULT payResult, PLPaymentInfo *paymentInfo)
+    {
+        @strongify(self);
+        [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
+    }];
 }
 
 
@@ -210,13 +174,11 @@
     [paymentInfo save];
     
     if (result == PAYRESULT_SUCCESS) {//如果支付成功
-        
         [PLPaymentUtil setPaidForPayable:self.payableObject];//设置这个东西已经支付过
-        [self hidePayment];
         [[PLHudManager manager] showHudWithText:@"支付成功"];
         [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];//通知支付成功
         if (self.completionHandler) {
-            self.completionHandler(YES);//激活支付完成
+            self.completionHandler(YES, paymentInfo);//激活支付完成
         }
         [PLStatistics statPayment:self.payableObject];//友盟统计
     } else if (result == PAYRESULT_ABANDON) {
@@ -229,12 +191,5 @@
     [[PLPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
     
 }
-
-//- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
-//    NSLog(@"PayResult:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
-//    
-//    PAYRESULT payResult = [self paymentResultFromPayNowResult:result];
-//    [self notifyPaymentResult:payResult withPaymentInfo:self.PLpaymentInfo];
-//}
 
 @end

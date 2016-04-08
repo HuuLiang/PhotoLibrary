@@ -24,7 +24,7 @@
                 completionHandler:(PLFetchChannelProgramCompletionHandler)handler {
     @weakify(self);
     NSDictionary *params = @{@"columnId":columnId, @"page":@(pageNo), @"pageSize":@(pageSize)};
-    BOOL success = [self requestURLPath:[PLConfig sharedConfig].photoChannelProgramURLPath
+    BOOL success = [self requestURLPath:PL_PHOTO_CHANNEL_PROGRAM_URL
                              withParams:params
                         responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
                     {

@@ -228,14 +228,6 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     return separatedStrings.lastObject;
 }
 
-+ (NSArray *)orderForSavePending {
-    if ([self userIdInPayment]) {
-        return nil; // already saved
-    }
-    
-    return [[self orderInKeyChain] componentsSeparatedByString:@"&"];
-}
-
 + (NSString *)userId {
 #ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     return [SFHFKeychainUtils getPasswordForUsername:kRegisterKeyChainUsername.md5
@@ -260,14 +252,6 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
 + (NSUInteger)appVersion {
     NSString *ver = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
     return ver.floatValue * 100;
-}
-
-+ (NSString *)appId {
-    return @"QUBA_2002";
-}
-
-+ (NSNumber *)pV {
-    return @200;
 }
 
 @end

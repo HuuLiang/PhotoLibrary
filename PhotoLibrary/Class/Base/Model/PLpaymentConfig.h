@@ -9,9 +9,9 @@
 #import "PLURLResponse.h"
 
 typedef NS_ENUM(NSUInteger, KbIAppPayType) {
-    KbIAppPayTypeUnknown = 0,
-    KbIAppPayTypeWeChat = 1 << 0,
-    KbIAppPayTypeAlipay = 1 << 1
+    PLIAppPayTypeUnknown = 0,
+    PLIAppPayTypeWeChat = 1 << 0,
+    PLIAppPayTypeAlipay = 1 << 1
 };
 
 @interface PLWeChatPaymentConfig : NSObject
