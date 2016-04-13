@@ -15,6 +15,8 @@
 @property (nonatomic) CGFloat adBannerHeight;
 
 - (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler;
+- (void)payForPayable:(id<PLPayable>)payable withBeginAction:(PLAction)beginAction completionHandler:(PLCompletionHandler)completionHandler;
+
 - (void)playVideo:(PLVideo *)video;
 - (void)onPaymentNotification:(NSNotification *)notification;
 

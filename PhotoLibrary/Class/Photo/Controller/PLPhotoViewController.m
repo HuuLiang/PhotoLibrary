@@ -63,7 +63,6 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     }
     
     _photoBrowser = [[PLPhotoBrowser alloc] init];
-    _photoBrowser.fetchedData = self.channelProgramModel.fetchedPrograms;
     _photoBrowser.delegate = self;
     return _photoBrowser;
 }
@@ -428,11 +427,5 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     self.statusBarHidden = YES;
     
     [PLStatistics statViewAlbumPhotos:album];//在友盟中记录下来
-}
-
--(void)dealloc
-{
-
-
 }
 @end

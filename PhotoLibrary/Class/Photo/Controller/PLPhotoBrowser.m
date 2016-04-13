@@ -37,7 +37,6 @@ static const CGFloat kViewFadeAnimationDuration = 0.3;
 @property (nonatomic,strong) PLChannelProgramModel *channelProgramModel;
 
 @property (nonatomic,strong) PLPaymentViewController *paymentVC;
-@property (nonatomic,assign) BOOL isSuccess;
 @end
 
 @implementation PLPhotoBrowser//继承baseVC
@@ -59,7 +58,6 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _isSuccess = NO;
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.font = [UIFont boldSystemFontOfSize:14.];
     _titleLabel.textColor = [UIColor whiteColor];
@@ -202,52 +200,16 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    
-
-    if ([self.delegate isKindOfClass:[PLFreeViewController class]]&&index>=3){
-        
-        id<PLPayable>payable = self.fetchedData;
-
-        [self payForPayable:payable withCompletionHandler:^(BOOL success, id obj) {
-            
-            _isSuccess = success;
-            
-        }];
+    if ([self.delegate respondsToSelector:@selector(photoBrowser:shouldDisplayPhotoAtIndex:)]) {
+        if (![self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index]) {
+            [photoBrowser showPreviousPhotoAnimated:YES];
+        }
     }
-    if (index>=3&&!_isSuccess) {
-        
-    [self.photoBrowser showPreviousPhotoAnimated:YES];
-        
-     return nil;
-
-    }else{
-        return self.photos[index];
-    }
-    
+    return self.photos[index];
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
     
     _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.photos.count];
-
-    if ([self.delegate isKindOfClass:[PLFreeViewController class]]&&index>=2) {
-        
-        id<PLPayable>payable = self.fetchedData;
-        
-        [self payForPayable:payable withCompletionHandler:^(BOOL success, id obj) {
-            if (success) {
-                //如果没有支付，弹出支付界面
-            }
-        }];
-     
-    }
-//    else if ([self.delegate isKindOfClass:[PLPhotoViewController class]]&&index>=2){
-//        
-////        id<PLPayable>payable = self.channelProgramModel.fetchedPrograms;
-//        id<PLPayable>payable = self.fetchedData;//不能用上面的原因是因为，从模型中获取的数据没有给PhotoBrowser。
-//        [self payForPayable:payable withCompletionHandler:^(BOOL success) {
-//        }];
-//
-//    }
 }
 @end

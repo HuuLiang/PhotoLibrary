@@ -130,22 +130,28 @@ static const CGFloat kDefaultAdBannerHeight = 30;
 - (void)onPaymentNotification:(NSNotification *)notification {}
 
 - (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler {
+    [self payForPayable:payable withBeginAction:nil completionHandler:handler];
+}
+
+- (void)payForPayable:(id<PLPayable>)payable withBeginAction:(PLAction)beginAction completionHandler:(PLCompletionHandler)completionHandler {
     if ([payable payableUsage] == PLPaymentForUnknown) {
-        if (handler) {//支付失败，回调为NO
-            handler(NO, nil);
+        if (completionHandler) {//支付失败，回调为NO
+            completionHandler(NO, nil);
         }
         return ;
     }
     
     if ([PLPaymentUtil isPaidForPayable:payable]) {//PLPaymentUtil查看，保存支付纪录的类
-        if (handler) {//支付成功,回调为YES
-            handler(YES, payable);
+        if (completionHandler) {//支付成功,回调为YES
+            completionHandler(YES, payable);
         }
         return ;
     }
     //如果没有支付，弹出支付界面
-    [[PLPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window forPayable:payable withCompletionHandler:handler];
-//    handler(YES);
+    [[PLPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window
+                                                       forPayable:payable
+                                                  withBeginAction:beginAction
+                                                completionHandler:completionHandler];
 }
 
 /**开始播放视频*/

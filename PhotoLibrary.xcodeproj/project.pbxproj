@@ -98,7 +98,6 @@
 		BCB1AFDA1C0D53FF008AA006 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1AFD91C0D53FF008AA006 /* libc++.tbd */; };
 		BCB1AFDC1C0D5408008AA006 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1AFDB1C0D5408008AA006 /* libsqlite3.tbd */; };
 		BCB1B0511C0D9488008AA006 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB1B0501C0D9488008AA006 /* config.plist */; };
-		BCB1B0531C0D95F2008AA006 /* config-back.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB1B0521C0D95F2008AA006 /* config-back.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -306,7 +305,6 @@
 		BCB1AFD91C0D53FF008AA006 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BCB1AFDB1C0D5408008AA006 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BCB1B0501C0D9488008AA006 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
-		BCB1B0521C0D95F2008AA006 /* config-back.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-back.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -836,7 +834,6 @@
 			isa = PBXGroup;
 			children = (
 				BCB1B0501C0D9488008AA006 /* config.plist */,
-				BCB1B0521C0D95F2008AA006 /* config-back.plist */,
 				BCB1AF611C0D51E6008AA006 /* Info.plist */,
 				BCB1AF511C0D51E6008AA006 /* main.m */,
 				BCB1AF851C0D529A008AA006 /* PLPrefixHeader.pch */,
@@ -934,6 +931,11 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					BCB1AF651C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -974,7 +976,6 @@
 				BC3FD6D91CB7AEC50049B018 /* payment_channel.jpg in Resources */,
 				BC3FD6B41CB798D70049B018 /* baidumobadsdk.bundle in Resources */,
 				BCB1B0511C0D9488008AA006 /* config.plist in Resources */,
-				BCB1B0531C0D95F2008AA006 /* config-back.plist in Resources */,
 				BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */,
 				BC3FD6D81CB7AEC50049B018 /* payment_album.jpg in Resources */,
 				BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */,

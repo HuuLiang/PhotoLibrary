@@ -81,4 +81,5 @@ typedef UIView BaiduMobAdView;
 #endif
 
 typedef void (^PLCompletionHandler)(BOOL success, id obj);
+typedef void (^PLAction)(id obj);
 #endif /* PLCommonDef_h */

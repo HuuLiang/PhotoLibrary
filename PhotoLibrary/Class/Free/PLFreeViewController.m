@@ -32,9 +32,6 @@ static NSString *const kFreePhotoCellReusableIdentifier = @"FreePhotoCellReusabl
     NSUInteger _currentPage;
 }
 @property (nonatomic,strong) PLFreePhotoModel *freePhotoModel;
-@property (nonatomic,strong) PLFreePhoto *freePhoto;
-
-@property (nonatomic,strong) NSMutableArray<PLFreePhoto *> *freePhotoArray;
 @property (nonatomic,strong) NSMutableArray<PLFreePhotoItem*>*freePhotoItemArray;
 
 @property (nonatomic,strong) PLPhotoBrowser *photoBrowser;
@@ -47,8 +44,6 @@ static NSString *const kFreePhotoCellReusableIdentifier = @"FreePhotoCellReusabl
 /**一定要先初始化模型*/
 //--用到下面的几个
 DefineLazyPropertyInitialization(PLFreePhotoModel, freePhotoModel)
-DefineLazyPropertyInitialization(PLFreePhoto, freePhoto)
-DefineLazyPropertyInitialization(NSMutableArray, freePhotoArray)
 DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
 //--
 
@@ -60,8 +55,6 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
     }
     
     _photoBrowser = [[PLPhotoBrowser alloc] init];
-    
-    _photoBrowser.fetchedData = self.freePhotoModel.freeFetchedPhoto;
     _photoBrowser.delegate = self;
     return _photoBrowser;
 }
@@ -229,6 +222,23 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
     [PLStatistics statViewAlbumPhotos:album];//在友盟中记录下来
 }
 
+- (BOOL)photoBrowser:(PLPhotoBrowser *)photoBrowser shouldDisplayPhotoAtIndex:(NSUInteger)index {
+    id<PLPayable> payable = self.freePhotoModel.freeFetchedPhoto;
+    if ([PLPaymentUtil isPaidForPayable:payable] || index < 3) {
+        return YES;
+    } else {
+        @weakify(self);
+        [self payForPayable:payable withBeginAction:^(id obj) {
+            @strongify(self);
+            [self.photoBrowser hide];
+        } completionHandler:^(BOOL success, id obj) {
+            if (success) {
+                [self.photoBrowser showInView:self.view.window];
+            }
+        }];
+        return NO;
+    }
+}
 #pragma mark - PLfreeCollectionViewDelegate
 - (BOOL)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout hasAdBannerForItem:(NSUInteger)item{
     

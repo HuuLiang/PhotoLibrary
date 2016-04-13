@@ -16,7 +16,7 @@
 @optional
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser didDisplayAlbum:(PLProgram *)album;
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album;
-
+- (BOOL)photoBrowser:(PLPhotoBrowser *)photoBrowser shouldDisplayPhotoAtIndex:(NSUInteger)index;
 @end
 
 
@@ -24,7 +24,6 @@
 @interface PLPhotoBrowser : PLBaseViewController    //制作照片查看器
 /**单个Cell中的图片模型*/
 @property (nonatomic,retain) PLProgram *photoAlbum;
-@property (nonatomic,strong)  id fetchedData;
 @property (nonatomic,assign) id<PLPhotoBrowserDelegate> delegate;
 
 - (instancetype)initWithAlbum:(PLProgram *)album;
