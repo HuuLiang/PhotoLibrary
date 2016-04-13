@@ -162,7 +162,7 @@
     NSUInteger price = [[payable payableFee] integerValue];
     [[PLPaymentManager sharedManager] startPaymentWithType:paymentType
                                                    subType:subType
-                                                     price:price*100
+                                                     price:price
                                                 forPayable:payable
                                          completionHandler:^(PAYRESULT payResult, PLPaymentInfo *paymentInfo)
     {
