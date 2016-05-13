@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PLProgram.h"
 @interface PLPhotoCell : UICollectionViewCell
 
 @property (nonatomic,retain) NSURL *imageURL;
 
+- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(id)model;
 @end

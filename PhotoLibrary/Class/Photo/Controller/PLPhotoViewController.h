@@ -10,4 +10,5 @@
 
 @interface PLPhotoViewController : PLBaseViewController
 
+- (instancetype)initWithChannel:(PLPhotoChannel*)channel;
 @end

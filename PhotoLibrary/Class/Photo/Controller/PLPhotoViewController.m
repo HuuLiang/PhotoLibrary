@@ -55,6 +55,15 @@ DefineLazyPropertyInitialization(PLPhotoChannelModel, channelModel)
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
+- (instancetype)initWithChannel:(PLPhotoChannel *)channel{
+
+    if (self = [super init]) {
+        self.currentPhotoChannel = channel;
+    }
+    
+    return self;
+
+}
 #pragma mark -
 #pragma mark －－－图片浏览器－－－－
 - (PLPhotoBrowser *)photoBrowser {
@@ -126,12 +135,11 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
             [self loadPhotosInChannel:self.currentPhotoChannel withPage:++_currentPage];
         }];
         
-    } else {
-        _navTitleView.title = @"图库";
-        [self loadPhotoChannels];//下载频道
     }
-    
-    
+//    else {
+//        _navTitleView.title = @"图库";
+//        [self loadPhotoChannels];//下载频道
+//    }
     
     [_layoutCollectionView PL_triggerPullToRefresh];
     
@@ -220,41 +228,43 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 
 }
-#pragma mark －－－下载获取照片的人频道 ...该地方有3个－－－－
-//在模型中下载数据，返回的数据已经存入模型中的数组中
-- (void)loadPhotoChannels {
-    @weakify(self);
-    [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
-        DLog(@"%lu",channels.count);
-        @strongify(self);
-        if (!self || !success || channels.count == 0) {
-            return ;
-        }
 
-        /**返回图片模型*/
-        PLPhotoChannel *channelToShow = [channels bk_match:^BOOL(id obj) {
-            if (((PLPhotoChannel *)obj).payAmount.unsignedIntegerValue == 0) {
-                return YES;
-            }
-            return NO;
-        }];
-        
-        if (!channelToShow) {//如果没有返回数据
-            channelToShow = [channels bk_match:^BOOL(id obj) {
-                if ([PLPaymentUtil isPaidForPayable:((PLPhotoChannel *)obj)]) {
-                    return YES;
-                }
-                return NO;
-            }];
-        }
-        
-        if (!channelToShow) {//还是没有返回数据，就弹出提示框
-            [[PLHudManager manager] showHudWithText:@"没有已支付或者免费的图库！"];
-        } else {
-            self.currentPhotoChannel = channelToShow; //程序安装第一次启动进来之后，给当前channel附值，保存到了本地，之后再也不会进来除非，卸载
-        }
-    }];
-}
+//#pragma mark －－－下载获取照片的人频道 ...该地方有3个－－－－
+////在模型中下载数据，返回的数据已经存入模型中的数组中
+//- (void)loadPhotoChannels {
+//    @weakify(self);
+//    [self.channelModel fetchPhotoChannelsWithCompletionHandler:^(BOOL success, NSArray<PLPhotoChannel *> *channels) {
+//
+//        
+//        @strongify(self);
+//        if (!self || !success || channels.count == 0) {
+//            return ;
+//        }
+//
+//        /**返回图片模型*/
+//        PLPhotoChannel *channelToShow = [channels bk_match:^BOOL(id obj) {
+//            if (((PLPhotoChannel *)obj).payAmount.unsignedIntegerValue == 0) {
+//                return YES;
+//            }
+//            return NO;
+//        }];
+//        
+//        if (!channelToShow) {//如果没有返回数据
+//            channelToShow = [channels bk_match:^BOOL(id obj) {
+//                if ([PLPaymentUtil isPaidForPayable:((PLPhotoChannel *)obj)]) {
+//                    return YES;
+//                }
+//                return NO;
+//            }];
+//        }
+//        
+//        if (!channelToShow) {//还是没有返回数据，就弹出提示框
+//            [[PLHudManager manager] showHudWithText:@"没有已支付或者免费的图库！"];
+//        } else {
+//            self.currentPhotoChannel = channelToShow; //程序安装第一次启动进来之后，给当前channel附值，保存到了本地，之后再也不会进来除非，卸载
+//        }
+//    }];
+//}
 
 /**根据图片的频道 获取频道的模型数据*/
 - (void)loadPhotosInChannel:(PLPhotoChannel *)photoChannel withPage:(NSUInteger)page {// shouldReload:(BOOL)shouldReload {
@@ -313,10 +323,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     return _currentPhotoChannel;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 
@@ -331,9 +338,12 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     
     
     if (indexPath.item < self.photoPrograms.count) {
-        //self.photoPrograms数组中返回的是加载的图片模型数组
         PLProgram *program = self.photoPrograms[indexPath.item];
-        cell.imageURL = [NSURL URLWithString:program.coverImg];
+//        cell.imageURL = [NSURL URLWithString:program.coverImg];
+        
+        
+        cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program];
+        
     } else {
         cell.imageURL = nil;
     }
@@ -360,15 +370,13 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     
     NSUInteger indexOfAlbum = indexPath.section * 4 + indexPath.row;
     
-//#ifdef DEBUG
-//    
-//    PLChannelProgram *photoProgram = self.photoPrograms[indexOfAlbum];
-//    self.photoBrowser.photoAlbum = photoProgram;
-//
-//    [self.photoBrowser showInView:self.view.window];
-//
-//#else
-    @weakify(self);
+    if (indexPath.item==0) {
+        PLChannelProgram *photoProgram = self.photoPrograms[indexOfAlbum];
+        self.photoBrowser.photoAlbum = photoProgram;
+        [self.photoBrowser showInView:self.view.window];
+
+    }else{
+        @weakify(self);
         if (indexOfAlbum < self.photoPrograms.count) {
             [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success, id obj) {
                 @strongify(self);
@@ -378,8 +386,11 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
                     [self.photoBrowser showInView:self.view.window];
                 }
             }];
-        }
-//#endif
+         }
+        
+     
+     }
+
 }
 //#pragma mark - 自定义下拉刷新
 ///**scrollview停止滚动*/
@@ -419,8 +430,43 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 #pragma mark - PLPhotoBrowserDelegate
 
+
+- (BOOL)photoBrowser:(PLPhotoBrowser *)photoBrowser shouldDisplayPhotoAtIndex:(NSUInteger)index{
+
+    id<PLPayable> payable = self.channelProgramModel.fetchedPrograms;
+    //    if ([PLPaymentUtil isPaidForPayable:payable] || index != 3) {
+    //        return YES;
+    //    } else {
+    //        [self payForPayable:payable];
+    //    }
+    //点击锁后的回调
+    @weakify(self)
+    photoBrowser.payAction = ^(id sender){
+        @strongify(self)
+        DLog(@"%@",sender);
+        [self payForPayable:payable];
+        
+    };
+    return YES;
+    
+}
+- (void)payForPayable:(id<PLPayable>)payable{
+    
+    @weakify(self);
+    [self payForPayable:payable withBeginAction:^(id obj) {
+        @strongify(self);
+        [self.photoBrowser hide];
+    } completionHandler:^(BOOL success, id obj) {
+        if (success) {
+            [self.photoBrowser showInView:self.view.window];
+        }
+    }];
+    
+}
+
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album {
     self.statusBarHidden = NO;
+    
 }
 
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser didDisplayAlbum:(PLProgram *)album {
