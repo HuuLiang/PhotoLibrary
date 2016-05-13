@@ -202,15 +202,15 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
 
     if ([self.delegate respondsToSelector:@selector(photoBrowser:shouldDisplayPhotoAtIndex:)]) {
-        if (![self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index]) {
-            [photoBrowser showPreviousPhotoAnimated:YES];
-        }
+        [self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index];
     }
+    
     if (index>2) {
         self.photos[index].isLocked = YES;
         @weakify(self)
         self.photos[index].tapLockAction = ^(id sender) {
             @strongify(self)
+            
             self.payAction(sender);
             
         };

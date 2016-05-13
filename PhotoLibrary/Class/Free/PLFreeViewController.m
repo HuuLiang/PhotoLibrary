@@ -225,11 +225,11 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
 - (BOOL)photoBrowser:(PLPhotoBrowser *)photoBrowser shouldDisplayPhotoAtIndex:(NSUInteger)index {
 
     id<PLPayable> payable = self.freePhotoModel.freeFetchedPhoto;
-    if ([PLPaymentUtil isPaidForPayable:payable] || index != 3) {
-        return YES;
-    } else {
-        [self payForPayable:payable];
-    }
+//    if ([PLPaymentUtil isPaidForPayable:payable] || index != 3) {
+//        return YES;
+//    } else {
+//        [self payForPayable:payable];
+//    }
     //点击锁后的回调
     @weakify(self)
     photoBrowser.payAction = ^(id sender){
