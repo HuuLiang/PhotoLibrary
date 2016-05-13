@@ -211,6 +211,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         self.photos[index].tapLockAction = ^(id sender) {
             @strongify(self)
             
+            DLog(@"%@",self.photos[index]);
             self.payAction(sender);
             
         };

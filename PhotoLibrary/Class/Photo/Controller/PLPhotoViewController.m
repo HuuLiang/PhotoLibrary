@@ -104,7 +104,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     _currentPage = 0;
     
     [self setCollectionView];
-    [self setChannelBtn];
+//    [self setChannelBtn];
     
     _navTitleView = [[PLPhotoNavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 140, 50)];
     
@@ -321,7 +321,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//    return (self.photoPrograms.count + 3) / 4;
+
     return 1;
 }
 

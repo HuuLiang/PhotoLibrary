@@ -234,6 +234,7 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
     @weakify(self)
     photoBrowser.payAction = ^(id sender){
         @strongify(self)
+        DLog(@"%@",sender);
         [self payForPayable:payable];
         
     };

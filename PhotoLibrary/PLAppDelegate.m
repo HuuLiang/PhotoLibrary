@@ -17,7 +17,7 @@
 #import "PLUserAccessModel.h"
 #import "PLSystemConfigModel.h"
 #import "PLPaymentManager.h"
-
+#import "HomeChannelViewController.h"
 @interface PLAppDelegate ()
 
 @end
@@ -33,12 +33,12 @@
     _window                              = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor              = [UIColor whiteColor];
     
-    PLPhotoViewController *photoVC       = [[PLPhotoViewController alloc] init];
-    photoVC.title = @"图库";
-    photoVC.bottomAdBanner = YES;
+    HomeChannelViewController *channelVC       = [[HomeChannelViewController alloc] init];
+    channelVC.title = @"图库";
+    channelVC.bottomAdBanner = YES;
 
-    UINavigationController *photoNav     = [[UINavigationController alloc] initWithRootViewController:photoVC];
-    photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:photoVC.title
+    UINavigationController *photoNav     = [[UINavigationController alloc] initWithRootViewController:channelVC];
+    photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:channelVC.title
                                                                          image:[UIImage imageNamed:@"normal_photo_bar"]
                                                                  selectedImage:[UIImage imageNamed:@"selected_photo_bar"]];
     
