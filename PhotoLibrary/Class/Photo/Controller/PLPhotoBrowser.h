@@ -7,7 +7,7 @@
 //
 
 #import "PLBaseViewController.h"
-
+typedef void(^PayAction) (id sender);
 @class PLProgram;
 @class PLPhotoBrowser;
 
@@ -25,7 +25,7 @@
 /**单个Cell中的图片模型*/
 @property (nonatomic,retain) PLProgram *photoAlbum;
 @property (nonatomic,assign) id<PLPhotoBrowserDelegate> delegate;
-
+@property (nonatomic,copy)PayAction payAction;
 - (instancetype)initWithAlbum:(PLProgram *)album;
 /**在哪个视图上显示*/
 - (void)showInView:(UIView *)view;

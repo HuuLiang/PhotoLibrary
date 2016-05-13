@@ -6,7 +6,7 @@
 //  Copyright 2010 d3i. All rights reserved.
 //
 
-#import <DACircularProgress/DACircularProgressView.h>
+#import "DACircularProgress/DACircularProgressView.h"
 #import "MWCommon.h"
 #import "MWZoomingScrollView.h"
 #import "MWPhotoBrowser.h"
@@ -24,7 +24,8 @@
     UIImageView *_loadingError;
     
 }
-
+@property (nonatomic,retain) UIImageView *lockView;
+@property (nonatomic,retain) UILabel *lockLabel;
 @end
 
 @implementation MWZoomingScrollView
@@ -150,6 +151,49 @@
 			// Set zoom to minimum zoom
 			[self setMaxMinZoomScalesForCurrentBounds];
 			
+            if (_photo.isLocked) {
+                if (!_lockView) {
+                    _lockView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_lock"]];
+                    _lockView.userInteractionEnabled = YES;
+                    @weakify(self);
+                    [_lockView bk_whenTapped:^{
+                        @strongify(self);
+                        if (self->_photo.tapLockAction) {
+                            self->_photo.tapLockAction(self->_lockView);
+                        }
+                    }];
+                    [self addSubview:_lockView];
+                    {
+                        [_lockView mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.center.equalTo(self);
+                            make.width.equalTo(self).dividedBy(4);
+                            make.height.equalTo(_lockView.mas_width);
+                        }];
+                    }
+                    
+                    _lockLabel = [[UILabel alloc] init];
+                    _lockLabel.text = @"点击解锁";
+                    _lockLabel.font = [UIFont boldSystemFontOfSize:18.];
+                    _lockLabel.textColor = [UIColor whiteColor];
+                    [self addSubview:_lockLabel];
+                    {
+                        [_lockLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.centerX.equalTo(_lockView);
+                            make.top.equalTo(_lockView.mas_bottom).offset(10);
+                        }];
+                    }
+                }
+            } else {
+                if (_lockView) {
+                    [_lockView removeFromSuperview];
+                    _lockView = nil;
+                }
+                
+                if (_lockLabel) {
+                    [_lockLabel removeFromSuperview];
+                    _lockLabel = nil;
+                }
+            }
 		} else  {
 
             // Show image failure
@@ -354,18 +398,18 @@
 	return _photoImageView;
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-	[_photoBrowser cancelControlHiding];
-}
-
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
-    self.scrollEnabled = YES; // reset
-	[_photoBrowser cancelControlHiding];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-	[_photoBrowser hideControlsAfterDelay];
-}
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//	[_photoBrowser cancelControlHiding];
+//}
+//
+//- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+//    self.scrollEnabled = YES; // reset
+//	[_photoBrowser cancelControlHiding];
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//	[_photoBrowser hideControlsAfterDelay];
+//}
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     [self setNeedsLayout];
@@ -374,69 +418,69 @@
 
 #pragma mark - Tap Detection
 
-- (void)handleSingleTap:(CGPoint)touchPoint {
-	[_photoBrowser performSelector:@selector(toggleControls) withObject:nil afterDelay:0.2];
-}
+//- (void)handleSingleTap:(CGPoint)touchPoint {
+//	[_photoBrowser performSelector:@selector(toggleControls) withObject:nil afterDelay:0.2];
+//}
+//
+//- (void)handleDoubleTap:(CGPoint)touchPoint {
+//    
+//    // Dont double tap to zoom if showing a video
+//    if ([self displayingVideo]) {
+//        return;
+//    }
+//	
+//	// Cancel any single tap handling
+//	[NSObject cancelPreviousPerformRequestsWithTarget:_photoBrowser];
+//	
+//	// Zoom
+//	if (self.zoomScale != self.minimumZoomScale && self.zoomScale != [self initialZoomScaleWithMinScale]) {
+//		
+//		// Zoom out
+//		[self setZoomScale:self.minimumZoomScale animated:YES];
+//		
+//	} else {
+//		
+//		// Zoom in to twice the size
+//        CGFloat newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
+//        CGFloat xsize = self.bounds.size.width / newZoomScale;
+//        CGFloat ysize = self.bounds.size.height / newZoomScale;
+//        [self zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
+//
+//	}
+//	
+//	// Delay controls
+//	[_photoBrowser hideControlsAfterDelay];
+//	
+//}
 
-- (void)handleDoubleTap:(CGPoint)touchPoint {
-    
-    // Dont double tap to zoom if showing a video
-    if ([self displayingVideo]) {
-        return;
-    }
-	
-	// Cancel any single tap handling
-	[NSObject cancelPreviousPerformRequestsWithTarget:_photoBrowser];
-	
-	// Zoom
-	if (self.zoomScale != self.minimumZoomScale && self.zoomScale != [self initialZoomScaleWithMinScale]) {
-		
-		// Zoom out
-		[self setZoomScale:self.minimumZoomScale animated:YES];
-		
-	} else {
-		
-		// Zoom in to twice the size
-        CGFloat newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
-        CGFloat xsize = self.bounds.size.width / newZoomScale;
-        CGFloat ysize = self.bounds.size.height / newZoomScale;
-        [self zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
+//// Image View
+//- (void)imageView:(UIImageView *)imageView singleTapDetected:(UITouch *)touch { 
+//    [self handleSingleTap:[touch locationInView:imageView]];
+//}
+//- (void)imageView:(UIImageView *)imageView doubleTapDetected:(UITouch *)touch {
+//    [self handleDoubleTap:[touch locationInView:imageView]];
+//}
 
-	}
-	
-	// Delay controls
-	[_photoBrowser hideControlsAfterDelay];
-	
-}
-
-// Image View
-- (void)imageView:(UIImageView *)imageView singleTapDetected:(UITouch *)touch { 
-    [self handleSingleTap:[touch locationInView:imageView]];
-}
-- (void)imageView:(UIImageView *)imageView doubleTapDetected:(UITouch *)touch {
-    [self handleDoubleTap:[touch locationInView:imageView]];
-}
-
-// Background View
-- (void)view:(UIView *)view singleTapDetected:(UITouch *)touch {
-    // Translate touch location to image view location
-    CGFloat touchX = [touch locationInView:view].x;
-    CGFloat touchY = [touch locationInView:view].y;
-    touchX *= 1/self.zoomScale;
-    touchY *= 1/self.zoomScale;
-    touchX += self.contentOffset.x;
-    touchY += self.contentOffset.y;
-    [self handleSingleTap:CGPointMake(touchX, touchY)];
-}
-- (void)view:(UIView *)view doubleTapDetected:(UITouch *)touch {
-    // Translate touch location to image view location
-    CGFloat touchX = [touch locationInView:view].x;
-    CGFloat touchY = [touch locationInView:view].y;
-    touchX *= 1/self.zoomScale;
-    touchY *= 1/self.zoomScale;
-    touchX += self.contentOffset.x;
-    touchY += self.contentOffset.y;
-    [self handleDoubleTap:CGPointMake(touchX, touchY)];
-}
+//// Background View
+//- (void)view:(UIView *)view singleTapDetected:(UITouch *)touch {
+//    // Translate touch location to image view location
+//    CGFloat touchX = [touch locationInView:view].x;
+//    CGFloat touchY = [touch locationInView:view].y;
+//    touchX *= 1/self.zoomScale;
+//    touchY *= 1/self.zoomScale;
+//    touchX += self.contentOffset.x;
+//    touchY += self.contentOffset.y;
+//    [self handleSingleTap:CGPointMake(touchX, touchY)];
+//}
+//- (void)view:(UIView *)view doubleTapDetected:(UITouch *)touch {
+//    // Translate touch location to image view location
+//    CGFloat touchX = [touch locationInView:view].x;
+//    CGFloat touchY = [touch locationInView:view].y;
+//    touchX *= 1/self.zoomScale;
+//    touchY *= 1/self.zoomScale;
+//    touchX += self.contentOffset.x;
+//    touchY += self.contentOffset.y;
+//    [self handleDoubleTap:CGPointMake(touchX, touchY)];
+//}
 
 @end

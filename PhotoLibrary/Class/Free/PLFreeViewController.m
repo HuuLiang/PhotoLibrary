@@ -170,7 +170,7 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
     if(indexPath.item<self.freePhotoItemArray.count){//设置单个cell上的图片
     
         PLFreePhotoItem *photoItem = _freePhotoItemArray[indexPath.item];
-//        cell.imageURL = [NSURL URLWithString:photoItem.coverImg];
+
         BOOL hasIcon = YES;
         if (photoItem.type.integerValue==3) {//是广告
             hasIcon = NO;
@@ -223,21 +223,35 @@ DefineLazyPropertyInitialization(NSMutableArray, freePhotoItemArray)
 }
 
 - (BOOL)photoBrowser:(PLPhotoBrowser *)photoBrowser shouldDisplayPhotoAtIndex:(NSUInteger)index {
+
     id<PLPayable> payable = self.freePhotoModel.freeFetchedPhoto;
-    if ([PLPaymentUtil isPaidForPayable:payable] || index < 3) {
+    if ([PLPaymentUtil isPaidForPayable:payable] || index != 3) {
         return YES;
     } else {
-        @weakify(self);
-        [self payForPayable:payable withBeginAction:^(id obj) {
-            @strongify(self);
-            [self.photoBrowser hide];
-        } completionHandler:^(BOOL success, id obj) {
-            if (success) {
-                [self.photoBrowser showInView:self.view.window];
-            }
-        }];
-        return NO;
+        [self payForPayable:payable];
     }
+    //点击锁后的回调
+    @weakify(self)
+    photoBrowser.payAction = ^(id sender){
+        @strongify(self)
+        [self payForPayable:payable];
+        
+    };
+    return YES;
+    
+}
+- (void)payForPayable:(id<PLPayable>)payable{
+    
+    @weakify(self);
+    [self payForPayable:payable withBeginAction:^(id obj) {
+        @strongify(self);
+        [self.photoBrowser hide];
+    } completionHandler:^(BOOL success, id obj) {
+        if (success) {
+            [self.photoBrowser showInView:self.view.window];
+        }
+    }];
+    
 }
 #pragma mark - PLfreeCollectionViewDelegate
 - (BOOL)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout hasAdBannerForItem:(NSUInteger)item{

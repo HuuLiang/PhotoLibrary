@@ -12,6 +12,8 @@
 #define MWPHOTO_LOADING_DID_END_NOTIFICATION @"MWPHOTO_LOADING_DID_END_NOTIFICATION"
 #define MWPHOTO_PROGRESS_NOTIFICATION @"MWPHOTO_PROGRESS_NOTIFICATION"
 
+typedef void (^MWPhotoTapLockAction)(id sender);
+
 // If you wish to use your own data models for photo then they must conform
 // to this protocol. See instructions for details on each method.
 // Otherwise you can use the MWPhoto object or subclass it yourself to
@@ -56,6 +58,8 @@
 
 // If photo is empty, in which case, don't show loading error icons
 @property (nonatomic) BOOL emptyImage;
+@property (nonatomic) BOOL isLocked;
+@property (nonatomic,copy) MWPhotoTapLockAction tapLockAction;
 
 // Video
 @property (nonatomic) BOOL isVideo;

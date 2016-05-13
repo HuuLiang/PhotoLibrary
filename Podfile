@@ -15,4 +15,5 @@ pod 'Aspects','~>1.4.1'
 
 pod 'BlocksKit', '~> 2.2.5'
 pod 'UIImage-Helpers', '~> 0.0.3'
-pod 'MWPhotoBrowser', '~> 2.1.1'
+#  pod 'MWPhotoBrowser', '~> 2.1.1'
+pod 'DACircularProgress', '~> 2.3.1'

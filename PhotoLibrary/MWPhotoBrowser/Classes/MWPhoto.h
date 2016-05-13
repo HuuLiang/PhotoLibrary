@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSURL *videoURL;
 @property (nonatomic) BOOL emptyImage;
 @property (nonatomic) BOOL isVideo;
+@property (nonatomic) BOOL isLocked;
+@property (nonatomic,copy) MWPhotoTapLockAction tapLockAction;
 
 + (MWPhoto *)photoWithImage:(UIImage *)image;
 + (MWPhoto *)photoWithURL:(NSURL *)url;

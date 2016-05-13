@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import "MWGridViewController.h"
 #import "MWZoomingScrollView.h"
 
 // Declare private methods of browser
@@ -36,11 +35,6 @@
 	NSTimer *_controlVisibilityTimer;
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton, *_doneButton;
     MBProgressHUD *_progressHUD;
-    
-    // Grid
-    MWGridViewController *_gridController;
-    UIBarButtonItem *_gridPreviousLeftNavItem;
-    UIBarButtonItem *_gridPreviousRightNavItem;
     
     // Appearance
     BOOL _previousNavBarHidden;
@@ -106,29 +100,29 @@
 - (CGRect)frameForSelectedButton:(UIButton *)selectedButton atIndex:(NSUInteger)index;
 
 // Navigation
-- (void)updateNavigation;
+//- (void)updateNavigation;
 - (void)jumpToPageAtIndex:(NSUInteger)index animated:(BOOL)animated;
 - (void)gotoPreviousPage;
 - (void)gotoNextPage;
 
-// Grid
-- (void)showGrid:(BOOL)animated;
-- (void)hideGrid;
+//// Grid
+//- (void)showGrid:(BOOL)animated;
+//- (void)hideGrid;
 
 // Controls
-- (void)cancelControlHiding;
-- (void)hideControlsAfterDelay;
-- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent;
-- (void)toggleControls;
-- (BOOL)areControlsHidden;
+//- (void)cancelControlHiding;
+//- (void)hideControlsAfterDelay;
+//- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent;
+//- (void)toggleControls;
+//- (BOOL)areControlsHidden;
 
 // Data
 - (NSUInteger)numberOfPhotos;
 - (id<MWPhoto>)photoAtIndex:(NSUInteger)index;
 - (id<MWPhoto>)thumbPhotoAtIndex:(NSUInteger)index;
 - (UIImage *)imageForPhoto:(id<MWPhoto>)photo;
-- (BOOL)photoIsSelectedAtIndex:(NSUInteger)index;
-- (void)setPhotoSelected:(BOOL)selected atIndex:(NSUInteger)index;
+//- (BOOL)photoIsSelectedAtIndex:(NSUInteger)index;
+//- (void)setPhotoSelected:(BOOL)selected atIndex:(NSUInteger)index;
 - (void)loadAdjacentPhotosIfNecessary:(id<MWPhoto>)photo;
 - (void)releaseAllUnderlyingPhotos:(BOOL)preserveCurrent;
 

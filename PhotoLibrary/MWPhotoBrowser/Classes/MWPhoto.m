@@ -12,7 +12,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
-
+#import "UIImage+ZFFilter.h"
 @interface MWPhoto () {
 
     BOOL _loadingInProgress;
@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSURL *photoURL;
 @property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic) CGSize assetTargetSize;
+@property (nonatomic,retain) UIImage *originalImage;
 
 - (void)imageLoadingComplete;
 
@@ -128,14 +129,14 @@
     if (_loadingInProgress) return;
     _loadingInProgress = YES;
     @try {
-        if (self.underlyingImage) {
+        if (self.originalImage) {
             [self imageLoadingComplete];
         } else {
             [self performLoadUnderlyingImageAndNotify];
         }
     }
     @catch (NSException *exception) {
-        self.underlyingImage = nil;
+        self.originalImage = nil;
         _loadingInProgress = NO;
         [self imageLoadingComplete];
     }
@@ -150,7 +151,7 @@
     if (_image) {
         
         // We have UIImage!
-        self.underlyingImage = _image;
+        self.originalImage = _image;
         [self imageLoadingComplete];
         
     } else if (_photoURL) {
@@ -206,10 +207,8 @@
                                                          MWLog(@"SDWebImage failed to download image: %@", error);
                                                      }
                                                      _webImageOperation = nil;
-                                                     self.underlyingImage = image;
-                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                         [self imageLoadingComplete];
-                                                     });
+                                                     self.originalImage = image;
+                                                     [self imageLoadingComplete];
                                                  }];
     } @catch (NSException *e) {
         MWLog(@"Photo from web: %@", e);
@@ -223,8 +222,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
             @try {
-                self.underlyingImage = [UIImage imageWithContentsOfFile:url.path];
-                if (!_underlyingImage) {
+                self.originalImage = [UIImage imageWithContentsOfFile:url.path];
+                if (!_originalImage) {
                     MWLog(@"Error loading photo from path: %@", url.path);
                 }
             } @finally {
@@ -245,12 +244,12 @@
                                    ALAssetRepresentation *rep = [asset defaultRepresentation];
                                    CGImageRef iref = [rep fullScreenImage];
                                    if (iref) {
-                                       self.underlyingImage = [UIImage imageWithCGImage:iref];
+                                       self.originalImage = [UIImage imageWithCGImage:iref];
                                    }
                                    [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
                                }
                               failureBlock:^(NSError *error) {
-                                  self.underlyingImage = nil;
+                                  self.originalImage = nil;
                                   MWLog(@"Photo from asset library error: %@",error);
                                   [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
                               }];
@@ -281,7 +280,7 @@
     
     _assetRequestID = [imageManager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.underlyingImage = result;
+            self.originalImage = result;
             [self imageLoadingComplete];
         });
     }];
@@ -291,11 +290,18 @@
 // Release if we can get it again from path or url
 - (void)unloadUnderlyingImage {
     _loadingInProgress = NO;
-	self.underlyingImage = nil;
+	self.originalImage = nil;
+    self.underlyingImage = nil;
 }
 
 - (void)imageLoadingComplete {
     NSAssert([[NSThread currentThread] isMainThread], @"This method must be called on the main thread.");
+    
+    if (self.isLocked) {
+      self.underlyingImage = [UIImage filterWith:self.originalImage andRadius:50];
+    } else {
+        self.underlyingImage = self.originalImage;
+    }
     // Complete so notify
     _loadingInProgress = NO;
     // Notify on next run loop
@@ -307,6 +313,10 @@
                                                         object:self];
 }
 
+- (void)setIsLocked:(BOOL)isLocked {
+    _isLocked = isLocked;
+    
+}
 - (void)cancelAnyLoading {
     if (_webImageOperation != nil) {
         [_webImageOperation cancel];
