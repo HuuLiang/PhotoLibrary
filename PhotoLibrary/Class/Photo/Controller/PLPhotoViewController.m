@@ -111,7 +111,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 - (void)viewDidLoad {
     [super viewDidLoad];
     _currentPage = 0;
-    
+    self.bottomAdBanner = YES;
     [self setCollectionView];
 //    [self setChannelBtn];
     

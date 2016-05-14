@@ -40,6 +40,8 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
+    
     [self setCollectionView];
     
     [self loadPhotoChannels];
