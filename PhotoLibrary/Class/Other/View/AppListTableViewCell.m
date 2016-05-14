@@ -32,8 +32,13 @@
     return self;
 
 }
-- (instancetype)setCellWithModel:(OtherApp *)model andIndexPath:(NSIndexPath *)indexPath antTableView:(UITableView *)tableView{
+- (instancetype)setCellWithModel:(PLProgram *)model andIndexPath:(NSIndexPath *)indexPath antTableView:(UITableView *)tableView{
 
+    [_AppImageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:model.specialDesc]]) {
+        NSLog(@"--------------------已安装");
+    }
     return self;
     
 }

@@ -21,13 +21,14 @@
 #define PL_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
 #define PL_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"
 
-#define PL_BASE_URL                         @"http://tuku.ihuiyx.com"
+//#define PL_BASE_URL                         @"http://tuku.ihuiyx.com"
+#define PL_BASE_URL                         @"http://120.24.252.114:8096"
 #define PL_PHOTO_CHANNEL_URL                @"/gallery/column.htm"
 #define PL_PHOTO_CHANNEL_PROGRAM_URL        @"/gallery/program.htm"
 #define PL_PHOTO_URL_LIST_URL               @"/gallery/programUrl.htm"
 #define PL_VIDEO_URL                        @"/gallery/hotVideo.htm"
 #define PL_FREE_PHOTO_URL                   @"/gallery/free.htm"
-
+#define PL_APP_SPREADLISTS_URL              @"/gallery/appSpreadList.htm"
 #define PL_SYSTEM_CONFIG_URL                @"/gallery/systemConfig.htm"
 #define PL_ACTIVATE_URL                     @"/gallery/activat.htm"
 #define PL_USER_ACCESS_URL                  @"/gallery/userAccess.htm"

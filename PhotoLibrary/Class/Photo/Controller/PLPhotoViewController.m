@@ -471,6 +471,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album {
     self.statusBarHidden = NO;
+    DLog(@"-----------------------------");
     
 }
 

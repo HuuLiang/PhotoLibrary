@@ -10,6 +10,7 @@
 #import "PLPhotoCell.h"
 #import "PLPhotoChannelModel.h"
 #import "PLPhotoViewController.h"
+#import "UIScrollView+Refish.h"
 static const CGFloat kPhotoCellInterspace = 5;
 
 static NSString *const kPhotoCellReusableIdentifier = @"PhotoCellReusableIdentifier";
@@ -81,6 +82,14 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
         }];
     }
     
+    @weakify(self);//下拉刷新
+    [_layoutCollectionView PL_addPullToRefreshWithHandler:^{
+        @strongify(self);
+        [self loadPhotoChannels];
+    }];
+    [_layoutCollectionView PL_triggerPullToRefresh];
+
+    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -102,6 +111,8 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
         }
         
         if (success) {
+            [self.channelDataArray removeAllObjects];
+            [_layoutCollectionView PL_endPullToRefresh];
             [self.channelDataArray addObjectsFromArray:channels];
             
             [_layoutCollectionView reloadData];

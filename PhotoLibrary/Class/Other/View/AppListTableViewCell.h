@@ -10,5 +10,5 @@
 #import "OtherApp.h"
 @interface AppListTableViewCell : UITableViewCell
 
-- (instancetype)setCellWithModel:(OtherApp *)model andIndexPath:(NSIndexPath *)indexPath antTableView:(UITableView *)tableView;
+- (instancetype)setCellWithModel:(PLProgram *)model andIndexPath:(NSIndexPath *)indexPath antTableView:(UITableView *)tableView;
 @end

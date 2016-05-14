@@ -14,10 +14,10 @@
     return [OtherApp class];
 }
 
-- (BOOL)fetchOtherAppWithPageNo:(NSInteger) pageNo completionHandler:(PLFetchOtherAppCompletionHandler)handler{
+- (BOOL)fetchOtherAppWithCompletionHandler:(PLFetchOtherAppCompletionHandler)handler{
     @weakify(self);
-    BOOL ret = [self requestURLPath:PL_FREE_PHOTO_URL
-                         withParams:@{@"page":@(pageNo)}
+    BOOL ret = [self requestURLPath:PL_APP_SPREADLISTS_URL
+                         withParams:nil
                     responseHandler:^(PLURLResponseStatus respStatus, NSString *errorMessage)
                 {
                     @strongify(self);

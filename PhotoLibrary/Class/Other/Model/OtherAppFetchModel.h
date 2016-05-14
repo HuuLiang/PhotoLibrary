@@ -16,6 +16,6 @@ typedef void(^PLFetchOtherAppCompletionHandler) (BOOL success,OtherApp*photo);
 @property (nonatomic,strong) OtherApp *freeFetchedPhoto;
 
 /**根据当前页码获取数据*/
-- (BOOL)fetchOtherAppWithPageNo:(NSInteger) pageNo completionHandler:(PLFetchOtherAppCompletionHandler)handler;
+- (BOOL)fetchOtherAppWithCompletionHandler:(PLFetchOtherAppCompletionHandler)handler;
 
 @end

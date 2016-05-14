@@ -9,9 +9,10 @@
 #import "OtherAppViewController.h"
 #import "AppListTableViewCell.h"
 #import "OtherApp.h"
+#import "UIScrollView+Refish.h"
 #import "OtherAppFetchModel.h"
 static NSString *const kOtherAppTableViewCellResueidentifer = @"kOtherAppTableViewCellResueidentifer";
-static const NSUInteger kRowHeight  = 90;
+static const NSUInteger kRowHeight  = 110;
 @interface OtherAppViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *otherAppTaleView;
@@ -34,12 +35,17 @@ DefineLazyPropertyInitialization(NSMutableArray, dataArray);
 
 - (void)loadData{
     
+    
     @weakify(self)
-   [self.fetchModel fetchOtherAppWithPageNo:0 completionHandler:^(BOOL success, OtherApp *photo) {
+   [self.fetchModel fetchOtherAppWithCompletionHandler:^(BOOL success, OtherApp *photo) {
            @strongify(self)
        if (success) {
-       [self.dataArray  addObjectsFromArray:photo.programList];
            
+       [self.dataArray removeAllObjects];
+           
+       [self.dataArray  addObjectsFromArray:photo.programList];
+        [self.otherAppTaleView PL_endPullToRefresh];
+        [self.otherAppTaleView reloadData];
        }
     }];
 
@@ -59,7 +65,13 @@ DefineLazyPropertyInitialization(NSMutableArray, dataArray);
     
     [self.otherAppTaleView registerClass:[AppListTableViewCell class] forCellReuseIdentifier:kOtherAppTableViewCellResueidentifer];
     
-    
+
+    @weakify(self);//下拉刷新
+    [self.otherAppTaleView PL_addPullToRefreshWithHandler:^{
+        @strongify(self);
+        [self loadData];
+    }];
+    [self.otherAppTaleView PL_triggerPullToRefresh];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,7 +80,7 @@ DefineLazyPropertyInitialization(NSMutableArray, dataArray);
     AppListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kOtherAppTableViewCellResueidentifer];
     if (self.dataArray.count) {
         
-        OtherApp *model = self.dataArray[indexPath.row];
+        PLProgram *model = self.dataArray[indexPath.row];
 
         cell = [cell setCellWithModel:model andIndexPath:indexPath antTableView:tableView];
     }
@@ -86,8 +98,8 @@ DefineLazyPropertyInitialization(NSMutableArray, dataArray);
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    OtherApp *model = self.dataArray[indexPath.row];
-    [[UIApplication sharedApplication] openURL:model];
+    PLProgram *model = self.dataArray[indexPath.row];
+    [[UIApplication sharedApplication] openURL:[ NSURL URLWithString:model.videoUrl]];
 
 }
 
