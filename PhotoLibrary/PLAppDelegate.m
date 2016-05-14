@@ -18,6 +18,7 @@
 #import "PLSystemConfigModel.h"
 #import "PLPaymentManager.h"
 #import "HomeChannelViewController.h"
+#import "OtherAppViewController.h"
 @interface PLAppDelegate ()
 
 @end
@@ -50,15 +51,22 @@
     videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
                                                                          image:[UIImage imageNamed:@"normal_video_bar"]
                                                                  selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
-    /**免费的控制器*/
-    PLFreeViewController *freeVC = [[PLFreeViewController alloc] init];
-    freeVC.title = @"免费";
-    freeVC.bottomAdBanner = YES;
-    UINavigationController *freeNav   = [[UINavigationController alloc] initWithRootViewController:freeVC];
-    freeNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:freeVC.title
-                                                                       image:[UIImage imageNamed:@"tab_icon"]
-                                                               selectedImage:[UIImage imageNamed:@"tab_icon_press"]];
-    
+    OtherAppViewController *otherVC = [[OtherAppViewController alloc] init];
+    otherVC.title = @"精品";
+    otherVC.bottomAdBanner = YES;
+    UINavigationController *otherNav   = [[UINavigationController alloc] initWithRootViewController:otherVC];
+    otherNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:otherVC.title
+                                                                      image:[UIImage imageNamed:@"tab_icon"]
+                                                              selectedImage:[UIImage imageNamed:@"tab_icon_press"]];
+//    /**免费的控制器*/
+//    PLFreeViewController *freeVC = [[PLFreeViewController alloc] init];
+//    freeVC.title = @"免费";
+//    freeVC.bottomAdBanner = YES;
+//    UINavigationController *freeNav   = [[UINavigationController alloc] initWithRootViewController:freeVC];
+//    freeNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:freeVC.title
+//                                                                       image:[UIImage imageNamed:@"tab_icon"]
+//                                                               selectedImage:[UIImage imageNamed:@"tab_icon_press"]];
+//    
     
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
     settingVC.title = @"设置";
@@ -71,7 +79,7 @@
                                                             selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers     = @[photoNav,videoNav,freeNav,settingNav];
+    tabBarController.viewControllers     = @[photoNav,videoNav,otherNav,settingNav];
     tabBarController.tabBar.translucent  = NO;
     //设置tabbar选中的渲染效果
     tabBarController.tabBar.tintColor = [UIColor blackColor];
@@ -81,6 +89,12 @@
 
 #pragma mark - 设置控制器共有的规格
 - (void)setupCommonStyles {
+//    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary
+//                                                       dictionaryWithObjectsAndKeys: [UIColor colorWithHexString:@"#09bb07"],
+//                                                       NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+//    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+
     [UIViewController aspect_hookSelector:@selector(viewDidLoad)
                               withOptions:AspectPositionAfter
                                usingBlock:^(id<AspectInfo> aspectInfo){
@@ -133,6 +147,19 @@
                                      }
                                      [[aspectInfo originalInvocation] setReturnValue:&result];
                                  } error:nil];
+    
+    [UIViewController aspect_hookSelector:@selector(hidesBottomBarWhenPushed)
+                              withOptions:AspectPositionInstead
+                               usingBlock:^(id<AspectInfo> aspectInfo)
+     {
+         UIViewController *thisVC = [aspectInfo instance];
+         BOOL hidesBottomBar = NO;
+         if (thisVC.navigationController.viewControllers.count > 1) {
+             hidesBottomBar = YES;
+         }
+         [[aspectInfo originalInvocation] setReturnValue:&hidesBottomBar];
+     } error:nil];
+
 }
 
 #pragma mark - Appdelegate

@@ -8,13 +8,20 @@
 
 #import "PLPhotoCell.h"
 #import "UIImage+ZFFilter.h"
-
+#import "PLProgram.h"
+#import <SDWebImage/SDWebImageDownloader.h>
 static const CGFloat kImageOffset = 5;
 
 @interface PLPhotoCell ()
+{
+    UILabel *_titleLabel;
+    
+
+}
 @property (nonatomic,retain,readonly) UIImageView *imageView;
 @property (nonatomic,retain,readonly) UIImageView *backgroundImageView;
 @property (nonatomic,strong) UIView *effectView;
+@property (nonatomic,strong) UIImageView *coverFlurView;
 @end
 
 @implementation PLPhotoCell
@@ -50,29 +57,70 @@ static const CGFloat kImageOffset = 5;
     _imageView.layer.borderWidth = 0.5;
     _imageView.layer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
 
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.backgroundColor = [UIColor grayColor];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.font = [UIFont systemFontOfSize:20];
+    
+    [_imageView addSubview:_titleLabel];
+    _titleLabel.hidden = YES;
+    
+//    self.coverFlurView =  [[UIImageView alloc] init];
+//    self.coverFlurView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.95];
+//    
+//    _coverFlurView.hidden = NO;
+//
+//     [_imageView addSubview:self.coverFlurView];
+//    [self.coverFlurView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(_imageView);
+//    }];
+    [self BlurWithImageView:_imageView];
+    
     [self addSubview:_imageView];
     {
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self).with.insets(UIEdgeInsetsMake(0, 0, kImageOffset, kImageOffset));
         }];
     }
-
+    
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(_imageView);
+        make.height.mas_equalTo(20);
+    }];
+    
 }
 
-- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(PLProgram *)model{
+- (instancetype)setChannelCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(PLPhotoChannel *)model hasTitle:(BOOL)hasTitle{
+    
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.columnImg]];
+    
+    if (hasTitle) {
+        _titleLabel.hidden = NO;
+        _coverFlurView.hidden = YES;
+        _titleLabel.text = model.name;
+    }else{
+        _coverFlurView.hidden = NO;
+        _titleLabel.hidden = YES;
+    }
+
+    return self;
+
+}
+- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(PLProgram *)model hasTitle:(BOOL)hasTitle{
+
+
 
     if (indexpath.item==0) {
-        self.effectView.hidden = YES;
+        _coverFlurView.hidden = YES;
+        _effectView.hidden = YES;
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
-
+        
     }else{
-        self.effectView.hidden = NO;
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            [self BlurWithImageView:nil];
-        }];
-    
+        _coverFlurView.hidden = NO;
+        _effectView.hidden = NO;
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
+        
     }
-    
     
     
     return self;
@@ -88,25 +136,17 @@ static const CGFloat kImageOffset = 5;
         [self BlurWithImageView:nil];
     }];
     
-
+   
 }
 
 - (void)BlurWithImageViewForiOS7:(UIImageView*)imageView{
         UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:self.contentView.bounds];
-       toolbar.tag = 10;
         toolbar.barStyle = UIBarStyleBlackTranslucent;
         self.effectView = toolbar;
         [self.imageView addSubview:toolbar];
-        toolbar.alpha = 0.8;
+        toolbar.alpha = 0.95f;
 }
 - (void)BlurWithImageView:(UIImageView *)imageview{
-
-    for (UIView*view in self.imageView.subviews) {
-        if (view.tag==10) {
-            [view removeFromSuperview];
-            break;
-        }
-    }
     
     if ([UIDevice currentDevice].systemVersion.floatValue>=8.0) {
         /**  毛玻璃特效类型
@@ -116,21 +156,24 @@ static const CGFloat kImageOffset = 5;
          */
         UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         
-        
         //  毛玻璃视图
         UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
         self.effectView = effectView;
-        effectView.tag = 10;
+        
+        effectView.hidden = YES;
         //添加到要有毛玻璃特效的控件中
-        effectView.frame = self.imageView.bounds;
         [self.imageView addSubview:effectView];
         
+        [effectView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.imageView);
+        }];
         //设置模糊透明度
-        effectView.alpha = 0.8f;
+        effectView.alpha = 0.95f;
     }else{
         [self BlurWithImageViewForiOS7:nil];
     
     }
-    
+
 }
+
 @end

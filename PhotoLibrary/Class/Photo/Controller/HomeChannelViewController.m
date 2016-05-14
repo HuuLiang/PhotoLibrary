@@ -125,7 +125,8 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
     
     if (indexPath.item < self.channelDataArray.count) {
         PLPhotoChannel *program = self.channelDataArray[indexPath.item];
-        cell.imageURL = [NSURL URLWithString:program.columnImg];
+        cell = [cell setChannelCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program hasTitle:YES];
+//        cell.imageURL = [NSURL URLWithString:program.columnImg];
     } else {
         cell.imageURL = nil;
     }
@@ -135,22 +136,33 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-
-    PLPhotoViewController *photoVC = [[PLPhotoViewController alloc] init];
-    
-    PLPhotoChannel *channel =self.channelDataArray[indexPath.row];
-    if (channel.payAmount.unsignedIntegerValue==0) {
-        [self.navigationController pushViewController:photoVC animated:YES];
+    if (self.channelDataArray.count) {
         
-    }else{
-       @weakify(self)
-        [self payForPayable:channel withCompletionHandler:^(BOOL success, id obj) {
-            @strongify(self)
-            if (success) {
-                [self.navigationController pushViewController:photoVC animated:YES];
-            }
-        }];
+        
+         PLPhotoChannel *channel =self.channelDataArray[indexPath.row];
+        if (channel) {
+            
+             PLPhotoViewController *photoVC = [[PLPhotoViewController alloc] initWithChannel:channel];
+            [self.navigationController pushViewController:photoVC animated:YES];
+            
+        }
+        
     }
+   
+    
+   
+//    if (channel.payAmount.unsignedIntegerValue==0) {
+//        [self.navigationController pushViewController:photoVC animated:YES];
+    
+//    }else{
+//       @weakify(self)
+//        [self payForPayable:channel withCompletionHandler:^(BOOL success, id obj) {
+//            @strongify(self)
+//            if (success) {
+//                [self.navigationController pushViewController:photoVC animated:YES];
+//            }
+//        }];
+//    }
     
 }
 

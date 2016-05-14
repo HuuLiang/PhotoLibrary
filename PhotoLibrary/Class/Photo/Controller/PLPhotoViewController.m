@@ -338,11 +338,9 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     
     
     if (indexPath.item < self.photoPrograms.count) {
-        PLProgram *program = self.photoPrograms[indexPath.item];
-//        cell.imageURL = [NSURL URLWithString:program.coverImg];
+        PLProgram *program = self.photoPrograms[indexPath.item];        
         
-        
-        cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program];
+        cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program hasTitle:NO];
         
     } else {
         cell.imageURL = nil;

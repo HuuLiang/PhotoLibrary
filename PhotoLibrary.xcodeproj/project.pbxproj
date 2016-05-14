@@ -105,6 +105,10 @@
 		B99543D61CE5AB2A004F9881 /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B99543AD1CE5AB2A004F9881 /* MWZoomingScrollView.m */; };
 		B99543D71CE5AB2A004F9881 /* UIImage+MWPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B99543AF1CE5AB2A004F9881 /* UIImage+MWPhotoBrowser.m */; };
 		B99543DA1CE5B242004F9881 /* HomeChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B99543D91CE5B242004F9881 /* HomeChannelViewController.m */; };
+		B9B04A3F1CE5DE120054FE46 /* OtherAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A3E1CE5DE120054FE46 /* OtherAppViewController.m */; };
+		B9B04A451CE5DF1B0054FE46 /* AppListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A441CE5DF1B0054FE46 /* AppListTableViewCell.m */; };
+		B9B04A481CE5E3DA0054FE46 /* OtherAppFetchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A471CE5E3DA0054FE46 /* OtherAppFetchModel.m */; };
+		B9B04A4B1CE5E5310054FE46 /* OtherApp.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A4A1CE5E5310054FE46 /* OtherApp.m */; };
 		B9F0C1611CB6901C00B6413E /* PLPaymentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */; };
 		B9F0C1641CB6905500B6413E /* PLPaymentConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1631CB6905500B6413E /* PLPaymentConfigModel.m */; };
 		BC27E3741C1FBC7200BCD6FD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3731C1FBC7200BCD6FD /* WebKit.framework */; };
@@ -334,6 +338,14 @@
 		B99543AF1CE5AB2A004F9881 /* UIImage+MWPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MWPhotoBrowser.m"; sourceTree = "<group>"; };
 		B99543D81CE5B242004F9881 /* HomeChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeChannelViewController.h; sourceTree = "<group>"; };
 		B99543D91CE5B242004F9881 /* HomeChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeChannelViewController.m; sourceTree = "<group>"; };
+		B9B04A3D1CE5DE120054FE46 /* OtherAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OtherAppViewController.h; path = ../OtherAppViewController.h; sourceTree = "<group>"; };
+		B9B04A3E1CE5DE120054FE46 /* OtherAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OtherAppViewController.m; path = ../OtherAppViewController.m; sourceTree = "<group>"; };
+		B9B04A431CE5DF1B0054FE46 /* AppListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppListTableViewCell.h; sourceTree = "<group>"; };
+		B9B04A441CE5DF1B0054FE46 /* AppListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppListTableViewCell.m; sourceTree = "<group>"; };
+		B9B04A461CE5E3DA0054FE46 /* OtherAppFetchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherAppFetchModel.h; sourceTree = "<group>"; };
+		B9B04A471CE5E3DA0054FE46 /* OtherAppFetchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherAppFetchModel.m; sourceTree = "<group>"; };
+		B9B04A491CE5E5310054FE46 /* OtherApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherApp.h; sourceTree = "<group>"; };
+		B9B04A4A1CE5E5310054FE46 /* OtherApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherApp.m; sourceTree = "<group>"; };
 		B9F0C15F1CB6901C00B6413E /* PLPaymentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfig.h; sourceTree = "<group>"; };
 		B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentConfig.m; sourceTree = "<group>"; };
 		B9F0C1621CB6905500B6413E /* PLPaymentConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfigModel.h; sourceTree = "<group>"; };
@@ -474,6 +486,7 @@
 		B93E81791C7F001A00C38211 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				B9B04A3C1CE5DDE80054FE46 /* Other */,
 				B93E81F21C7F001B00C38211 /* Vendor */,
 				B93E81C21C7F001B00C38211 /* Utils */,
 				B93E817A1C7F001A00C38211 /* Base */,
@@ -902,6 +915,45 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		B9B04A3C1CE5DDE80054FE46 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				B9B04A401CE5DE540054FE46 /* Controller */,
+				B9B04A411CE5DE540054FE46 /* Model */,
+				B9B04A421CE5DE540054FE46 /* View */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		B9B04A401CE5DE540054FE46 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B9B04A3D1CE5DE120054FE46 /* OtherAppViewController.h */,
+				B9B04A3E1CE5DE120054FE46 /* OtherAppViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B9B04A411CE5DE540054FE46 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B9B04A461CE5E3DA0054FE46 /* OtherAppFetchModel.h */,
+				B9B04A471CE5E3DA0054FE46 /* OtherAppFetchModel.m */,
+				B9B04A491CE5E5310054FE46 /* OtherApp.h */,
+				B9B04A4A1CE5E5310054FE46 /* OtherApp.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B9B04A421CE5DE540054FE46 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B9B04A431CE5DF1B0054FE46 /* AppListTableViewCell.h */,
+				B9B04A441CE5DF1B0054FE46 /* AppListTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BC3FD69E1CB798BD0049B018 /* iAppPay */ = {
 			isa = PBXGroup;
 			children = (
@@ -1278,6 +1330,7 @@
 				B93E82291C7F001B00C38211 /* NSString+md5.m in Sources */,
 				B93E820C1C7F001B00C38211 /* PLPaymentModel.m in Sources */,
 				B93E82341C7F001B00C38211 /* RACEXTRuntimeExtensions.m in Sources */,
+				B9B04A4B1CE5E5310054FE46 /* OtherApp.m in Sources */,
 				B93E82111C7F001B00C38211 /* PLURLResponse.m in Sources */,
 				B99543D51CE5AB2A004F9881 /* MWTapDetectingView.m in Sources */,
 				B93E82151C7F001B00C38211 /* PLPhotoBrowser.m in Sources */,
@@ -1304,6 +1357,7 @@
 				B93E82281C7F001B00C38211 /* NSString+crypt.m in Sources */,
 				B93E82101C7F001B00C38211 /* PLURLRequest.m in Sources */,
 				B93E82161C7F001B00C38211 /* PLPhotoChannelPopupMenuController.m in Sources */,
+				B9B04A481CE5E3DA0054FE46 /* OtherAppFetchModel.m in Sources */,
 				B93E821E1C7F001B00C38211 /* PLPhotoCell.m in Sources */,
 				B93E82231C7F001B00C38211 /* PLChannelLockView.m in Sources */,
 				B93E82141C7F001B00C38211 /* PLPaymentPopView.m in Sources */,
@@ -1321,11 +1375,13 @@
 				B99543D61CE5AB2A004F9881 /* MWZoomingScrollView.m in Sources */,
 				B93E82441C7F014500C38211 /* PLFreeViewController.m in Sources */,
 				B93E82311C7F001B00C38211 /* PLPaymentUtil.m in Sources */,
+				B9B04A451CE5DF1B0054FE46 /* AppListTableViewCell.m in Sources */,
 				B93E822A1C7F001B00C38211 /* UIColor+hexColor.m in Sources */,
 				B93E82081C7F001B00C38211 /* PLBaseViewController.m in Sources */,
 				B99543D21CE5AB2A004F9881 /* MWPhoto.m in Sources */,
 				B93E82241C7F001B00C38211 /* PLSettingChannelLockScrollView.m in Sources */,
 				B99543DA1CE5B242004F9881 /* HomeChannelViewController.m in Sources */,
+				B9B04A3F1CE5DE120054FE46 /* OtherAppViewController.m in Sources */,
 				B93E823C1C7F001B00C38211 /* PLVideo.m in Sources */,
 				B93E821A1C7F001B00C38211 /* PLChannelProgramModel.m in Sources */,
 				B93E823D1C7F001B00C38211 /* PLVideoModel.m in Sources */,
