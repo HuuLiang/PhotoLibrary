@@ -122,9 +122,16 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     
     [self addRefresh];
     
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCollectionView:) name:kPaymentNotificationName object:nil];//通知支付成功
     
 }
 
+- (void)reloadCollectionView:(NSNotification *)noti{
+    
+    [_layoutCollectionView reloadData];
+    
+}
 - (void)addRefresh{
 
     @weakify(self)
@@ -220,7 +227,6 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     [self.view addSubview:_layoutCollectionView];
     {
         [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            //            make.edges.equalTo(self.view);
             make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
             
         }];
@@ -340,7 +346,9 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     if (indexPath.item < self.photoPrograms.count) {
         PLProgram *program = self.photoPrograms[indexPath.item];        
         
-        cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program hasTitle:NO];
+        //是否支付过该频道
+       BOOL isPayed =  [PLPaymentUtil isPaidForPayable:self.channelProgramModel.fetchedPrograms ];
+        cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program hasTitle:NO hasPayed:isPayed];
         
     } else {
         cell.imageURL = nil;
@@ -375,11 +383,13 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
     }else{
         @weakify(self);
+        DLog(@"----------->%@",self.channelProgramModel.fetchedPrograms.name);
+        
         if (indexOfAlbum < self.photoPrograms.count) {
             [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success, id obj) {
                 @strongify(self);
                 if (success) {//如果支付成功打开图片浏览器
-                    PLChannelProgram *photoProgram = self.photoPrograms[indexOfAlbum];
+                    PLProgram *photoProgram = self.photoPrograms[indexOfAlbum];
                     self.photoBrowser.photoAlbum = photoProgram;
                     [self.photoBrowser showInView:self.view.window];
                 }
@@ -432,20 +442,17 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 - (BOOL)photoBrowser:(PLPhotoBrowser *)photoBrowser shouldDisplayPhotoAtIndex:(NSUInteger)index{
 
     id<PLPayable> payable = self.channelProgramModel.fetchedPrograms;
-    //    if ([PLPaymentUtil isPaidForPayable:payable] || index != 3) {
-    //        return YES;
-    //    } else {
-    //        [self payForPayable:payable];
-    //    }
+    
     //点击锁后的回调
     @weakify(self)
     photoBrowser.payAction = ^(id sender){
         @strongify(self)
-        DLog(@"%@",sender);
+        
         [self payForPayable:payable];
         
     };
-    return YES;
+    
+    return [PLPaymentUtil isPaidForPayable:payable];
     
 }
 - (void)payForPayable:(id<PLPayable>)payable{

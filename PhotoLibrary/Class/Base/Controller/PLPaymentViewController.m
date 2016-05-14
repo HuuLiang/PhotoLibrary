@@ -190,6 +190,7 @@
     if (result == PAYRESULT_SUCCESS) {//如果支付成功
         [PLPaymentUtil setPaidForPayable:self.payableObject];//设置这个东西已经支付过
         [[PLHudManager manager] showHudWithText:@"支付成功"];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentNotificationName object:nil];//通知支付成功
         [PLStatistics statPayment:self.payableObject];//友盟统计
     } else if (result == PAYRESULT_ABANDON) {

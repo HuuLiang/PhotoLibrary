@@ -13,7 +13,35 @@
 
 @property (nonatomic,retain) NSURL *imageURL;
 
-- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(id)model hasTitle:(BOOL)hasTitle;
+/**
+ *  栏目的cell
+ *
+ *  @param indexpath
+ *  @param collectionView
+ *  @param model          栏目
+ *  @param hasTitle       是否有标题
+ *  @param hasPayed       是否支付过改栏目所在的频道
+ *
+ *  @return
+ */
+- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath
+                   andCollectionView:(UICollectionView *)collectionView
+                            andModel:(id)model
+                            hasTitle:(BOOL)hasTitle
+                            hasPayed:(BOOL)hasPayed;
 
-- (instancetype)setChannelCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(PLPhotoChannel *)model hasTitle:(BOOL)hasTitle;
+
+/**
+ *  频道的cell
+ *
+ *  @param indexpath
+ *  @param collectionView
+ *  @param model          频道模型
+ *  @param hasTitle       是否有标题
+ *
+ *  @return 
+ */
+- (instancetype)setChannelCellWithIndexPath:(NSIndexPath *)indexpath
+                          andCollectionView:(UICollectionView *)collectionView andModel:(PLPhotoChannel *)model
+                                   hasTitle:(BOOL)hasTitle ;
 @end

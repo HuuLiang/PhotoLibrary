@@ -21,7 +21,7 @@ static const CGFloat kImageOffset = 5;
 @property (nonatomic,retain,readonly) UIImageView *imageView;
 @property (nonatomic,retain,readonly) UIImageView *backgroundImageView;
 @property (nonatomic,strong) UIView *effectView;
-@property (nonatomic,strong) UIImageView *coverFlurView;
+//@property (nonatomic,strong) UIImageView *coverFlurView;
 @end
 
 @implementation PLPhotoCell
@@ -96,28 +96,30 @@ static const CGFloat kImageOffset = 5;
     
     if (hasTitle) {
         _titleLabel.hidden = NO;
-        _coverFlurView.hidden = YES;
+//        _coverFlurView.hidden = YES;
         _titleLabel.text = model.name;
     }else{
-        _coverFlurView.hidden = NO;
+//        _coverFlurView.hidden = NO;
         _titleLabel.hidden = YES;
     }
 
     return self;
 
 }
-- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(PLProgram *)model hasTitle:(BOOL)hasTitle{
+- (instancetype)setCellWithIndexPath:(NSIndexPath *)indexpath andCollectionView:(UICollectionView *)collectionView andModel:(PLProgram *)model hasTitle:(BOOL)hasTitle hasPayed:(BOOL)hasPayed{
 
-
-
+   
     if (indexpath.item==0) {
-        _coverFlurView.hidden = YES;
         _effectView.hidden = YES;
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
         
     }else{
-        _coverFlurView.hidden = NO;
-        _effectView.hidden = NO;
+        if (hasPayed) {
+            _effectView.hidden = YES;
+        }else{
+            _effectView.hidden = NO;
+        }
+        
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
         
     }
