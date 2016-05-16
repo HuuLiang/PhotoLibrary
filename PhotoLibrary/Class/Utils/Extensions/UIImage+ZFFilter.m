@@ -25,7 +25,7 @@
     
     CIFilter *blurFilter =
     [CIFilter filterWithName:@"CIGaussianBlur"];
-    [blurFilter setDefaults];
+//    [blurFilter setDefaults];
     [blurFilter setValue:extendedImage forKey:kCIInputImageKey];
     [blurFilter setValue:@(radius) forKey:@"inputRadius"];
     

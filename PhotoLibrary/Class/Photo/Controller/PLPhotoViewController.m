@@ -379,6 +379,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     if (indexPath.item==0) {
         PLChannelProgram *photoProgram = self.photoPrograms[indexOfAlbum];
         self.photoBrowser.photoAlbum = photoProgram;
+        self.photoBrowser.channelAlbum  = [self.photoPrograms mutableCopy];
+        self.photoBrowser.currentPhotoAlbumIndex = indexOfAlbum;
         [self.photoBrowser showInView:self.view.window];
 
     }else{
@@ -390,7 +392,9 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
                 @strongify(self);
                 if (success) {//如果支付成功打开图片浏览器
                     PLProgram *photoProgram = self.photoPrograms[indexOfAlbum];
+                    self.photoBrowser.channelAlbum  = [self.photoPrograms mutableCopy];
                     self.photoBrowser.photoAlbum = photoProgram;
+                    self.photoBrowser.currentPhotoAlbumIndex = indexOfAlbum;
                     [self.photoBrowser showInView:self.view.window];
                 }
             }];
@@ -471,6 +475,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album {
     self.statusBarHidden = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"removeData" object:nil];
     DLog(@"-----------------------------");
     
 }

@@ -973,6 +973,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [self didStartViewingPageAtIndex:index];
     }
 	
+    DLog(@"%f",scrollView.contentOffset.x);
+    
+    self.contentOffSet = scrollView.contentOffset.x;
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {

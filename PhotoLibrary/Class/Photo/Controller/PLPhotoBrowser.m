@@ -24,6 +24,7 @@ static const CGFloat kViewFadeAnimationDuration = 0.3;
 @interface PLPhotoBrowser () <MWPhotoBrowserDelegate>
 {
     UILabel *_titleLabel;
+    BOOL _isLeftScroll;
 }
 /**第三方MWPhotoBrowser*/
 @property (nonatomic,retain) MWPhotoBrowser *photoBrowser;
@@ -31,6 +32,8 @@ static const CGFloat kViewFadeAnimationDuration = 0.3;
 @property (nonatomic,retain) PLProgramUrlModel *urlModel;
 
 @property (nonatomic,retain) NSArray<MWPhoto *> *photos;
+
+@property (nonatomic,strong) NSMutableArray<MWPhoto *> *Allphoto;
 
 @property (nonatomic,strong) PLFreePhotoModel *freePhotoModel;
 
@@ -47,6 +50,8 @@ DefineLazyPropertyInitialization(PLFreePhotoModel, freePhotoModel)
 
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 
+DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
+
 - (instancetype)initWithAlbum:(PLProgram *)album {
     if (self) {
         _photoAlbum = album;
@@ -62,6 +67,7 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     _titleLabel.font = [UIFont boldSystemFontOfSize:14.];
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    _isLeftScroll = NO;
     [self.view addSubview:_titleLabel];
     {
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,13 +76,29 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         }];
     }
     
+    [self.photoBrowser addObserver:self forKeyPath:@"contentOffSet" options:NSKeyValueObservingOptionNew context:nil];
     @weakify(self);
     [self.view bk_whenTapped:^{
         @strongify(self);
         [self hide];
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeData) name:@"removeData" object:nil];
 }
 
+- (void)removeData{
+
+    [self.Allphoto removeAllObjects];
+}
+- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context{
+ 
+    DLog(@"---------------------------");
+}
+- (void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+}
 #pragma mark - 照片浏览器即将显示的时候下载数据
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -121,9 +143,22 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
         [urlList enumerateObjectsUsingBlock:^(PLProgramUrl * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj) {
                 [photos addObject:[MWPhoto photoWithURL:[NSURL URLWithString:obj.url]]];
+                
             }
         }];
         self.photos = photos;//获取数据后的模型数组，里面装的全是URL
+        
+        
+       
+        if (_isLeftScroll) {//向左观看
+            for (int i = 0; i<photos.count; i++) {
+                [self.Allphoto insertObject:photos[i] atIndex:i];
+            }
+        }else{//向右观看
+            [self.Allphoto addObjectsFromArray:photos];
+        
+        }
+       
         
         [self.photoBrowser reloadData];
     }];
@@ -187,16 +222,13 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     _titleLabel.hidden = photos.count == 0;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - MWPhotoBrowserDelegate
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return self.photos.count;
+//    return self.photos.count;
 
+    return self.Allphoto.count;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
@@ -206,28 +238,74 @@ DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
     }
     
     if (index>2) {
-
+//
+//        if (isPayed) {
+//            self.photos[index].isLocked = NO;
+//        }else{
+//            self.photos[index].isLocked = YES;
+//        }
+//        
+//        @weakify(self)
+//        self.photos[index].tapLockAction = ^(id sender) {
+//            @strongify(self)
+//            
+//            DLog(@"%@",self.photos[index]);
+//            self.payAction(sender);
+//            
+//        };
+        
         if (isPayed) {
-            self.photos[index].isLocked = NO;
+            self.Allphoto[index].isLocked = NO;
         }else{
-            self.photos[index].isLocked = YES;
+            self.Allphoto[index].isLocked = YES;
         }
         
         @weakify(self)
-        self.photos[index].tapLockAction = ^(id sender) {
+        self.Allphoto[index].tapLockAction = ^(id sender) {
             @strongify(self)
             
-            DLog(@"%@",self.photos[index]);
+            DLog(@"%@",self.Allphoto[index]);
             self.payAction(sender);
             
         };
         
     }
-    return self.photos[index];
+    DLog(@"------------<<<%lu,%lu",self.photos.count,index)
+    if (index==self.Allphoto.count-1) {
+//        [[PLHudManager manager] showHudWithText:@"最后一张"];
+        
+       self.currentPhotoAlbumIndex++;
+        DLog(@"-------->><<%lu",self.currentPhotoAlbumIndex);
+       [self.channelAlbum enumerateObjectsUsingBlock:^(PLProgram *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           
+           if (idx == self.currentPhotoAlbumIndex) {
+               self.photoAlbum = obj;
+               *stop = YES;
+           }
+       }];
+        
+        [self loadAlbumUrls];
+    }
+    return self.Allphoto[index];
+//    return self.photos[index];
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
     
-    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.photos.count];
+//    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.photos.count];
+    
+    DLog(@"-------%lu",photoBrowser.currentIndex);
+    
+    if (photoBrowser.contentOffSet<0) {
+        _isLeftScroll = YES;
+        self.currentPhotoAlbumIndex--;
+        [self loadAlbumUrls];
+    }
+    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.Allphoto.count];
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser willDisplayPhoto:(id<MWPhoto>)photo atIndex:(NSUInteger)index inUnderlyingScrollView:(UIScrollView *)scrollView{
+
+    DLog(@"---------%f",scrollView.contentOffset.x);
 }
 @end

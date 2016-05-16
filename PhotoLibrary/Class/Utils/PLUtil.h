@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (NSString *)userId;
 + (NSString *)deviceName;
 + (NSUInteger)appVersion;
-
++ (void)checkAppInstalledWithBundleId:(NSString *)bundleId completionHandler:(void (^)(BOOL))handler;
 
 
 // For test only

@@ -24,6 +24,8 @@ typedef void(^PayAction) (id sender);
 @interface PLPhotoBrowser : PLBaseViewController    //制作照片查看器
 /**单个Cell中的图片模型*/
 @property (nonatomic,retain) PLProgram *photoAlbum;
+@property (nonatomic,strong) NSArray *channelAlbum;
+@property (nonatomic,assign) NSUInteger currentPhotoAlbumIndex;
 @property (nonatomic,assign) id<PLPhotoBrowserDelegate> delegate;
 @property (nonatomic,copy)PayAction payAction;
 - (instancetype)initWithAlbum:(PLProgram *)album;
