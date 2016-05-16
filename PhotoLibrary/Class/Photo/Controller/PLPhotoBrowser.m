@@ -76,7 +76,6 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
         }];
     }
     
-    [self.photoBrowser addObserver:self forKeyPath:@"contentOffSet" options:NSKeyValueObservingOptionNew context:nil];
     @weakify(self);
     [self.view bk_whenTapped:^{
         @strongify(self);
@@ -89,11 +88,9 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 - (void)removeData{
 
     [self.Allphoto removeAllObjects];
+    self.currentPhotoAlbumIndex=0;
 }
-- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context{
- 
-    DLog(@"---------------------------");
-}
+
 - (void)dealloc{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -149,17 +146,9 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
         self.photos = photos;//获取数据后的模型数组，里面装的全是URL
         
         
-       
-        if (_isLeftScroll) {//向左观看
-            for (int i = 0; i<photos.count; i++) {
-                [self.Allphoto insertObject:photos[i] atIndex:i];
-            }
-        }else{//向右观看
-            [self.Allphoto addObjectsFromArray:photos];
+        [self.Allphoto addObjectsFromArray:photos];
         
-        }
-       
-        
+
         [self.photoBrowser reloadData];
     }];
 }
@@ -263,19 +252,16 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
         @weakify(self)
         self.Allphoto[index].tapLockAction = ^(id sender) {
             @strongify(self)
-            
-            DLog(@"%@",self.Allphoto[index]);
+
             self.payAction(sender);
             
         };
-        
     }
-    DLog(@"------------<<<%lu,%lu",self.photos.count,index)
-    if (index==self.Allphoto.count-1) {
-//        [[PLHudManager manager] showHudWithText:@"最后一张"];
+
+    if (index==self.Allphoto.count-1) {//相册最后一张
         
        self.currentPhotoAlbumIndex++;
-        DLog(@"-------->><<%lu",self.currentPhotoAlbumIndex);
+
        [self.channelAlbum enumerateObjectsUsingBlock:^(PLProgram *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
            
            if (idx == self.currentPhotoAlbumIndex) {
@@ -284,9 +270,18 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
            }
        }];
         
-        [self loadAlbumUrls];
+        
+        if (self.channelAlbum.count>=self.currentPhotoAlbumIndex+1) {//来这里表明是最后一个相册的最后一张
+            [self loadAlbumUrls];
+        }else{
+             return self.Allphoto[index];
+        }
+        
     }
-    return self.Allphoto[index];
+    
+        return self.Allphoto[index];
+
+    
 //    return self.photos[index];
 }
 
@@ -294,13 +289,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
     
 //    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.photos.count];
     
-    DLog(@"-------%lu",photoBrowser.currentIndex);
-    
-    if (photoBrowser.contentOffSet<0) {
-        _isLeftScroll = YES;
-        self.currentPhotoAlbumIndex--;
-        [self loadAlbumUrls];
-    }
+  
     _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.Allphoto.count];
 }
 

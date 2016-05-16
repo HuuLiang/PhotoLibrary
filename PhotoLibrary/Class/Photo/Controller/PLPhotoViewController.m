@@ -385,7 +385,6 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
     }else{
         @weakify(self);
-        DLog(@"----------->%@",self.channelProgramModel.fetchedPrograms.name);
         
         if (indexOfAlbum < self.photoPrograms.count) {
             [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success, id obj) {
