@@ -302,6 +302,9 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
              if (!self || !success) {
                  return ;
              }
+             if (!success) {
+                 [[PLHudManager manager] showHudWithText:@"获取数据失败"];
+             }
              [_layoutCollectionView PL_endPullToRefresh];
              if(page==1){
                  [self.photoPrograms removeAllObjects];

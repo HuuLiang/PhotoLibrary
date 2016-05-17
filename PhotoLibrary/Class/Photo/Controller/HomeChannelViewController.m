@@ -111,6 +111,9 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
         if (!self || !success || channels.count == 0) {
             return ;
         }
+        if (!success) {
+            [[PLHudManager manager] showHudWithText:@"获取数据失败"];
+        }
         [_layoutCollectionView PL_endPullToRefresh];
         if (success) {
             [self.channelDataArray removeAllObjects];
