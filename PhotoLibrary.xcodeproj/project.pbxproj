@@ -1172,7 +1172,7 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = SEPTC82S94;
+						DevelopmentTeam = 7VHT3KAS56;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1568,7 +1568,7 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/BaiduMobAd",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1600,7 +1600,7 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/BaiduMobAd",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

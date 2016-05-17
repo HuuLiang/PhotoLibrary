@@ -368,7 +368,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     
     
     const CGFloat cellWidth = CGRectGetWidth(collectionView.bounds) / 2 - kPhotoCellInterspace * 1.5;
-    const CGFloat cellHeight = cellWidth*(453/345.0);
+    const CGFloat cellHeight = cellWidth*(423/345.0);
     
     return CGSizeMake(cellWidth, cellHeight);
 

@@ -111,10 +111,10 @@ DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
         if (!self || !success || channels.count == 0) {
             return ;
         }
-        
+        [_layoutCollectionView PL_endPullToRefresh];
         if (success) {
             [self.channelDataArray removeAllObjects];
-            [_layoutCollectionView PL_endPullToRefresh];
+            
             [self.channelDataArray addObjectsFromArray:channels];
             
             [_layoutCollectionView reloadData];
