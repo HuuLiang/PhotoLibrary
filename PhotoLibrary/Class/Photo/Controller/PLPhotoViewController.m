@@ -366,9 +366,11 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     
-        const CGFloat cellHeight = CGRectGetHeight(collectionView.bounds) / 2 - kPhotoCellInterspace*1.5;
-        const CGFloat cellWidth = CGRectGetWidth(collectionView.bounds) / 2 - kPhotoCellInterspace * 1.5;
-        return CGSizeMake(cellWidth, cellHeight);
+    
+    const CGFloat cellWidth = CGRectGetWidth(collectionView.bounds) / 2 - kPhotoCellInterspace * 1.5;
+    const CGFloat cellHeight = cellWidth*(453/345.0);
+    
+    return CGSizeMake(cellWidth, cellHeight);
 
 }
 
@@ -466,6 +468,10 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         [self.photoBrowser hide];
     } completionHandler:^(BOOL success, id obj) {
         if (success) {
+                        
+            self.photoBrowser.photoAlbum = self.photoPrograms[0];
+            self.photoBrowser.currentPhotoAlbumIndex = 0;
+            
             [self.photoBrowser showInView:self.view.window];
         }
     }];
@@ -475,7 +481,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 - (void)photoBrowser:(PLPhotoBrowser *)photoBrowser willEndDisplayingAlbum:(PLProgram *)album {
     self.statusBarHidden = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"removeData" object:nil];
-    DLog(@"-----------------------------");
+
     
 }
 

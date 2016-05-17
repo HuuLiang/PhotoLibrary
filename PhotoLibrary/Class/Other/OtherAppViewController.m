@@ -12,7 +12,7 @@
 #import "UIScrollView+Refish.h"
 #import "OtherAppFetchModel.h"
 static NSString *const kOtherAppTableViewCellResueidentifer = @"kOtherAppTableViewCellResueidentifer";
-static const NSUInteger kRowHeight  = 110;
+static const CGFloat kRowHeight  = 300/750.0;
 @interface OtherAppViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *otherAppTaleView;
@@ -60,7 +60,7 @@ DefineLazyPropertyInitialization(NSMutableArray, dataArray);
     self.otherAppTaleView.frame = self.view.bounds;
     
     self.otherAppTaleView.tableFooterView = [[UIView alloc] init];
-    self.otherAppTaleView.rowHeight = kRowHeight;
+    self.otherAppTaleView.rowHeight = kRowHeight*(kScreenWidth);
     [self.view addSubview:self.otherAppTaleView];
     
     [self.otherAppTaleView registerClass:[AppListTableViewCell class] forCellReuseIdentifier:kOtherAppTableViewCellResueidentifer];

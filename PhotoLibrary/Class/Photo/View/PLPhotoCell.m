@@ -33,7 +33,7 @@ static const CGFloat kImageOffset = 5;
     self = [super initWithFrame:frame];
     if (self) {
         _backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_album_background"]];
-        _backgroundImageView.hidden = YES;
+        _backgroundImageView.hidden = NO;
         [self addSubview:_backgroundImageView];
         {
             [_backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {

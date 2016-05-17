@@ -83,8 +83,13 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeData) name:@"removeData" object:nil];
+
+    
 }
 
+- (void)reloadBrowser{
+    [self.photoBrowser reloadData];
+}
 - (void)removeData{
 
     [self.Allphoto removeAllObjects];
@@ -94,6 +99,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 - (void)dealloc{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 
 }
 #pragma mark - 照片浏览器即将显示的时候下载数据
@@ -290,7 +296,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 //    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.photos.count];
     
   
-    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.Allphoto.count];
+    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,(unsigned long)self.Allphoto.count];
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser willDisplayPhoto:(id<MWPhoto>)photo atIndex:(NSUInteger)index inUnderlyingScrollView:(UIScrollView *)scrollView{

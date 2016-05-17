@@ -22,8 +22,9 @@
         
         _AppImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:_AppImageView];
-        _AppImageView.backgroundColor = [UIColor redColor];
         
+//        _AppImageView.contentMode = UIViewContentModeScaleAspectFill;
+//        _AppImageView.clipsToBounds = YES;
         [_AppImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView);
         }];
@@ -38,9 +39,9 @@
 - (UILabel *)installedLabel {
  
     UILabel *label = [[UILabel alloc] init];
-    label.backgroundColor = [UIColor grayColor];
+    label.backgroundColor = [UIColor colorWithHexString:@"#09bb07"];
     label.text = @"已安装";
-    label.font = [UIFont systemFontOfSize:20.];
+    label.font = [UIFont systemFontOfSize:16.];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.hidden = YES;
@@ -60,12 +61,11 @@
 
     [_AppImageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
     
-    
     [PLUtil checkAppInstalledWithBundleId:model.specialDesc completionHandler:^(BOOL installed) {
         if (installed) {
-            _installedLabel.hidden = YES;
-        }else{
             _installedLabel.hidden = NO;
+        }else{
+            _installedLabel.hidden = YES;
         }
     }];
     
