@@ -299,13 +299,17 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
                                           completionHandler:^(BOOL success, PLChannelPrograms *programs)//PLChannelPrograms*programs 返回的是这个频道上的所有的信息，其中有一个属性存的时返回的图片数组，
          {
              @strongify(self);
-             if (!self || !success) {
-                 return ;
-             }
+             
+             [_layoutCollectionView PL_endPullToRefresh];
              if (!success) {
                  [[PLHudManager manager] showHudWithText:@"获取数据失败"];
              }
-             [_layoutCollectionView PL_endPullToRefresh];
+             
+             if (!self || !success) {
+                 return ;
+             }
+             
+             
              if(page==1){
                  [self.photoPrograms removeAllObjects];
              }
