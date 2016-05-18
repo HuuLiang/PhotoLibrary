@@ -8,6 +8,7 @@
 
 #import "PLPhotoCell.h"
 #import "UIImage+ZFFilter.h"
+#import "UIImage+Blur.h"
 #import "PLProgram.h"
 #import <SDWebImage/SDWebImageDownloader.h>
 static const CGFloat kImageOffset = 5;
@@ -110,17 +111,33 @@ static const CGFloat kImageOffset = 5;
 
    
     if (indexpath.item==0) {
-        _effectView.hidden = YES;
+//        _effectView.hidden = YES;
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
         
     }else{
-        if (hasPayed) {
-            _effectView.hidden = YES;
-        }else{
-            _effectView.hidden = NO;
-        }
+//        if (hasPayed) {
+//            _effectView.hidden = YES;
+//        }else{
+//            _effectView.hidden = NO;
+//        }
         
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
+        if (!hasPayed) {
+            @weakify(self);
+            [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg] placeholderImage:nil options:SDWebImageAvoidAutoSetImage  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                @strongify(self);
+                if (image) {
+                    //todo:blur
+                    
+                    self.imageView.image =  [UIImage filterWith:image andRadius:7];
+                }
+            }];
+
+        }else{
+        
+            [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.coverImg]];
+        
+        }
+       
         
     }
     
@@ -170,7 +187,7 @@ static const CGFloat kImageOffset = 5;
             make.edges.equalTo(self.imageView);
         }];
         //设置模糊透明度
-        effectView.alpha = 0.95f;
+        effectView.alpha = 0.9f;
     }else{
         [self BlurWithImageViewForiOS7:nil];
     

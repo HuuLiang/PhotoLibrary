@@ -112,6 +112,7 @@
 		B9B04A581CE96E180054FE46 /* NSObject+PropertyAccessInspecting.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A571CE96E180054FE46 /* NSObject+PropertyAccessInspecting.m */; };
 		B9B04A5D1CE96E490054FE46 /* YYKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A5A1CE96E490054FE46 /* YYKApplication.m */; };
 		B9B04A5E1CE96E490054FE46 /* YYKApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A5C1CE96E490054FE46 /* YYKApplicationManager.m */; };
+		B9B948291CEC6B5E00854D3C /* UIImage+Blur.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B948281CEC6B5E00854D3C /* UIImage+Blur.m */; };
 		B9F0C1611CB6901C00B6413E /* PLPaymentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */; };
 		B9F0C1641CB6905500B6413E /* PLPaymentConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1631CB6905500B6413E /* PLPaymentConfigModel.m */; };
 		BC27E3741C1FBC7200BCD6FD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC27E3731C1FBC7200BCD6FD /* WebKit.framework */; };
@@ -355,6 +356,8 @@
 		B9B04A5A1CE96E490054FE46 /* YYKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYKApplication.m; sourceTree = "<group>"; };
 		B9B04A5B1CE96E490054FE46 /* YYKApplicationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYKApplicationManager.h; sourceTree = "<group>"; };
 		B9B04A5C1CE96E490054FE46 /* YYKApplicationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYKApplicationManager.m; sourceTree = "<group>"; };
+		B9B948271CEC6B5E00854D3C /* UIImage+Blur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Blur.h"; sourceTree = "<group>"; };
+		B9B948281CEC6B5E00854D3C /* UIImage+Blur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Blur.m"; sourceTree = "<group>"; };
 		B9F0C15F1CB6901C00B6413E /* PLPaymentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfig.h; sourceTree = "<group>"; };
 		B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLPaymentConfig.m; sourceTree = "<group>"; };
 		B9F0C1621CB6905500B6413E /* PLPaymentConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfigModel.h; sourceTree = "<group>"; };
@@ -705,6 +708,8 @@
 		B93E81C31C7F001B00C38211 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B9B948271CEC6B5E00854D3C /* UIImage+Blur.h */,
+				B9B948281CEC6B5E00854D3C /* UIImage+Blur.m */,
 				B99543781CE5AAB3004F9881 /* UIImage+ZFFilter.h */,
 				B99543791CE5AAB3004F9881 /* UIImage+ZFFilter.m */,
 				BC3FD6C91CB79C240049B018 /* PLExtensions.h */,
@@ -1385,6 +1390,7 @@
 				B9F0C1611CB6901C00B6413E /* PLPaymentConfig.m in Sources */,
 				BC3FD6C31CB799220049B018 /* WeChatPayManager.m in Sources */,
 				B93E820B1C7F001B00C38211 /* PLEncryptedURLRequest.m in Sources */,
+				B9B948291CEC6B5E00854D3C /* UIImage+Blur.m in Sources */,
 				B93E82211C7F001B00C38211 /* PLPaymentInfo.m in Sources */,
 				B99543D71CE5AB2A004F9881 /* UIImage+MWPhotoBrowser.m in Sources */,
 				B93E82201C7F001B00C38211 /* PLPopupMenuButton.m in Sources */,
