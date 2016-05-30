@@ -40,6 +40,8 @@ static const CGFloat kViewFadeAnimationDuration = 0.3;
 @property (nonatomic,strong) PLChannelProgramModel *channelProgramModel;
 
 @property (nonatomic,strong) PLPaymentViewController *paymentVC;
+
+
 @end
 
 @implementation PLPhotoBrowser//继承baseVC
@@ -55,7 +57,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 - (instancetype)initWithAlbum:(PLProgram *)album {
     if (self) {
         _photoAlbum = album;
-
+        
     }
     return self;
 }
@@ -83,7 +85,6 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeData) name:@"removeData" object:nil];
-
     
 }
 
@@ -91,16 +92,23 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
     [self.photoBrowser reloadData];
 }
 - (void)removeData{
-
+    
     [self.Allphoto removeAllObjects];
     self.currentPhotoAlbumIndex=0;
 }
 
 - (void)dealloc{
-    
+    //    [_photoBrowser.pagingScrollView removeObserver:self forKeyPath:@"contentOffset" context:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+    
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_photoBrowser.pagingScrollView removeObserver:self forKeyPath:@"contentOffset" context:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 #pragma mark - 照片浏览器即将显示的时候下载数据
 - (void)viewWillAppear:(BOOL)animated {
@@ -108,8 +116,8 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
     
     if (!self.photoBrowser) {//初始化专门播放图片的控制器
         self.photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-       
-//        self.photoBrowser.displayActionButton = NO;
+        
+        //        self.photoBrowser.displayActionButton = NO;
         
         [self addChildViewController:self.photoBrowser];
         self.photoBrowser.view.frame = self.view.bounds;
@@ -121,12 +129,15 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
         }
         [self.photoBrowser didMoveToParentViewController:self];
     }
+    
     //设置数据加载时的界面状态
     self.view.pl_loadingView.backgroundColor = [UIColor blackColor];
     self.view.pl_loadingIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     [self.view pl_beginLoading];//开始转圈
     [self loadAlbumUrls];//下载图片数据
+        [_photoBrowser.pagingScrollView addObserver:self forKeyPath:@"contentOffset" options:(NSKeyValueObservingOptionNew) context:nil];
 }
+
 #pragma mark - 下载数据
 - (void)loadAlbumUrls {
     if (!self.photoAlbum.programId) {
@@ -149,12 +160,26 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
                 
             }
         }];
-        self.photos = photos;//获取数据后的模型数组，里面装的全是URL
+        
+        if (!self.payed) {
+            NSMutableArray <MWPhoto *> *photo = [NSMutableArray array];
+            
+            for (int i = 0; i<3; ++i) {
+                [photo addObject:photos[i]];
+            }
+            self.photos = photo;
+             [self.Allphoto removeAllObjects];
+            
+        }else{
+            
+            self.photos = photos;//获取数据后的模型数组，里面装的全是URL
+        }
+        
+       
+        
+        [self.Allphoto addObjectsFromArray:self->_photos];
         
         
-        [self.Allphoto addObjectsFromArray:photos];
-        
-
         [self.photoBrowser reloadData];
     }];
 }
@@ -221,86 +246,144 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 #pragma mark - MWPhotoBrowserDelegate
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-//    return self.photos.count;
 
-    return self.Allphoto.count;
+    return   self.Allphoto.count;
 }
 
+
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    
     BOOL isPayed = NO;
     if ([self.delegate respondsToSelector:@selector(photoBrowser:shouldDisplayPhotoAtIndex:)]) {
-       isPayed =  [self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index];
+        isPayed =  [self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index];
     }
     
     if (index>2) {
-//
-//        if (isPayed) {
-//            self.photos[index].isLocked = NO;
-//        }else{
-//            self.photos[index].isLocked = YES;
-//        }
-//        
-//        @weakify(self)
-//        self.photos[index].tapLockAction = ^(id sender) {
-//            @strongify(self)
-//            
-//            DLog(@"%@",self.photos[index]);
-//            self.payAction(sender);
-//            
-//        };
         
         if (isPayed) {
             self.Allphoto[index].isLocked = NO;
+            if (index==self.Allphoto.count-1) {//相册最后一张
+                
+                self.currentPhotoAlbumIndex++;
+                
+                [self.channelAlbum enumerateObjectsUsingBlock:^(PLProgram *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    
+                    if (idx == self.currentPhotoAlbumIndex) {
+                        self.photoAlbum = obj;
+                        *stop = YES;
+                    }
+                }];
+                
+                
+                if (self.channelAlbum.count>=self.currentPhotoAlbumIndex+1) {//来这里表明是最后一个相册的最后一张
+                    [self loadAlbumUrls];
+                }else{
+                    
+                    return self.Allphoto[index];
+                }
+                
+            }
+            
         }else{
             self.Allphoto[index].isLocked = YES;
-        }
-        
-        @weakify(self)
-        self.Allphoto[index].tapLockAction = ^(id sender) {
-            @strongify(self)
-
-            self.payAction(sender);
             
-        };
-    }
-
-    if (index==self.Allphoto.count-1) {//相册最后一张
-        
-       self.currentPhotoAlbumIndex++;
-
-       [self.channelAlbum enumerateObjectsUsingBlock:^(PLProgram *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-           
-           if (idx == self.currentPhotoAlbumIndex) {
-               self.photoAlbum = obj;
-               *stop = YES;
-           }
-       }];
-        
-        
-        if (self.channelAlbum.count>=self.currentPhotoAlbumIndex+1) {//来这里表明是最后一个相册的最后一张
-            [self loadAlbumUrls];
-        }else{
-             return self.Allphoto[index];
+            @weakify(self)
+            self.Allphoto[index].tapLockAction = ^(id sender) {
+                @strongify(self)
+                
+                self.payAction(sender);
+                
+            };
+            
         }
         
     }
     
-        return self.Allphoto[index];
-
     
-//    return self.photos[index];
+    return self.Allphoto[index];
+    
+    //
+    //        if (isPayed) {
+    //            self.photos[index].isLocked = NO;
+    //        }else{
+    //            self.photos[index].isLocked = YES;
+    //        }
+    //
+    //        @weakify(self)
+    //        self.photos[index].tapLockAction = ^(id sender) {
+    //            @strongify(self)
+    //
+    //            DLog(@"%@",self.photos[index]);
+    //            self.payAction(sender);
+    //            
+    //        };
+    //    return self.photos[index];
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
     
-//    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,self.photos.count];
+    if (self.payed) {
+        
+        _titleLabel.text = [NSString stringWithFormat:@"%lu / %ld",index+1,(unsigned long)self.Allphoto.count];
+    } else {
+        _titleLabel.text = [NSString stringWithFormat:@"%lu / %@",index+1,self.pictureCount];
     
-  
-    _titleLabel.text = [NSString stringWithFormat:@"%ld / %ld",index+1,(unsigned long)self.Allphoto.count];
+    }
+    if (self.payed) {
+        
+    }else {
+        if (index == 2){
+            
+            if (self.payAction) {
+                self.payAction(nil);
+                
+            }
+//            UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom)];
+//            [_photoBrowser.pagingScrollView addGestureRecognizer:panRecognizer];
+        }
+        
+        
+    }
 }
 
-- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser willDisplayPhoto:(id<MWPhoto>)photo atIndex:(NSUInteger)index inUnderlyingScrollView:(UIScrollView *)scrollView{
+//- (void)handlePanFrom {
+//    
+//    if (!self.payed) {
+//        if (self.payAction) {
+//            self.payAction(nil);
+//        }
+//    }
+//    
+//}
 
-    DLog(@"---------%f",scrollView.contentOffset.x);
+
+//- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser willDisplayPhoto:(id<MWPhoto>)photo atIndex:(NSUInteger)index inUnderlyingScrollView:(UIScrollView *)scrollView{
+//    
+//    
+//    
+//}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    //    if ((CGPoint)object)
+    
+    if ([keyPath isEqualToString:@"contentOffset"]) {
+        UIScrollView *scrollView = (UIScrollView*)object;
+        
+        if (scrollView.contentOffset.x == kScreenWidth*2+41) {
+            if (!self.payed) {
+                if (self.payAction) {
+                    self.payAction(nil);
+                }  
+            }
+        }
+    }
 }
+//
+//
+
+
+
+
+
 @end

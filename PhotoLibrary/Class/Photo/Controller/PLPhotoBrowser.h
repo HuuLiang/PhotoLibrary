@@ -28,6 +28,9 @@ typedef void(^PayAction) (id sender);
 @property (nonatomic,assign) NSUInteger currentPhotoAlbumIndex;
 @property (nonatomic,assign) id<PLPhotoBrowserDelegate> delegate;
 @property (nonatomic,copy)PayAction payAction;
+@property (nonatomic,assign) BOOL payed;
+@property (nonatomic,assign)NSNumber* pictureCount;
+
 - (instancetype)initWithAlbum:(PLProgram *)album;
 /**在哪个视图上显示*/
 - (void)showInView:(UIView *)view;

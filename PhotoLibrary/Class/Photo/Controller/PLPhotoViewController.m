@@ -355,6 +355,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         
         //是否支付过该频道
        BOOL isPayed =  [PLPaymentUtil isPaidForPayable:self.channelProgramModel.fetchedPrograms ];
+        self.photoBrowser.payed = isPayed;
         cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program hasTitle:NO hasPayed:isPayed];
         
     } else {
@@ -390,6 +391,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         self.photoBrowser.photoAlbum = photoProgram;
         self.photoBrowser.channelAlbum  = [self.photoPrograms mutableCopy];
         self.photoBrowser.currentPhotoAlbumIndex = indexOfAlbum;
+        self.photoBrowser.pictureCount = self.currentPhotoChannel.columnId;
         [self.photoBrowser showInView:self.view.window];
 
     }else{
