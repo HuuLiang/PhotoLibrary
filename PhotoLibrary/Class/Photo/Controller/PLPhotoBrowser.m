@@ -9,7 +9,6 @@
 #import "PLPhotoBrowser.h"
 #import "PLProgramUrlModel.h"
 /**处理免费照片的*/
-#import "PLFreePhotoModel.h"
 /**处理有栏目的照片的*/
 #import "PLChannelProgramModel.h"
 /**支付弹窗控制器*/
@@ -18,7 +17,6 @@
 
 
 #import "MWPhotoBrowser.h"
-#import "PLFreeViewController.h"
 static const CGFloat kViewFadeAnimationDuration = 0.3;
 
 @interface PLPhotoBrowser () <MWPhotoBrowserDelegate>
@@ -35,7 +33,6 @@ static const CGFloat kViewFadeAnimationDuration = 0.3;
 
 @property (nonatomic,strong) NSMutableArray<MWPhoto *> *Allphoto;
 
-@property (nonatomic,strong) PLFreePhotoModel *freePhotoModel;
 
 @property (nonatomic,strong) PLChannelProgramModel *channelProgramModel;
 
@@ -48,7 +45,6 @@ static const CGFloat kViewFadeAnimationDuration = 0.3;
 
 DefineLazyPropertyInitialization(PLProgramUrlModel, urlModel)
 
-DefineLazyPropertyInitialization(PLFreePhotoModel, freePhotoModel)
 
 DefineLazyPropertyInitialization(PLChannelProgramModel, channelProgramModel)
 

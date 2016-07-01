@@ -4,10 +4,9 @@
 //
 //  Created by Sean Yue on 15/12/1.
 //  Copyright © 2015年 iqu8. All rights reserved.
-//
 
-#import "PLBaseViewController.h"
+#import "PLLayoutTableViewController.h"
 
-@interface PLSettingViewController : PLBaseViewController
+@interface PLSettingViewController : PLLayoutTableViewController
 
 @end

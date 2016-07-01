@@ -9,7 +9,6 @@
 #import "PLAppDelegate.h"
 #import "PLPhotoViewController.h"
 #import "PLVideoViewController.h"
-#import "PLFreeViewController.h"
 #import "PLSettingViewController.h"
 #import "PLErrorHandler.h"
 #import "PLActivateModel.h"
@@ -18,7 +17,6 @@
 #import "PLSystemConfigModel.h"
 #import "PLPaymentManager.h"
 #import "HomeChannelViewController.h"
-#import "OtherAppViewController.h"
 @interface PLAppDelegate ()
 
 @end
@@ -51,23 +49,8 @@
     videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
                                                                          image:[UIImage imageNamed:@"normal_video_bar"]
                                                                  selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
-    OtherAppViewController *otherVC = [[OtherAppViewController alloc] init];
-    otherVC.title = @"精品";
-    otherVC.bottomAdBanner = YES;
-    UINavigationController *otherNav   = [[UINavigationController alloc] initWithRootViewController:otherVC];
-    otherNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:otherVC.title
-                                                                      image:[UIImage imageNamed:@"tab_icon"]
-                                                              selectedImage:[UIImage imageNamed:@"tab_icon_press"]];
-//    /**免费的控制器*/
-//    PLFreeViewController *freeVC = [[PLFreeViewController alloc] init];
-//    freeVC.title = @"免费";
-//    freeVC.bottomAdBanner = YES;
-//    UINavigationController *freeNav   = [[UINavigationController alloc] initWithRootViewController:freeVC];
-//    freeNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:freeVC.title
-//                                                                       image:[UIImage imageNamed:@"tab_icon"]
-//                                                               selectedImage:[UIImage imageNamed:@"tab_icon_press"]];
-//    
     
+
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
     settingVC.title = @"设置";
     
@@ -79,7 +62,7 @@
                                                             selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers     = @[photoNav,videoNav,otherNav,settingNav];
+    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
     tabBarController.tabBar.translucent  = NO;
     //设置tabbar选中的渲染效果
     tabBarController.tabBar.tintColor = [UIColor blackColor];

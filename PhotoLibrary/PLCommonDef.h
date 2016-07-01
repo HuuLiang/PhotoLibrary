@@ -80,6 +80,12 @@ return _##propertyName; \
 typedef UIView BaiduMobAdView;
 #endif
 
+#define SafelyCallBlock(block) if (block) block();
+#define SafelyCallBlock1(block, arg) if (block) block(arg);
+#define SafelyCallBlock2(block, arg1, arg2) if (block) block(arg1, arg2);
+#define SafelyCallBlock3(block, arg1, arg2, arg3) if (block) block(arg1, arg2, arg3);
+
+
 typedef void (^PLCompletionHandler)(BOOL success, id obj);
 typedef void (^PLAction)(id obj);
 #endif /* PLCommonDef_h */
