@@ -1177,7 +1177,7 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 7VHT3KAS56;
+						DevelopmentTeam = BTTZYVST3G;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1553,8 +1553,8 @@
 			baseConfigurationReference = 6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Utils/iAppPay/DependenceSDK",
@@ -1574,9 +1574,9 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/BaiduMobAd",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d64261f1-b7bb-4c06-bd94-4a59f4a70608";
 			};
 			name = Debug;
 		};
@@ -1585,8 +1585,8 @@
 			baseConfigurationReference = 363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Utils/iAppPay/DependenceSDK",
@@ -1606,9 +1606,9 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/BaiduMobAd",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d64261f1-b7bb-4c06-bd94-4a59f4a70608";
 			};
 			name = Release;
 		};
