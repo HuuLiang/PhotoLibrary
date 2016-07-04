@@ -13,7 +13,8 @@
 @interface PLSettingViewController () <UITableViewDataSource,UITableViewDelegate>
 {
     UITableViewCell *_bannerCell;
-    PLVipCell *_vipCell;
+    PLVipCell *_photoCell;
+    PLVipCell *_videoCell;
     UITableViewCell *_protocolCell;
 }
 @property (nonatomic,retain) UIWebView *agreementWebView;
@@ -28,7 +29,7 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     self.layoutTableView.hasRowSeparator = YES;
     self.layoutTableView.hasSectionBorder = NO;
     self.layoutTableView.scrollEnabled = NO;
-    self.layoutTableView.backgroundColor = [UIColor blackColor];
+    self.layoutTableView.backgroundColor = [UIColor colorWithHexString:@"#efefef"];
     [self.layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
@@ -38,7 +39,9 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
         @strongify(self);
         if (cell == self->_bannerCell) {
             
-        } else if (cell == self->_vipCell) {
+        } else if (cell == self->_photoCell) {
+            
+        } else if (cell == self->_videoCell) {
             
         } else if (cell == self->_protocolCell) {
             
@@ -54,7 +57,10 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     NSUInteger section = 0;
     
     [self initBannerCell:section++];
-    [self initVipCell:section++];
+    [self initPhotoVipCell:section++];
+    [self setHeaderHeight:1 inSection:section];
+    [self initVideoVipCell:section++];
+    [self setHeaderHeight:2 inSection:section];
     [self initProtocolCell:section];
 }
 
@@ -68,25 +74,39 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     [self setLayoutCell:_bannerCell cellHeight:100 inRow:0 andSection:section];
 }
 
-- (void)initVipCell:(NSUInteger)section {
-    _vipCell = [[PLVipCell alloc] init];
-    _vipCell.backgroundColor = [UIColor colorWithHexString:@"#ec407a"];
-    
-    [self setLayoutCell:_vipCell cellHeight:80 inRow:0 andSection:section];
+- (void)initPhotoVipCell:(NSUInteger)section {
+    _photoCell = [[PLVipCell alloc] init];
+    _photoCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    _photoCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+    _photoCell.bgImg = @"setting_photo_icon";
+    _photoCell.price = 20.;
+    [self setLayoutCell:_photoCell cellHeight:80 inRow:0 andSection:section];
+}
+
+- (void)initVideoVipCell:(NSUInteger)section {
+    _videoCell = [[PLVipCell alloc] init];
+    _videoCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    _videoCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+    _videoCell.bgImg = @"setting_video_icon";
+    _videoCell.price = 30.;
+    [self setLayoutCell:_videoCell cellHeight:80 inRow:0 andSection:section];
 }
 
 - (void)initProtocolCell:(NSUInteger)section {
     _protocolCell = [[UITableViewCell alloc] init];
+    _protocolCell.backgroundColor = [UIColor colorWithHexString:@"#efefef"];
     NSString *agreementUrlString = [PL_BASE_URL stringByAppendingString:PL_AGREEMENT_URL];
     NSURLRequest *agreementRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:agreementUrlString]];
     [self.agreementWebView loadRequest:agreementRequest];
+    self.agreementWebView.alpha = 0.9;
+    self.agreementWebView.backgroundColor = [UIColor colorWithHexString:@"#efefef"];
     [_protocolCell.contentView addSubview:self.agreementWebView];
     {
         [_agreementWebView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_protocolCell.contentView);
         }];
     }
-    [self setLayoutCell:_protocolCell cellHeight:kScreenHeight-30-49-64-180 inRow:0 andSection:section];
+    [self setLayoutCell:_protocolCell cellHeight:kScreenHeight-30-49-64-180-80 inRow:0 andSection:section];
     
 }
 @end

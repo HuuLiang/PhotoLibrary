@@ -10,4 +10,7 @@
 
 @interface PLVipCell : UITableViewCell
 
+@property (nonatomic) NSString *bgImg;
+@property (nonatomic) NSUInteger price;
+
 @end
