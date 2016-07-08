@@ -13,7 +13,7 @@
 
 #define PL_CHANNEL_NO           [PLConfiguration sharedConfig].channelNo
 #define PL_REST_APP_ID          @"QUBA_2002"
-#define PL_REST_PV              @210
+#define PL_REST_PV              @230
 #define PL_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
 
 #define PL_PAYMENT_RESERVE_DATA [NSString stringWithFormat:@"%@$%@", PL_REST_APP_ID, PL_CHANNEL_NO]
@@ -34,11 +34,11 @@
 #define PL_USER_ACCESS_URL                  @"/gallery/userAccess.htm"
 #define PL_AGREEMENT_URL                    @"/gallery/agreement.html"
 
-#define PL_SYSTEM_CONFIG_PAY_AMOUNT            @"PAY_AMOUNT"
-#define PL_SYSTEM_CONFIG_PAYMENT_TOP_IMAGE     @"CHANNEL_TOP_IMG"
-#define PL_SYSTEM_CONFIG_STARTUP_INSTALL       @"START_INSTALL"
-#define PL_SYSTEM_CONFIG_SPREAD_TOP_IMAGE      @"SPREAD_TOP_IMG"
-#define PL_SYSTEM_CONFIG_SPREAD_URL            @"SPREAD_URL"
+#define PL_SYSTEM_CONFIG_PAY_TYPE              @"IS_APPLE_PAY"
+#define PL_SYSTEM_CONFIG_GALLERY_PAY_AMOUNT    @"GALLERY_PAY_AMOUNT"
+#define PL_SYSTEM_CONFIG_VIDEO_PAY_AMOUNT      @"VIDEO_PAY_AMOUNT"
+#define PL_SYSTEM_CONFIG_CHANNEL_TOP_IMG       @"CHANNEL_TOP_IMG"
+#define PL_SYSTEM_CONFIG_SPREAD_TOP_IMG        @"SPREAD_TOP_IMG"
 
 #define PL_BAIDU_AD_APP_ID                     @"d1c5f7d1"
 #define PL_BAIDU_BANNER_ID                     @"2367758"

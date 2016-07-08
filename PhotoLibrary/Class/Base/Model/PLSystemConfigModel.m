@@ -45,10 +45,16 @@
             [resp.confis enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 PLSystemConfig *config = obj;
                 
-                if ([config.name isEqualToString:PL_SYSTEM_CONFIG_PAY_AMOUNT]) {
-                    self.payAmount = config.value.doubleValue / 100.;
-                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_SPREAD_TOP_IMAGE]) {
-                    self.spreadTopImage = config.value;
+                if ([config.name isEqualToString:PL_SYSTEM_CONFIG_PAY_TYPE]) {
+                    [PLSystemConfigModel sharedModel].isApplePay = config.value;
+                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_GALLERY_PAY_AMOUNT]) {
+                    [PLSystemConfigModel sharedModel].photoPrice = [config.value integerValue];
+                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_VIDEO_PAY_AMOUNT]) {
+                    [PLSystemConfigModel sharedModel].videoPrice = [config.value integerValue];
+                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_CHANNEL_TOP_IMG]) {
+                    [PLSystemConfigModel sharedModel].ChannelBannerImgUrl = config.value;
+                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_SPREAD_TOP_IMG]) {
+                    [PLSystemConfigModel sharedModel].channelPopImgUrl = config.value;
                 }
             }];
         }

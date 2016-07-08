@@ -147,6 +147,12 @@
 
 #pragma mark - Appdelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [[PLSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        if (success) {
+            DLog(@"获取系统配置成功");
+        }
+    }];
 
     //不管是爱贝支付还是微信支付都在这个里面初始化配置
     [[PLPaymentManager sharedManager] setup];

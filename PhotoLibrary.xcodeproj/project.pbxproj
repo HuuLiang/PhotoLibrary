@@ -137,6 +137,10 @@
 		BCB1AFDA1C0D53FF008AA006 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1AFD91C0D53FF008AA006 /* libc++.tbd */; };
 		BCB1AFDC1C0D5408008AA006 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1AFDB1C0D5408008AA006 /* libsqlite3.tbd */; };
 		BCB1B0511C0D9488008AA006 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB1B0501C0D9488008AA006 /* config.plist */; };
+		EC8753DD1D2B531300EC6DB5 /* appstore_banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */; };
+		EC8753DE1D2B531300EC6DB5 /* appstore_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */; };
+		EC8753DF1D2B531300EC6DB5 /* channel_banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */; };
+		EC8753E01D2B531300EC6DB5 /* channel_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */; };
 		EC8E2DE71D261FBB0034DCDF /* PLLayoutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC8E2DE61D261FBB0034DCDF /* PLLayoutTableViewController.m */; };
 		EC8E2DEA1D264ED90034DCDF /* PLVipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC8E2DE91D264ED90034DCDF /* PLVipCell.m */; };
 /* End PBXBuildFile section */
@@ -394,6 +398,10 @@
 		BCB1AFD91C0D53FF008AA006 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BCB1AFDB1C0D5408008AA006 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BCB1B0501C0D9488008AA006 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = appstore_banner.jpg; sourceTree = "<group>"; };
+		EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = appstore_image.jpg; sourceTree = "<group>"; };
+		EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = channel_banner.jpg; sourceTree = "<group>"; };
+		EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = channel_image.jpg; sourceTree = "<group>"; };
 		EC8E2DE51D261FBB0034DCDF /* PLLayoutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLLayoutTableViewController.h; sourceTree = "<group>"; };
 		EC8E2DE61D261FBB0034DCDF /* PLLayoutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLLayoutTableViewController.m; sourceTree = "<group>"; };
 		EC8E2DE81D264ED90034DCDF /* PLVipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVipCell.h; sourceTree = "<group>"; };
@@ -918,6 +926,10 @@
 				BC3FD6D51CB7AEC50049B018 /* payment_album.jpg */,
 				BC3FD6D61CB7AEC50049B018 /* payment_channel.jpg */,
 				BC3FD6D71CB7AEC50049B018 /* payment_video.jpg */,
+				EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */,
+				EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */,
+				EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */,
+				EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1105,12 +1117,14 @@
 				B99543C11CE5AB2A004F9881 /* PlayButtonOverlayLarge@3x.png in Resources */,
 				BC3FD6DA1CB7AEC50049B018 /* payment_video.jpg in Resources */,
 				BC3FD6D91CB7AEC50049B018 /* payment_channel.jpg in Resources */,
+				EC8753DD1D2B531300EC6DB5 /* appstore_banner.jpg in Resources */,
 				B99543C51CE5AB2A004F9881 /* UIBarButtonItemArrowLeft.png in Resources */,
 				BC3FD6B41CB798D70049B018 /* baidumobadsdk.bundle in Resources */,
 				B99543B11CE5AB2A004F9881 /* ImageError@2x.png in Resources */,
 				B99543CD1CE5AB2A004F9881 /* UIBarButtonItemGrid@3x.png in Resources */,
 				B99543CB1CE5AB2A004F9881 /* UIBarButtonItemGrid.png in Resources */,
 				B99543BF1CE5AB2A004F9881 /* PlayButtonOverlayLarge.png in Resources */,
+				EC8753DE1D2B531300EC6DB5 /* appstore_image.jpg in Resources */,
 				B99543C31CE5AB2A004F9881 /* PlayButtonOverlayLargeTap@2x.png in Resources */,
 				B99543C81CE5AB2A004F9881 /* UIBarButtonItemArrowRight.png in Resources */,
 				B99543C61CE5AB2A004F9881 /* UIBarButtonItemArrowLeft@2x.png in Resources */,
@@ -1127,6 +1141,7 @@
 				B99543C71CE5AB2A004F9881 /* UIBarButtonItemArrowLeft@3x.png in Resources */,
 				B99543C21CE5AB2A004F9881 /* PlayButtonOverlayLargeTap.png in Resources */,
 				B99543CE1CE5AB2A004F9881 /* VideoOverlay.png in Resources */,
+				EC8753DF1D2B531300EC6DB5 /* channel_banner.jpg in Resources */,
 				B99543B21CE5AB2A004F9881 /* ImageError@3x.png in Resources */,
 				BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */,
 				B99543BA1CE5AB2A004F9881 /* ImageSelectedSmallOff@2x.png in Resources */,
@@ -1137,6 +1152,7 @@
 				B99543BD1CE5AB2A004F9881 /* ImageSelectedSmallOn@2x.png in Resources */,
 				B99543CF1CE5AB2A004F9881 /* VideoOverlay@2x.png in Resources */,
 				B99543B51CE5AB2A004F9881 /* ImageSelectedOff@3x.png in Resources */,
+				EC8753E01D2B531300EC6DB5 /* channel_image.jpg in Resources */,
 				B99543B71CE5AB2A004F9881 /* ImageSelectedOn@2x.png in Resources */,
 				B99543C91CE5AB2A004F9881 /* UIBarButtonItemArrowRight@2x.png in Resources */,
 				BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */,

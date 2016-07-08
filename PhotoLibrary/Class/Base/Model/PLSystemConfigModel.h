@@ -19,8 +19,11 @@ typedef void (^PLFetchSystemConfigCompletionHandler)(BOOL success);
 
 @interface PLSystemConfigModel : PLEncryptedURLRequest
 
-@property (nonatomic) double payAmount;
-@property (nonatomic) NSString *spreadTopImage;
+@property (nonatomic) NSString *isApplePay;
+@property (nonatomic) NSInteger photoPrice;
+@property (nonatomic) NSInteger videoPrice;
+@property (nonatomic) NSString *channelPopImgUrl;
+@property (nonatomic) NSString *ChannelBannerImgUrl;
 
 + (instancetype)sharedModel;
 
