@@ -38,4 +38,6 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 // For test only
 + (void)removeKeyChainEntries;
 
++ (NSString *)currentDateString;
+
 @end

@@ -35,7 +35,7 @@
     HomeChannelViewController *channelVC       = [[HomeChannelViewController alloc] init];
     channelVC.title = @"图库";
     channelVC.bottomAdBanner = YES;
-
+    
     UINavigationController *photoNav     = [[UINavigationController alloc] initWithRootViewController:channelVC];
     photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:channelVC.title
                                                                          image:[UIImage imageNamed:@"normal_photo_bar"]
@@ -44,22 +44,22 @@
     PLVideoViewController *videoVC     = [[PLVideoViewController alloc] init];
     videoVC.title = @"视频";
     videoVC.bottomAdBanner = YES;
-
+    
     UINavigationController *videoNav   = [[UINavigationController alloc] initWithRootViewController:videoVC];
     videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
-                                                                         image:[UIImage imageNamed:@"normal_video_bar"]
-                                                                 selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
+                                                                       image:[UIImage imageNamed:@"normal_video_bar"]
+                                                               selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
     
-
+    
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
     settingVC.title = @"设置";
     
     settingVC.bottomAdBanner = YES;
-
+    
     UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
     settingNav.tabBarItem              = [[UITabBarItem alloc] initWithTitle:settingVC.title
-                                                                    image:[UIImage imageNamed:@"normal_setting_bar"]
-                                                            selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
+                                                                       image:[UIImage imageNamed:@"normal_setting_bar"]
+                                                               selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
@@ -72,12 +72,12 @@
 
 #pragma mark - 设置控制器共有的规格
 - (void)setupCommonStyles {
-//    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary
-//                                                       dictionaryWithObjectsAndKeys: [UIColor colorWithHexString:@"#09bb07"],
-//                                                       NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
-//    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+    //    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary
+    //                                                       dictionaryWithObjectsAndKeys: [UIColor colorWithHexString:@"#09bb07"],
+    //                                                       NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    //    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-
+    
     [UIViewController aspect_hookSelector:@selector(viewDidLoad)
                               withOptions:AspectPositionAfter
                                usingBlock:^(id<AspectInfo> aspectInfo){
@@ -142,7 +142,7 @@
          }
          [[aspectInfo originalInvocation] setReturnValue:&hidesBottomBar];
      } error:nil];
-
+    
 }
 
 #pragma mark - Appdelegate
@@ -153,10 +153,10 @@
             DLog(@"获取系统配置成功");
         }
     }];
-
+    
     //不管是爱贝支付还是微信支付都在这个里面初始化配置
     [[PLPaymentManager sharedManager] setup];
-
+    
     //初始化错误处理（实际就是注册通知）
     [[PLErrorHandler sharedHandler] initialize];
     
@@ -167,7 +167,7 @@
     [self setupCommonStyles];
     
     [self.window makeKeyAndVisible];
-
+    
     
     if (![PLUtil isRegistered]) {
         [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {

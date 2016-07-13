@@ -30,6 +30,8 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 @property (nonatomic) NSString *productInfo;
 @property (nonatomic) NSString *privateKey;
 @property (nonatomic) NSString *notifyUrl;
+
++ (instancetype)defaultConfig;
 @end
 
 
@@ -48,8 +50,17 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 
 @property (nonatomic,retain) PLWeChatPaymentConfig *weixinInfo;
 @property (nonatomic,retain) PLAlipayConfig *alipayInfo;
-@property (nonatomic,retain) PLIAppPayConfig *iappPayInfo;
+//@property (nonatomic,retain) PLIAppPayConfig *iappPayInfo;
 
+@property (nonatomic) NSString *imgUrl;
+@property (nonatomic) NSNumber *firstPayPages;
+@property (nonatomic) NSString *vipPointInfo;
+@property (nonatomic) NSString *ballPayWindowurl;
+@property (nonatomic) NSString *payImgUrl;
+@property (nonatomic) NSArray *userNames;
+
++ (instancetype)configFromPersistence;
+- (void)persist;
 + (instancetype)sharedConfig;
 - (void)setAsCurrentConfig;
 

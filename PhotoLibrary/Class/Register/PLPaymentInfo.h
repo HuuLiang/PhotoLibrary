@@ -36,6 +36,6 @@ typedef NS_ENUM(NSUInteger, PLPaymentStatusInfo) {
 /**返回支付信息*/
 + (instancetype)paymentInfoFromDictionary:(NSDictionary *)payment;
 - (void)save;
-
+- (BOOL)isValid ;
 
 @end

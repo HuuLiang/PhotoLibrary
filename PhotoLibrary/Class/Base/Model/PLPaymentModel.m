@@ -52,7 +52,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                                    @"key":kSignKey,
                                    @"imsi":@"999999999999999",
                                    @"channelNo":[PLConfiguration sharedConfig].channelNo,
-                                   @"pV":PL_REST_PV};
+                                   @"pV":PL_PAY_REST_PV};
     
     NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];//返回的是加密后的字符串
     NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"]];//转码加密..后的数据
@@ -112,8 +112,8 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"appId":PL_REST_APP_ID,
                              @"versionNo":@([PLUtil appVersion]),
                              @"status":statusDic[paymentInfo.paymentResult],
-                             @"pV":PL_REST_PV,
-                             @"payTime":paymentInfo.paymentTime};   //支付参数
+                             @"pV":PL_PAY_REST_PV,
+                             @"payTime":paymentInfo.paymentTime ? :[PLUtil currentDateString]};   //支付参数
     
     BOOL success = [super requestURLPath:PL_PAYMENT_COMMIT_URL
                               withParams:params

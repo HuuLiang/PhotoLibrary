@@ -57,8 +57,7 @@
     
     _popView = [[PLPaymentPopView alloc] init];
     
-    if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & PLIAppPayTypeWeChat)
-        || [PLPaymentConfig sharedConfig].weixinInfo) {
+    if ([PLPaymentConfig sharedConfig].weixinInfo) {
         BOOL useBuildInWeChatPay = [PLPaymentConfig sharedConfig].weixinInfo != nil;
         [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
             @strongify(self);
@@ -69,8 +68,7 @@
         }];
     }
     
-    if (([PLPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & PLIAppPayTypeAlipay)
-        || [PLPaymentConfig sharedConfig].alipayInfo) {
+    if ([PLPaymentConfig sharedConfig].alipayInfo) {
         BOOL useBuildInAlipay = [PLPaymentConfig sharedConfig].alipayInfo != nil;
         [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
             @strongify(self);
@@ -180,11 +178,11 @@
  *  @param paymentInfo 支付参数
  */
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(PLPaymentInfo *)paymentInfo {
-    NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
-    [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
+//    NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
+//    [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
     paymentInfo.paymentResult = @(result);
     paymentInfo.paymentStatus = @(PLPaymentStatusNotProcessed);
-    paymentInfo.paymentTime = [dateFormmater stringFromDate:[NSDate date]];
+    paymentInfo.paymentTime = [PLUtil currentDateString];
     [paymentInfo save];
     
     if (result == PAYRESULT_SUCCESS) {//如果支付成功

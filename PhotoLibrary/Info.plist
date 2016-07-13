@@ -29,12 +29,14 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx4af04eb5b3dbfb56</string>
+				<string>wx4e086cf2c5bebcd5</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>alipaycallback</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>comphotolibaryappalipayschemeurl</string>

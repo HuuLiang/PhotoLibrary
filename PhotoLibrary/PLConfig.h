@@ -14,6 +14,7 @@
 #define PL_CHANNEL_NO           [PLConfiguration sharedConfig].channelNo
 #define PL_REST_APP_ID          @"QUBA_2002"
 #define PL_REST_PV              @230
+#define PL_PAY_REST_PV          @212
 #define PL_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
 
 #define PL_PAYMENT_RESERVE_DATA [NSString stringWithFormat:@"%@$%@", PL_REST_APP_ID, PL_CHANNEL_NO]
@@ -43,5 +44,8 @@
 #define PL_BAIDU_AD_APP_ID                     @"d1c5f7d1"
 #define PL_BAIDU_BANNER_ID                     @"2367758"
 #define PL_UMENG_APP_ID                        @"566e5951e0f55a8e94000436"
+
+#define PL_DEFAULT_PHOTOSERVER_URL     @"http://7xpobi.com2.z0.glb.qiniucdn.com"
+
 
 #endif /* PLConfig_h */

@@ -1,5 +1,5 @@
 //
-//  WeChatPayQueryOrderRequest.h
+//  PLWeChatPayQueryOrderRequest.h
 //  kuaibov
 //
 //  Created by Sean Yue on 15/11/23.
@@ -8,16 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^WeChatPayQueryOrderCompletionHandler)(BOOL success, NSString *trade_state, double total_fee);
+typedef void (^PLWeChatPayQueryOrderCompletionHandler)(BOOL success, NSString *trade_state, double total_fee);
 
-@class PLPaymentInfo;
-@interface WeChatPayQueryOrderRequest : NSObject
+@interface PLWeChatPayQueryOrderRequest : NSObject
 
 @property (nonatomic) NSString *return_code;
 @property (nonatomic) NSString *result_code;
 @property (nonatomic) NSString *trade_state;
 @property (nonatomic) double total_fee;
 
-- (BOOL)queryPayment:(PLPaymentInfo *)paymentInfo withCompletionHandler:(WeChatPayQueryOrderCompletionHandler)handler;
+- (BOOL)queryOrderWithNo:(NSString *)orderNo completionHandler:(PLWeChatPayQueryOrderCompletionHandler)handler;
 
 @end

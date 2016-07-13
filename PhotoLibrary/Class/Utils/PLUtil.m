@@ -267,4 +267,10 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
         });
     });
 }
++ (NSString *)currentDateString {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:kDefaultDateFormat];
+    return [dateFormatter stringFromDate:[NSDate date]];
+}
+
 @end

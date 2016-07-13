@@ -18,7 +18,7 @@ static NSString *const kPaymentInfoPayPointTypeKeyName = @"kuaibov_paymentinfo_p
 static NSString *const kPaymentInfoPaymentTypeKeyName = @"kuaibov_paymentinfo_paymenttype_keyname";
 static NSString *const kPaymentInfoPaymentResultKeyName = @"kuaibov_paymentinfo_paymentresult_keyname";
 static NSString *const kPaymentInfoPaymentStatusKeyName = @"kuaibov_paymentinfo_paymentstatus_keyname";
-static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_paymenttime_keyname";
+static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_paymenttimepl_keyname";
 
 static NSString *const kPaymentInfoPaymentReservedDataKeyName = @"kuaibov_paymentinfo_paymentreserveddata_keyname";
 
@@ -30,6 +30,20 @@ static NSString *const kPaymentInfoPaymentNotifyUrl = @"kuaibov_paymentinfo_paym
 @implementation PLPaymentInfo
 
 #pragma mark 返回加密后的订单号
+
+- (BOOL)isValid {
+    return self.paymentId.length > 0
+    && self.orderId.length > 0
+    && self.orderPrice.unsignedIntegerValue > 0
+    && self.payPointType.unsignedIntegerValue > 0
+    && self.paymentType.unsignedIntegerValue != PLPaymentTypeNone;
+}
+
++ (instancetype)paymentInfo {
+    return [[self alloc] init];
+}
+
+
 - (NSString *)paymentId {
     if (_paymentId) {
         return _paymentId;

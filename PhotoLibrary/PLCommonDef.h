@@ -53,6 +53,8 @@ return _##propertyName; \
 }
 
 #define kPaymentNotificationName  @"photolib_payment_notification"
+#define kDefaultDateFormat   @"yyyyMMddHHmmss"
+
 
 //#define kPaidNotificationName @"photolib_paid_notification"
 #define kPaymentNotificationOrderNoKey @"photolib_payment_notification_order_key"

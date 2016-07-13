@@ -1,10 +1,28 @@
 
 #import <Foundation/Foundation.h>
 #import "payRequsestHandler.h"
+#import "PLPaymentConfig.h"
+
 /*
  服务器请求操作处理
  */
 @implementation payRequsestHandler
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        PLPaymentConfig *config = [PLPaymentConfig sharedConfig];
+        //初始化支付签名对象
+        [self init:config.weixinInfo.appId mch_id:config.weixinInfo.mchId];
+        //设置密钥
+        [self setKey:config.weixinInfo.signKey];
+        //设置回调URL
+        [self setNotifyUrl:config.weixinInfo.notifyUrl];
+        //设置附加数据
+        [self setAttach:PL_PAYMENT_RESERVE_DATA];
+    }
+    return self;
+}
 
 //初始化函数
 -(BOOL) init:(NSString *)app_id mch_id:(NSString *)mch_id;
@@ -160,7 +178,7 @@
     //订单标题，展示给用户
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
     if (!appName) {
-        appName = @"家庭影院";
+        appName = @"乐图";
     }
     NSString *order_name    = appName;
     //订单金额,单位（分）
