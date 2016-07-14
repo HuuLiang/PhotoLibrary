@@ -39,7 +39,7 @@
 			<string>alipaycallback</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>comphotolibaryappalipayschemeurl</string>
+				<string>comphotolibrary2016appalipayurlscheme</string>
 			</array>
 		</dict>
 	</array>

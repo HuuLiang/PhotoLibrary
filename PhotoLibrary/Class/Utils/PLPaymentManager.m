@@ -14,11 +14,13 @@
 #import "WXApi.h"
 #import "WeChatPayManager.h"
 #import "PLWeChatPayQueryOrderRequest.h"
+#import "AlipayManager.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 //#import <IapppayAlphaKit/IapppayAlphaOrderUtils.h>
 //#import <IapppayAlphaKit/IapppayAlphaKit.h>
 
-static NSString *const kAlipaySchemeUrl = @"comjpyingyuan2016appalipayurlscheme";
+//static NSString *const kAlipaySchemeUrl = @"comjpyingyuan2016appalipayurlscheme";
 
 @interface PLPaymentManager () <WXApiDelegate>
 @property (nonatomic,retain) PLPaymentInfo *paymentInfo;
@@ -50,6 +52,9 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 - (void)handleOpenURL:(NSURL *)url {
     //    [[IapppayAlphaKit sharedInstance] handleOpenUrl:url];
     [WXApi handleOpenURL:url delegate:self];
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        [[AlipayManager shareInstance] sendNotificationByResult:resultDic];
+    }];
 }
 
 - (BOOL)startPaymentWithType:(PLPaymentType)type
@@ -109,8 +114,14 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         }];
         
     }else if (type == PLPaymentTypeAlipay){
-    
-    
+        @weakify(self);
+        [[AlipayManager shareInstance] startAlipay:orderNo price:price withResult:^(PAYRESULT result, Order *order) {
+            @strongify(self);
+            if (self.completionHandler) {
+                self.completionHandler(result,paymentInfo);
+            }
+        }];
+        
     }  else {
         success = NO;
         
@@ -154,7 +165,7 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
             obj.paymentStatus = @(PLPaymentStatusNotProcessed);
             [obj save];
         }
-
+        
     }];
 }
 

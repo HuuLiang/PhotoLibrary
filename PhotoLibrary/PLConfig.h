@@ -47,5 +47,7 @@
 
 #define PL_DEFAULT_PHOTOSERVER_URL     @"http://7xpobi.com2.z0.glb.qiniucdn.com"
 
+#define PL_ALIPAY_SCHEME               @"comphotolibrary2016appalipayurlscheme"
+
 
 #endif /* PLConfig_h */

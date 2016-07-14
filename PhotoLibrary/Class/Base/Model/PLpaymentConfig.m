@@ -16,9 +16,9 @@ static NSString *const kSystemConfigKeyName = @"photolibrary_systemconfig_keynam
 
 + (instancetype)defaultConfig {
     PLWeChatPaymentConfig *config = [[self alloc] init];
-    config.appId = @"wx4e086cf2c5bebcd5";//@"wx4af04eb5b3dbfb56";//
-    config.mchId = @"1323603901";//@"1281148901";//
-    config.signKey = @"hangzhouquya20160713qwertyuiopas";//@"hangzhouquba20151112qwertyuiopas";
+    config.appId = @"wx4e086cf2c5bebcd5";
+    config.mchId = @"1323603901";
+    config.signKey = @"hangzhouquya20160713qwertyuiopas";
     config.notifyUrl = @"http://phas.ihuiyx.com/pd-has/notifyWx.json";
     return config;
 }
@@ -60,7 +60,7 @@ static NSString *const kSystemConfigKeyName = @"photolibrary_systemconfig_keynam
     defaultConfig.partner = @"2088121511256613";
     defaultConfig.seller = @"wuyp@iqu8.cn";
     defaultConfig.notifyUrl = @"http://phas.ihuiyx.com/pd-has/notifyByAlipay.json";
-    defaultConfig.productInfo = @"相约交友";
+    defaultConfig.productInfo = @"乐图";
     defaultConfig.privateKey = @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAMXv/hpnzbA3rO/P5KJKatb3NugTw965VYzcdEFyv38iIpMA3io7/kEcuMRGMDQ0VQJgNaF8/sHDu/j/+NPSDBzeOKtsqVsZoY5jKK1K43LujAYz2v8lvNLkFcaFoUhfMXHhxNnoHNtGXIadhHFK+v2a1l3YCZiP5XJ3rQo1FbrBAgMBAAECgYA4XFbJZAdQhvnqKxMaFwCHB0uOF5qtP66Zdmhv/mGCrNCVdSjNc9m45pnB4Y52PvR5wbVjrzjHKZnLk+9hOS0TRkbOmiuCfxB2doB3YMeGlgo+rPSUL0Ey5WKF8+IJvImQfgf8kgJlU/7RPeAtfY+pmxY9PvbULHKGS5q8KHXLFQJBAPtJ0S1idGtnRXX8f2+I7aqmxnH3QwVtU2DhN++l6n+XIEWmNgvVJoLY/bdtK84lKZl9nJw3hSVZ6C6qN1F7up8CQQDJphduiRVezGSR0ofcOBwT/jTxynovFH4zhdWLu/4f3p9fHvKFqYqdgv8Z5lUr4W6Bga+k0hLuqGvJjXAyI+6fAkAvHqNjsD+GWEIVIri+sF1oj4dMnYHqxZpJ41F61ZDIRg1eIhGmXFyxUoEY4RbCvAM17fDs9hg4bch036Qp2lqfAkBj9VByO8P7LSjBXHJ6iNnqUz4dibhNtEPm+HXmAbe0RqAMAARKm8OZ1wDr7tDTorkru4S9GGHIKnbb/5/ZSxSTAkB+cIT779yzXIVZYNj8Q2C+FMiHdUrw9OVikW6nKRcIlJJMBQfPzvjfR5ux0NVi1CM76hl5C4f4GSKFgM7AYXwX";
     return defaultConfig;
 }
