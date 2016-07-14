@@ -30,6 +30,7 @@
 #import "PLErrorHandler.h"
 #import "PLStatistics.h"
 #import "PLPaymentManager.h"
+#import "PLApplePay.h"
 
 //－－－－－－－－－－－－－－－－－－－－－－－－－
 #endif /* PLPrefixHeader_pch */

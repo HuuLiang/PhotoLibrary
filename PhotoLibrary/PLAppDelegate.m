@@ -150,6 +150,10 @@
     
     [[PLSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
         if (success) {
+            if ([PLUtil isApplePay]) {
+                [[PLApplePay shareApplePay] getProdructionInfo];
+                [PLApplePay shareApplePay].isGettingPriceInfo = YES;
+            }
             DLog(@"获取系统配置成功");
         }
     }];

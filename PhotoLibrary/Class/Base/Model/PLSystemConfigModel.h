@@ -25,6 +25,8 @@ typedef void (^PLFetchSystemConfigCompletionHandler)(BOOL success);
 @property (nonatomic) NSString *channelPopImgUrl;
 @property (nonatomic) NSString *ChannelBannerImgUrl;
 
+@property (nonatomic) NSString *isAppleStore;
+
 + (instancetype)sharedModel;
 
 /**获取系统数据*/

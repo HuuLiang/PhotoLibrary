@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1E7191C12321BBD3A2FB1628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 131FE8C3406C9435454CC243 /* libPods.a */; };
+		B3349CCD1D378413000DD6D7 /* PLApplePay.m in Sources */ = {isa = PBXBuildFile; fileRef = B3349CCC1D378413000DD6D7 /* PLApplePay.m */; };
 		B36820471D361F57008D90B0 /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = B36820401D361F57008D90B0 /* ApiXml.mm */; };
 		B36820481D361F57008D90B0 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = B36820421D361F57008D90B0 /* payRequsestHandler.mm */; };
 		B36820491D361F57008D90B0 /* WeChatPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B36820441D361F57008D90B0 /* WeChatPayManager.m */; };
@@ -176,6 +177,8 @@
 		131FE8C3406C9435454CC243 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B3349CCB1D378413000DD6D7 /* PLApplePay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLApplePay.h; sourceTree = "<group>"; };
+		B3349CCC1D378413000DD6D7 /* PLApplePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLApplePay.m; sourceTree = "<group>"; };
 		B368203F1D361F57008D90B0 /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
 		B36820401D361F57008D90B0 /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
 		B36820411D361F57008D90B0 /* payRequsestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payRequsestHandler.h; sourceTree = "<group>"; };
@@ -446,8 +449,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC3FD6B51CB798D70049B018 /* libBaiduMobAdSdk64bit.a in Frameworks */,
 				BC5A6E741C326880006AD77A /* StoreKit.framework in Frameworks */,
+				BC3FD6B51CB798D70049B018 /* libBaiduMobAdSdk64bit.a in Frameworks */,
 				BC27E3781C1FBC9700BCD6FD /* AdSupport.framework in Frameworks */,
 				BC27E3761C1FBC8B00BCD6FD /* CoreMotion.framework in Frameworks */,
 				B93E82391C7F001B00C38211 /* libMobClickLibrary.a in Frameworks */,
@@ -506,6 +509,26 @@
 				363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B3349CC91D376444000DD6D7 /* banner */ = {
+			isa = PBXGroup;
+			children = (
+				EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */,
+				EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */,
+				EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */,
+				EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */,
+			);
+			name = banner;
+			sourceTree = "<group>";
+		};
+		B3349CCA1D3783E2000DD6D7 /* ApplePay */ = {
+			isa = PBXGroup;
+			children = (
+				B3349CCB1D378413000DD6D7 /* PLApplePay.h */,
+				B3349CCC1D378413000DD6D7 /* PLApplePay.m */,
+			);
+			name = ApplePay;
 			sourceTree = "<group>";
 		};
 		B368203E1D361F57008D90B0 /* WeChatPay */ = {
@@ -602,6 +625,7 @@
 		B93E81801C7F001A00C38211 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B3349CCA1D3783E2000DD6D7 /* ApplePay */,
 				B93E81811C7F001A00C38211 /* PLActivateModel.h */,
 				B93E81821C7F001A00C38211 /* PLActivateModel.m */,
 				B9F0C15F1CB6901C00B6413E /* PLPaymentConfig.h */,
@@ -978,13 +1002,10 @@
 		BC3FD6D41CB7AEB60049B018 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B3349CC91D376444000DD6D7 /* banner */,
 				BC3FD6D51CB7AEC50049B018 /* payment_album.jpg */,
 				BC3FD6D61CB7AEC50049B018 /* payment_channel.jpg */,
 				BC3FD6D71CB7AEC50049B018 /* payment_video.jpg */,
-				EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */,
-				EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */,
-				EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */,
-				EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1127,7 +1148,7 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 7VHT3KAS56;
+						DevelopmentTeam = BTTZYVST3G;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1322,6 +1343,7 @@
 				B93E821C1C7F001B00C38211 /* PLPhotoChannelModel.m in Sources */,
 				EC8E2DE71D261FBB0034DCDF /* PLLayoutTableViewController.m in Sources */,
 				B93E821F1C7F001B00C38211 /* PLPhotoNavigationTitleView.m in Sources */,
+				B3349CCD1D378413000DD6D7 /* PLApplePay.m in Sources */,
 				B93E821D1C7F001B00C38211 /* PLProgramUrlModel.m in Sources */,
 				B93E822D1C7F001B00C38211 /* UIView+PLLoading.m in Sources */,
 				B368206E1D365CA8008D90B0 /* Order.m in Sources */,
@@ -1531,9 +1553,9 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/BaiduMobAd",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d64261f1-b7bb-4c06-bd94-4a59f4a70608";
 			};
 			name = Debug;
 		};
@@ -1564,9 +1586,9 @@
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/ios_api",
 					"$(PROJECT_DIR)/PhotoLibrary/Class/Vendor/BaiduMobAd",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.photolibrary2016.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d64261f1-b7bb-4c06-bd94-4a59f4a70608";
 			};
 			name = Release;
 		};

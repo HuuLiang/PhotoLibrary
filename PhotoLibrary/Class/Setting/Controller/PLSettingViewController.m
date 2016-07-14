@@ -67,9 +67,12 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
 - (void)initBannerCell:(NSUInteger)section {
     _bannerCell = [[UITableViewCell alloc] init];
     _bannerCell.backgroundColor = [UIColor colorWithHexString:@"#666aaa"];
-    UIImageView *_imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
+    UIImageView *_imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[PLUtil isAppleStore] ?  @"appstore_banner.jpg" : @"channel_banner.jpg"]];
+    _imageView.frame = CGRectMake(0, 0, kScreenWidth, 100.);
+    _imageView.contentMode = UIViewContentModeScaleToFill;
+//    _imageView.clipsToBounds = YES;
     
-    [_bannerCell.contentView addSubview:_imageView];
+    [_bannerCell addSubview:_imageView];
     
     [self setLayoutCell:_bannerCell cellHeight:100 inRow:0 andSection:section];
 }

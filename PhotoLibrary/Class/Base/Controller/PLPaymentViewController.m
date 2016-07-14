@@ -16,6 +16,7 @@
 #import "PLPaymentManager.h"
 #import "PLPaymentConfig.h"
 
+
 @interface PLPaymentViewController ()
 @property (nonatomic,retain) PLPaymentPopView *popView;
 
@@ -57,28 +58,38 @@
     
     _popView = [[PLPaymentPopView alloc] init];
     
-    if ([PLPaymentConfig sharedConfig].weixinInfo) {
-        BOOL useBuildInWeChatPay = [PLPaymentConfig sharedConfig].weixinInfo != nil;
-        [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
+    if ([PLUtil isApplePay]) {
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"applepay"] title:@"苹果内购" available:YES action:^(id sender) {
             @strongify(self);
             if (self.beginAction) {
                 self.beginAction(self);
             }
-            Pay(useBuildInWeChatPay?PLPaymentTypeWeChatPay:PLPaymentTypeIAppPay, useBuildInWeChatPay?PLPaymentTypeNone:PLPaymentTypeWeChatPay);
+            Pay(PLPaymentTypeApplePay,NSNotFound);
+            [self.view pl_beginLoading];
         }];
+    }else {
+        if ([PLPaymentConfig sharedConfig].weixinInfo) {
+            BOOL useBuildInWeChatPay = [PLPaymentConfig sharedConfig].weixinInfo != nil;
+            [_popView addPaymentWithImage:[UIImage imageNamed:@"wenxin"] title:@"微信支付" available:YES action:^(id sender) {
+                @strongify(self);
+                if (self.beginAction) {
+                    self.beginAction(self);
+                }
+                Pay(useBuildInWeChatPay?PLPaymentTypeWeChatPay:PLPaymentTypeIAppPay, useBuildInWeChatPay?PLPaymentTypeNone:PLPaymentTypeWeChatPay);
+            }];
+        }
+        
+        if ([PLPaymentConfig sharedConfig].alipayInfo) {
+            BOOL useBuildInAlipay = [PLPaymentConfig sharedConfig].alipayInfo != nil;
+            [_popView addPaymentWithImage:[UIImage imageNamed:@"zhifubao-0"] title:@"支付宝支付" available:YES action:^(id sender) {
+                @strongify(self);
+                if (self.beginAction) {
+                    self.beginAction(self);
+                }
+                Pay(useBuildInAlipay?PLPaymentTypeAlipay:PLPaymentTypeIAppPay, useBuildInAlipay?PLPaymentTypeNone:PLPaymentTypeAlipay);
+            }];
+        }
     }
-    
-    if ([PLPaymentConfig sharedConfig].alipayInfo) {
-        BOOL useBuildInAlipay = [PLPaymentConfig sharedConfig].alipayInfo != nil;
-        [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
-            @strongify(self);
-            if (self.beginAction) {
-                self.beginAction(self);
-            }
-            Pay(useBuildInAlipay?PLPaymentTypeAlipay:PLPaymentTypeIAppPay, useBuildInAlipay?PLPaymentTypeNone:PLPaymentTypeAlipay);
-        }];
-    }
-
     _popView.closeAction = ^(id sender){
         @strongify(self);
         [self hidePayment];
@@ -88,10 +99,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     [self.view addSubview:self.popView];
-
+    
     {
         [self.popView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.view);
@@ -132,9 +143,9 @@
     
     self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
     
-    NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):@"payment_channel",
-                                   @(PLPaymentForPhotoAlbum):@"payment_album",
-                                   @(PLPaymentForVideo):@"payment_video"};
+    NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_channel",
+                                   @(PLPaymentForPhotoAlbum):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_album",
+                                   @(PLPaymentForVideo):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_video"};
     self.popView.headerImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:headerImages[@(payableObject.payableUsage)] ofType:@"jpg"]];
     self.popView.priceColor = [payableObject payableUsage] == PLPaymentForPhotoChannel ? [UIColor yellowColor] : [UIColor redColor];
 }
@@ -163,10 +174,10 @@
                                                      price:price
                                                 forPayable:payable
                                          completionHandler:^(PAYRESULT payResult, PLPaymentInfo *paymentInfo)
-    {
-        @strongify(self);
-        [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
-    }];
+     {
+         @strongify(self);
+         [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
+     }];
 }
 
 
@@ -178,8 +189,8 @@
  *  @param paymentInfo 支付参数
  */
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(PLPaymentInfo *)paymentInfo {
-//    NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
-//    [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
+    //    NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
+    //    [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
     paymentInfo.paymentResult = @(result);
     paymentInfo.paymentStatus = @(PLPaymentStatusNotProcessed);
     paymentInfo.paymentTime = [PLUtil currentDateString];

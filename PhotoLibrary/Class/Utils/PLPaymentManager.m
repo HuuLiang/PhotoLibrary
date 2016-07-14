@@ -17,6 +17,8 @@
 #import "AlipayManager.h"
 #import <AlipaySDK/AlipaySDK.h>
 
+
+
 //#import <IapppayAlphaKit/IapppayAlphaOrderUtils.h>
 //#import <IapppayAlphaKit/IapppayAlphaKit.h>
 
@@ -122,6 +124,12 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
             }
         }];
         
+    }else if (type == PLPaymentTypeApplePay){
+        if (![PLApplePay shareApplePay].isGettingPriceInfo) {
+            
+            [[PLApplePay shareApplePay] payWithProductionId:@"VIDEO_VIP"];
+        }
+    
     }  else {
         success = NO;
         
@@ -189,4 +197,6 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
     }
 }
+
+
 @end

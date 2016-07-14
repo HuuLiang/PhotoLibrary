@@ -35,6 +35,7 @@
 #define PL_USER_ACCESS_URL                  @"/gallery/userAccess.htm"
 #define PL_AGREEMENT_URL                    @"/gallery/agreement.html"
 
+#define PL_SYSTEM_CONFIG_PAY_IMG              @"IS_APPLE_PAY_IMG"
 #define PL_SYSTEM_CONFIG_PAY_TYPE              @"IS_APPLE_PAY"
 #define PL_SYSTEM_CONFIG_GALLERY_PAY_AMOUNT    @"GALLERY_PAY_AMOUNT"
 #define PL_SYSTEM_CONFIG_VIDEO_PAY_AMOUNT      @"VIDEO_PAY_AMOUNT"

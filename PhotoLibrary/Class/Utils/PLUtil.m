@@ -10,6 +10,7 @@
 #import <SFHFKeychainUtils.h>
 #import <sys/sysctl.h>
 #import "YYKApplicationManager.h"
+#import "PLSystemConfigModel.h"
 //#define USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
 
 #ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
@@ -271,6 +272,21 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:kDefaultDateFormat];
     return [dateFormatter stringFromDate:[NSDate date]];
+}
+
++ (BOOL)isApplePay {
+    if ([[PLSystemConfigModel sharedModel].isApplePay isEqualToString:@"YES"]) {
+        return YES;
+    }else {
+        return NO;
+    }
+}
+
++ (BOOL) isAppleStore {
+    if ([[PLSystemConfigModel sharedModel].isAppleStore isEqualToString:@"YES"]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

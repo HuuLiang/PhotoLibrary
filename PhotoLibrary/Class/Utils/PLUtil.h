@@ -34,7 +34,8 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (NSUInteger)appVersion;
 + (void)checkAppInstalledWithBundleId:(NSString *)bundleId completionHandler:(void (^)(BOOL))handler;
 
-
++ (BOOL)isApplePay;//是否是苹果内购
++ (BOOL) isAppleStore;//是否需要切换素版bannner和支付图片
 // For test only
 + (void)removeKeyChainEntries;
 

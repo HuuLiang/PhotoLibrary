@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 @property (nonatomic) NSString *payImgUrl;
 @property (nonatomic) NSArray *userNames;
 
++ (instancetype)sharedConfig;
 + (instancetype)configFromPersistence;
 - (void)persist;
 + (instancetype)sharedConfig;
