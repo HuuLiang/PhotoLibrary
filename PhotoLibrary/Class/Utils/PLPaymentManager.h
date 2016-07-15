@@ -20,6 +20,8 @@ typedef void (^PLPaymentCompletionHandler)(PAYRESULT payResult, PLPaymentInfo *p
                      subType:(PLPaymentType)subType
                        price:(NSUInteger)price
                   forPayable:(id<PLPayable>)payable
+           applePayProductId:(NSString *)applePayProductId
+                payPointType:(PLPayPointType)payPointType
            completionHandler:(PLPaymentCompletionHandler)handler;
 
 

@@ -289,4 +289,39 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     return NO;
 }
 
++ (BOOL)isAllVip {
+
+    return [PLUtil isVideoVip] && [PLUtil isPictureVip];
+}
+
++ (BOOL)isPictureVip {
+    
+    PLPaymentInfo *pictureVipInfo = [[self allSuccessfulPaymentInfos] bk_match:^BOOL(id obj) {
+        PLPaymentInfo *paymentInfo = obj;
+        return paymentInfo.payPointType.integerValue == PLPayPointTypePictureVIP;
+    }];
+
+    return pictureVipInfo != nil;
+}
+
++ (BOOL)isVideoVip {
+    
+    PLPaymentInfo *pictureVipInfo = [[self allSuccessfulPaymentInfos] bk_match:^BOOL(id obj) {
+        PLPaymentInfo *paymentInfo = obj;
+        return paymentInfo.payPointType.integerValue == PLPayPointTypeVideoVIP;
+    }];
+    
+    return pictureVipInfo != nil;
+
+}
+
++ (NSArray<PLPaymentInfo *> *)allSuccessfulPaymentInfos {
+    return [self.allPaymentInfos bk_select:^BOOL(id obj) {
+        PLPaymentInfo *paymentInfo = obj;
+        if (paymentInfo.paymentResult.unsignedIntegerValue == PAYRESULT_SUCCESS) {
+            return YES;
+        }
+        return NO;
+    }];
+}
 @end

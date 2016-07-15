@@ -27,6 +27,8 @@
 
 @property (nonatomic,copy) PLAction beginAction;
 @property (nonatomic,copy) PLCompletionHandler completionHandler;
+
+@property (nonatomic,strong)UIView *currentView;
 @end
 
 @implementation PLPaymentViewController
@@ -49,10 +51,10 @@
     }
     
     @weakify(self);
-    void (^Pay)(PLPaymentType type, PLPaymentType subType) = ^(PLPaymentType type, PLPaymentType subType)
+    void (^Pay)(PLPaymentType type, PLPaymentType subType,NSString *applePayProductId) = ^(PLPaymentType type, PLPaymentType subType,NSString *applePayProductId)
     {
         @strongify(self);
-        [self pay:self.payableObject withPaymentType:type andSubPaymentType:subType];
+        [self pay:self.payableObject withPaymentType:type andSubPaymentType:subType applePayProductId:applePayProductId];
         [self hidePayment];
     };
     
@@ -64,8 +66,8 @@
             if (self.beginAction) {
                 self.beginAction(self);
             }
-            Pay(PLPaymentTypeApplePay,NSNotFound);
-            [self.view pl_beginLoading];
+            Pay(PLPaymentTypeApplePay,NSNotFound,self.appleProductId);
+            
         }];
     }else {
         if ([PLPaymentConfig sharedConfig].weixinInfo) {
@@ -75,7 +77,7 @@
                 if (self.beginAction) {
                     self.beginAction(self);
                 }
-                Pay(useBuildInWeChatPay?PLPaymentTypeWeChatPay:PLPaymentTypeIAppPay, useBuildInWeChatPay?PLPaymentTypeNone:PLPaymentTypeWeChatPay);
+                Pay(useBuildInWeChatPay?PLPaymentTypeWeChatPay:PLPaymentTypeIAppPay, useBuildInWeChatPay?PLPaymentTypeNone:PLPaymentTypeWeChatPay,nil);
             }];
         }
         
@@ -86,7 +88,7 @@
                 if (self.beginAction) {
                     self.beginAction(self);
                 }
-                Pay(useBuildInAlipay?PLPaymentTypeAlipay:PLPaymentTypeIAppPay, useBuildInAlipay?PLPaymentTypeNone:PLPaymentTypeAlipay);
+                Pay(useBuildInAlipay?PLPaymentTypeAlipay:PLPaymentTypeIAppPay, useBuildInAlipay?PLPaymentTypeNone:PLPaymentTypeAlipay,nil);
             }];
         }
     }
@@ -152,8 +154,10 @@
 
 - (void)hidePayment {
     [UIView animateWithDuration:0.25 animations:^{
+        
         self.view.alpha = 0;
     } completion:^(BOOL finished) {
+        
         [self.view removeFromSuperview];
         self.beginAction = nil;
     }];
@@ -166,13 +170,15 @@
  *  @param paymentType 首选支付类型（比如本地的微信支付、微信支付/爱贝支付）
  *  @param subType     支付方式子类型（微信支付、支付宝支付）
  */
-- (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType andSubPaymentType:(PLPaymentType)subType{
+- (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType andSubPaymentType:(PLPaymentType)subType applePayProductId:(NSString *)applePayProductId{
     @weakify(self);
     NSUInteger price = [[payable payableFee] integerValue];
     [[PLPaymentManager sharedManager] startPaymentWithType:paymentType
                                                    subType:subType
                                                      price:price
                                                 forPayable:payable
+                                         applePayProductId:applePayProductId
+                                              payPointType:self.payPointType
                                          completionHandler:^(PAYRESULT payResult, PLPaymentInfo *paymentInfo)
      {
          @strongify(self);
@@ -212,6 +218,8 @@
         self.completionHandler(result==PAYRESULT_SUCCESS, paymentInfo);//激活支付完成
         self.completionHandler = nil;
     }
+    //    [self.currentView pl_endLoading];
+    [[UIApplication sharedApplication].keyWindow pl_endLoading];
     //提交支付信息
     [[PLPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
     

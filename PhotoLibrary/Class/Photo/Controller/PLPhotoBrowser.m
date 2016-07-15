@@ -249,9 +249,9 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     
-    BOOL isPayed = NO;
+    BOOL isPayed = [PLUtil isPictureVip];
     if ([self.delegate respondsToSelector:@selector(photoBrowser:shouldDisplayPhotoAtIndex:)]) {
-        isPayed =  [self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index];
+        [self.delegate photoBrowser:self shouldDisplayPhotoAtIndex:index];
     }
     
     if (index>2) {
@@ -318,7 +318,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
     
-    if (self.payed) {
+    if ([PLUtil isPictureVip]) {
         
         _titleLabel.text = [NSString stringWithFormat:@"%lu / %ld",index+1,(unsigned long)self.Allphoto.count];
     } else {
@@ -367,7 +367,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
         UIScrollView *scrollView = (UIScrollView*)object;
         
         if (scrollView.contentOffset.x == kScreenWidth*2+41) {
-            if (!self.payed) {
+            if (![PLUtil isPictureVip]) {
                 if (self.payAction) {
                     self.payAction(nil);
                 }  

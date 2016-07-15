@@ -129,24 +129,33 @@ static const CGFloat kDefaultAdBannerHeight = 30;
 /**接收到支付通知*/
 - (void)onPaymentNotification:(NSNotification *)notification {}
 
-- (void)payForPayable:(id<PLPayable>)payable withCompletionHandler:(PLCompletionHandler)handler {
-    [self payForPayable:payable withBeginAction:nil completionHandler:handler];
+- (void)payForPayable:(id<PLPayable>)payable appleProductId:(NSString *)appleProductId payPointType:(PLPayPointType)payPointType withCompletionHandler:(PLCompletionHandler)handler{
+    [self payForPayable:payable withBeginAction:nil appleProductId:appleProductId payPointType:payPointType completionHandler:handler];
 }
 
-- (void)payForPayable:(id<PLPayable>)payable withBeginAction:(PLAction)beginAction completionHandler:(PLCompletionHandler)completionHandler {
-    if ([payable payableUsage] == PLPaymentForUnknown) {
-        if (completionHandler) {//支付失败，回调为NO
-            completionHandler(NO, nil);
+- (void)payForPayable:(id<PLPayable>)payable withBeginAction:(PLAction)beginAction appleProductId:(NSString *)appleProductId  payPointType:(PLPayPointType)payPointType completionHandler:(PLCompletionHandler)completionHandler{
+    
+//    if ([payable payableUsage] == PLPaymentForUnknown) {
+//        if (completionHandler) {//支付失败，回调为NO
+//            completionHandler(NO, nil);
+//        }
+//        return ;
+//    }
+//    if ([PLPaymentUtil :payable]) {//PLPaymentUtil查看，保存支付纪录的类
+//        if (completionHandler) {//支付成功,回调为YES
+//            completionHandler(YES, payable);
+//        }
+//        return ;
+//    }
+    if (([PLUtil isVideoVip] && payPointType == PLPayPointTypeVideoVIP) || ([PLUtil isPictureVip] && payPointType == PLPayPointTypePictureVIP) ) {
+        if (completionHandler) {
+            completionHandler(YES,payable);
         }
-        return ;
+        return;
     }
     
-    if ([PLPaymentUtil isPaidForPayable:payable]) {//PLPaymentUtil查看，保存支付纪录的类
-        if (completionHandler) {//支付成功,回调为YES
-            completionHandler(YES, payable);
-        }
-        return ;
-    }
+    [PLPaymentViewController sharedPaymentVC].appleProductId = appleProductId;
+      [PLPaymentViewController sharedPaymentVC].payPointType = payPointType;
     //如果没有支付，弹出支付界面
     [[PLPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window
                                                        forPayable:payable

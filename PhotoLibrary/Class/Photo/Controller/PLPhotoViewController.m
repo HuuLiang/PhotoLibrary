@@ -98,7 +98,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         @strongify(self);
         
         [self.popupMenuController hide];
-        [self payForPayable:selectedChannel withCompletionHandler:^(BOOL success, id obj) {
+
+        [self payForPayable:selectedChannel appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP withCompletionHandler:^(BOOL success, id obj) {
             if (success) {
                 self.currentPhotoChannel = selectedChannel;
                 [self.popupMenuController hide];
@@ -354,7 +355,8 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         PLProgram *program = self.photoPrograms[indexPath.item];        
         
         //是否支付过该频道
-       BOOL isPayed =  [PLPaymentUtil isPaidForPayable:self.channelProgramModel.fetchedPrograms ];
+//       BOOL isPayed =  [PLPaymentUtil isPaidForPayable:self.channelProgramModel.fetchedPrograms ];
+        BOOL isPayed = [PLUtil isPictureVip];
         self.photoBrowser.payed = isPayed;
         cell = [cell setCellWithIndexPath:indexPath andCollectionView:collectionView andModel:program hasTitle:NO hasPayed:isPayed];
         
@@ -398,7 +400,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
         @weakify(self);
         
         if (indexOfAlbum < self.photoPrograms.count) {
-            [self payForPayable:self.channelProgramModel.fetchedPrograms withCompletionHandler:^(BOOL success, id obj) {
+            [self payForPayable:self.channelProgramModel.fetchedPrograms appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP withCompletionHandler:^(BOOL success, id obj) {
                 @strongify(self);
                 if (success) {//如果支付成功打开图片浏览器
                     PLProgram *photoProgram = self.photoPrograms[indexOfAlbum];
@@ -475,7 +477,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
     [self payForPayable:payable withBeginAction:^(id obj) {
         @strongify(self);
         [self.photoBrowser hide];
-    } completionHandler:^(BOOL success, id obj) {
+    } appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP completionHandler:^(BOOL success, id obj) {
         if (success) {
                         
             self.photoBrowser.photoAlbum = self.photoPrograms[0];

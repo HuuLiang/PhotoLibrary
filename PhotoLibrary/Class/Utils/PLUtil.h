@@ -41,4 +41,8 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 
 + (NSString *)currentDateString;
 
++ (BOOL) isPictureVip;
++ (BOOL) isVideoVip;
++ (BOOL) isAllVip;
+
 @end

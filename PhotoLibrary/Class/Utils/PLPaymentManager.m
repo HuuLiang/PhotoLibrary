@@ -28,6 +28,10 @@
 @property (nonatomic,retain) PLPaymentInfo *paymentInfo;
 @property (nonatomic,copy) PLPaymentCompletionHandler completionHandler;
 @property (nonatomic,retain) PLWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
+
+@property (nonatomic,retain)PLPaymentInfo *applepaymentInfo;//内购
+@property (nonatomic)NSString *applePayProductId;
+
 @end
 
 @implementation PLPaymentManager
@@ -63,6 +67,8 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
                      subType:(PLPaymentType)subType
                        price:(NSUInteger)price
                   forPayable:(id<PLPayable>)payable
+           applePayProductId:(NSString *)applePayProductId
+                payPointType:(PLPayPointType)payPointType
            completionHandler:(PLPaymentCompletionHandler)handler
 {
     if (type == PLPaymentTypeNone || (type == PLPaymentTypeIAppPay && subType == PLPaymentTypeNone)) {
@@ -71,6 +77,7 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         }
         return NO;
     }
+//    price = 1;
     
     NSString *channelNo = PL_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
@@ -82,7 +89,7 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     paymentInfo.orderPrice = @(price);
     paymentInfo.contentId = payable.contentId;
     paymentInfo.contentType = payable.contentType;
-    paymentInfo.payPointType = payable.payPointType;
+    paymentInfo.payPointType = @(payPointType);
     paymentInfo.paymentType = @(type);
     paymentInfo.paymentResult = @(PAYRESULT_UNKNOWN);
     paymentInfo.paymentStatus = @(PLPaymentStatusPaying);
@@ -125,11 +132,10 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         }];
         
     }else if (type == PLPaymentTypeApplePay){
-        if (![PLApplePay shareApplePay].isGettingPriceInfo) {
-            
-            [[PLApplePay shareApplePay] payWithProductionId:@"VIDEO_VIP"];
-        }
-    
+        self.applepaymentInfo = paymentInfo;
+        self.applePayProductId = applePayProductId;
+        [self getPriceWithPaymentInfo:paymentInfo applePayProductId:applePayProductId];
+        
     }  else {
         success = NO;
         
@@ -140,6 +146,53 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
     
     return success;
 }
+
+- (void)getPriceWithPaymentInfo:(PLPaymentInfo *)paymentInfo applePayProductId:(NSString *)applePayProductId{
+    if ([PLApplePay shareApplePay].isGettingPriceInfo) {
+        
+        [self performSelector:@selector(getPriceWithPaymentInfo:applePayProductId:) withObject:nil afterDelay:1.];
+        [self performSelector:@selector(getPriceInfoError) withObject:nil afterDelay:3.0];
+        
+    }
+    @weakify(self);
+    [[PLApplePay shareApplePay] payWithProductionId:self.applePayProductId];
+    [[UIApplication sharedApplication].keyWindow pl_beginLoading];
+    [PLApplePay shareApplePay].appPayBack = ^(SKPaymentTransactionState paystates){
+        @strongify(self);
+        //            paymentInfo.orderPrice =
+        PAYRESULT payResult;
+        switch (paystates) {
+            case SKPaymentTransactionStateFailed:
+                payResult = PAYRESULT_FAIL;
+                break;
+            case SKPaymentTransactionStatePurchased:
+                payResult = PAYRESULT_SUCCESS;
+                break;
+                //                    case SKPaymentTransactionStateFailed:
+                //                        payResult = PAYRESULT_FAIL;
+                //                        break;
+                
+            default:
+                payResult = PAYRESULT_UNKNOWN;
+                break;
+        }
+        
+        if (self.completionHandler) {
+            self.completionHandler(payResult,_applepaymentInfo);
+            [[UIApplication sharedApplication].keyWindow pl_endLoading];
+        }
+    };
+
+
+}
+
+
+- (void)getPriceInfoError {
+    if ([PLUtil isApplePay] && [PLApplePay shareApplePay].isGettingPriceInfo) {
+        [[UIApplication sharedApplication].keyWindow pl_endLoading];
+    }
+}
+
 
 - (void)checkPayment {
     NSArray<PLPaymentInfo *> *payingPaymentInfos = [PLUtil payingPaymentInfos];

@@ -40,16 +40,22 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
         if (cell == self->_bannerCell) {
             
         } else if (cell == self->_photoCell) {
+            [self payForPayable:nil appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP withCompletionHandler:nil];
             
         } else if (cell == self->_videoCell) {
-            
+             [self payForPayable:nil appleProductId:PL_APPLEPAY_VIDEO_PRODUCTID payPointType:PLPayPointTypeVideoVIP withCompletionHandler:nil];
+    
         } else if (cell == self->_protocolCell) {
-            
+    
         }
     };
     
     [self initCells];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification) name:kPaymentNotificationName object:nil];    
+}
+
+- (void)onPaidNotification {
+    [self initCells];
 }
 
 - (void)initCells {
@@ -62,6 +68,7 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     [self initVideoVipCell:section++];
     [self setHeaderHeight:2 inSection:section];
     [self initProtocolCell:section];
+    [self.layoutTableView reloadData];
 }
 
 - (void)initBannerCell:(NSUInteger)section {
@@ -82,7 +89,12 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     _photoCell.selectionStyle = UITableViewCellSelectionStyleNone;
     _photoCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
     _photoCell.bgImg = @"setting_photo_icon";
-    _photoCell.price = 20.;
+    _photoCell.price = [PLUtil isPictureVip]? @"" : @"25";
+    @weakify(self);
+    _photoCell.payBtnblock = ^(){
+        @strongify(self);
+    [self payForPayable:nil appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP withCompletionHandler:nil];
+    };
     [self setLayoutCell:_photoCell cellHeight:80 inRow:0 andSection:section];
 }
 
@@ -91,7 +103,12 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     _videoCell.selectionStyle = UITableViewCellSelectionStyleNone;
     _videoCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
     _videoCell.bgImg = @"setting_video_icon";
-    _videoCell.price = 30.;
+    _videoCell.price = [PLUtil isVideoVip]? @"" : @"30";
+    @weakify(self);
+    _videoCell.payBtnblock = ^(){
+        @strongify(self);
+        [self payForPayable:nil appleProductId:PL_APPLEPAY_VIDEO_PRODUCTID payPointType:PLPayPointTypeVideoVIP withCompletionHandler:nil];
+    };
     [self setLayoutCell:_videoCell cellHeight:80 inRow:0 andSection:section];
 }
 
@@ -112,4 +129,6 @@ DefineLazyPropertyInitialization(UIWebView, agreementWebView)
     [self setLayoutCell:_protocolCell cellHeight:kScreenHeight-30-49-64-180-80 inRow:0 andSection:section];
     
 }
+
+
 @end

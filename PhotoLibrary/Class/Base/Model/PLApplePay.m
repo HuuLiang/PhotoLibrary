@@ -111,18 +111,25 @@
                  */
 //                [self sendInfoToServer:transaction.payment.productIdentifier];
 //                [self.delegate sendPaymentState:transaction.transactionState];
+                if (self.appPayBack) {
+                    self.appPayBack(SKPaymentTransactionStatePurchased);
+                }
+               
             }
                 break;
             case SKPaymentTransactionStateFailed:
                 NSLog(@"购买失败");
                 [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
 //                [self.delegate sendPaymentState:transaction.transactionState];
+                if (self.appPayBack) {
+                    self.appPayBack(SKPaymentTransactionStateFailed);
+                }
                 break;
                 
             default:
                 break;
         }
-        
+       
     }
 }
 

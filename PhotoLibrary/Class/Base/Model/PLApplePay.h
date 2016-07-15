@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
+typedef void(^PLApplePayBackBlock)(SKPaymentTransactionState paystates);
+
 @interface PLApplePay : NSObject
 
 @property (nonatomic) BOOL isGettingPriceInfo;
-
+@property (nonatomic,copy)PLApplePayBackBlock appPayBack;
 
 + (instancetype)shareApplePay;
 

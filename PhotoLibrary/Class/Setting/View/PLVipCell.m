@@ -44,8 +44,16 @@
         _payBtn.layer.cornerRadius = 5;
         _payBtn.layer.masksToBounds = YES;
         _payBtn.titleLabel.font = [UIFont fontWithName:@"NotoSanHans" size:kScreenWidth *26/750.];
-        _payBtn.backgroundColor = [UIColor colorWithHexString:@"#ff680d"];
+//        _payBtn.backgroundColor = [UIColor colorWithHexString:@"#ff680d"];
+        [_payBtn setBackgroundImage:[UIImage imageNamed:@"settingbtn"] forState:UIControlStateNormal];
         [_payBtn setTitleColor:[UIColor colorWithHexString:@"#ffffff"] forState:UIControlStateNormal];
+        [_payBtn bk_addEventHandler:^(id sender) {
+            if (self.payBtnblock) {
+                self.payBtnblock();
+            }
+            
+        } forControlEvents:UIControlEventTouchUpInside];
+        
         [self addSubview:_payBtn];
         
         {
@@ -80,13 +88,23 @@
     _imgV.image = [UIImage imageNamed:bgImg];
     if ([bgImg isEqualToString:@"setting_photo_icon"]) {
         _titleLabel.text = @"图集VIP";
+        _payBtn.enabled = [PLUtil isPictureVip] ? NO : YES;
     } else {
-       _titleLabel.text = @"视频VIP";
+        _titleLabel.text = @"视频VIP";
+         _payBtn.enabled = [PLUtil isVideoVip] ? NO : YES;
     }
 }
 
-- (void)setPrice:(NSUInteger)price {
-    _priceLabel.text = [NSString stringWithFormat:@"¥ %lu",price];
+- (void)setPrice:(NSString *)price {
+    _priceLabel.text = price;
 }
+
+- (void)setPayBtnStr:(NSString *)payBtnStr {
+    _payBtnStr = payBtnStr;
+    
+    [_payBtn setTitle:payBtnStr forState:UIControlStateNormal];
+}
+
+
 
 @end

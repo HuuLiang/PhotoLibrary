@@ -18,9 +18,9 @@
 #define PL_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
 
 #define PL_PAYMENT_RESERVE_DATA [NSString stringWithFormat:@"%@$%@", PL_REST_APP_ID, PL_CHANNEL_NO]
-#define PL_PAYMENT_CONFIG_URL           @"http://pay.iqu8.net/paycenter/payConfig.json"
+#define PL_PAYMENT_CONFIG_URL          @"http://pay.iqu8.net/paycenter/payConfig.json"//@"http://120.24.252.114:8084/paycenter/payConfig.json"//
 #define PL_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
-#define PL_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"
+#define PL_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"//@"http://120.24.252.114:8084/paycenter/qubaPr.json" //
 
 #define PL_BASE_URL                         @"http://tuku.ihuiyx.com"
 //#define PL_BASE_URL                         @"http://120.24.252.114:8096"
@@ -50,5 +50,7 @@
 
 #define PL_ALIPAY_SCHEME               @"comphotolibrary2016appalipayurlscheme"
 
+#define PL_APPLEPAY_PICTURE_PRODUCTID           @"PICTURE_VIP"//内购
+#define PL_APPLEPAY_VIDEO_PRODUCTID             @"VIDEO_VIP"
 
 #endif /* PLConfig_h */

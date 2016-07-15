@@ -37,6 +37,12 @@ typedef NS_ENUM(NSUInteger, PLChannelCategory) {
     PLVideoChannelCategory
 };
 
+typedef NS_ENUM(NSUInteger,PLPayPointType) {
+    PLPayPointTypeNone,
+    PLPayPointTypePictureVIP,
+    PLPayPointTypeVideoVIP
+};
+
 // DLog
 #ifdef  DEBUG
 #define DLog(fmt,...) {NSLog((@"%s [Line:%d]" fmt),__PRETTY_FUNCTION__,__LINE__,##__VA_ARGS__);}
@@ -61,6 +67,8 @@ return _##propertyName; \
 #define kPaymentNotificationOrderNoKey @"photolib_payment_notification_order_key"
 #define kPaymentNotificationPriceKey @"photolib_payment_notification_price_key"
 #define kPaymentNotificationPaymentType @"photolib_payment_notification_payment_type"
+
+#define kPaymentNotificationPayKey @"kpayment_notification_pay_name"
 
 #define kPaymentInfoKeyName @"PL_paymentinfo_keyname"
 

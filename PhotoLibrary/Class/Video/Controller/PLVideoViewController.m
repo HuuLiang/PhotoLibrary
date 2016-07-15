@@ -133,7 +133,7 @@ DefineLazyPropertyInitialization(NSMutableArray, videos)
 //    [self playVideo:video];
 
     id<PLPayable> payable = self.videoModel.fetchedVideos;
-    [self payForPayable:payable withCompletionHandler:^(BOOL success, id obj) {
+    [self payForPayable:payable appleProductId:PL_APPLEPAY_VIDEO_PRODUCTID payPointType:PLPayPointTypeVideoVIP withCompletionHandler:^(BOOL success, id obj) {
         @strongify(self);
         if (success) {
             PLVideo *video = self.videos[indexPath.row];

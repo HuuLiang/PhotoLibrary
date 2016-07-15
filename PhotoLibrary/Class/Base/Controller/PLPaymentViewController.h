@@ -10,6 +10,8 @@
 #import "PLPayable.h"
 
 @interface PLPaymentViewController : PLBaseViewController
+@property (nonatomic)NSString *appleProductId;//内购
+@property (nonatomic)PLPayPointType payPointType;//计费点
 
 + (instancetype)sharedPaymentVC;
 

@@ -67,6 +67,9 @@ typedef NSString PLPaymentStatus;
 #pragma mark - 保存支付信息
 /**存储支付视频的信息*///->2.
 + (void)setPayment:(PLPayment *)payment withUsage:(PLPaymentUsage)usage status:(PLPaymentStatus *)status {//status作为内部的key，usage对应的值作为本地存储路径的key
+    if (payment.count == 0) {
+        return;
+    }
     //可变字典
     PLPaymentsM *payments = [self paymentsWithUsage:usage].mutableCopy;//取出存入本地的字典，如果没有值说明，之前没有存储过
     if (!payments) {

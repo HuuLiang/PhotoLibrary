@@ -22,7 +22,7 @@ static const void *kPLLoadingIndicatorAssociatedKey = &kPLLoadingIndicatorAssoci
     }
     
     loadingView = [[UIView alloc] init];
-    loadingView.backgroundColor = [UIColor whiteColor];
+    loadingView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
     
     [self.pl_loadingIndicatorView startAnimating];
     [loadingView addSubview:self.pl_loadingIndicatorView];
