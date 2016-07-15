@@ -207,4 +207,9 @@
     [[PLPaymentManager sharedManager] handleOpenURL:url];
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    [[PLPaymentManager sharedManager] handleOpenURL:url];
+    return YES;
+}
 @end

@@ -15,7 +15,7 @@ static NSString *const kSystemConfigKeyName = @"photolibrary_systemconfig_keynam
 
 
 + (instancetype)defaultConfig {
-    PLWeChatPaymentConfig *config = [[self alloc] init];
+    PLWeChatPaymentConfig *config = [[PLWeChatPaymentConfig alloc] init];
     config.appId = @"wx4e086cf2c5bebcd5";
     config.mchId = @"1323603901";
     config.signKey = @"hangzhouquya20160713qwertyuiopas";
@@ -211,9 +211,9 @@ static PLPaymentConfig *_shardConfig;
     static dispatch_once_t defaultToken;
     dispatch_once(&defaultToken, ^{
         _defaultConfig = [[self alloc] init];
+        _defaultConfig.imgUrl = PL_DEFAULT_PHOTOSERVER_URL;
         _defaultConfig.alipayInfo = [PLAlipayConfig defaultConfig];
         _defaultConfig.weixinInfo = [PLWeChatPaymentConfig defaultConfig];
-        _defaultConfig.imgUrl = PL_DEFAULT_PHOTOSERVER_URL;
         _defaultConfig.firstPayPages = @2;
         _defaultConfig.vipPointInfo = @"4800:1|9800:3";
     });
@@ -245,7 +245,7 @@ static PLPaymentConfig *_shardConfig;
 }
 
 - (void)setAsCurrentConfig {
-    PLPaymentConfig *currentConfig = [[self class] sharedConfig];
+    PLPaymentConfig *currentConfig = [[PLPaymentConfig class] sharedConfig];
     currentConfig.weixinInfo = self.weixinInfo;
     currentConfig.alipayInfo = self.alipayInfo;
 }

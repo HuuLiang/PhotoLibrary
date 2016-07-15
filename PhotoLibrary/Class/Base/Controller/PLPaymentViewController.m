@@ -143,7 +143,8 @@
 - (void)setPayableObject:(id<PLPayable>)payableObject {
     _payableObject = payableObject;
     
-    self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
+//    self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
+    self.popView.showPrice = self.payPointType == PLPayPointTypePictureVIP ? @([PLSystemConfigModel sharedModel].photoPrice/100.) :@([PLSystemConfigModel sharedModel].videoPrice/100.);
     
     NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_channel",
                                    @(PLPaymentForPhotoAlbum):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_album",
@@ -172,7 +173,8 @@
  */
 - (void)pay:(id<PLPayable>)payable withPaymentType:(PLPaymentType)paymentType andSubPaymentType:(PLPaymentType)subType applePayProductId:(NSString *)applePayProductId{
     @weakify(self);
-    NSUInteger price = [[payable payableFee] integerValue];
+//    NSUInteger price = [[payable payableFee] integerValue];
+    NSUInteger price = self.payPointType == PLPayPointTypePictureVIP ? [PLSystemConfigModel sharedModel].photoPrice :[PLSystemConfigModel sharedModel].videoPrice;
     [[PLPaymentManager sharedManager] startPaymentWithType:paymentType
                                                    subType:subType
                                                      price:price
