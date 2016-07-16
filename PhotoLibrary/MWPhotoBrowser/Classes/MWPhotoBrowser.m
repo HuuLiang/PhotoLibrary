@@ -661,7 +661,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 id <MWPhoto> photo = [self photoAtIndex:pageIndex-1];
                 if (![photo underlyingImage]) {
                     [photo loadUnderlyingImageAndNotify];
-                    MWLog(@"Pre-loading image at index %lu", (unsigned long)pageIndex-1);
+//                    MWLog(@"Pre-loading image at index %lu", (unsigned long)pageIndex-1);
                 }
             }
             if (pageIndex < [self numberOfPhotos] - 1) {
@@ -669,7 +669,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 id <MWPhoto> photo = [self photoAtIndex:pageIndex+1];
                 if (![photo underlyingImage]) {
                     [photo loadUnderlyingImageAndNotify];
-                    MWLog(@"Pre-loading image at index %lu", (unsigned long)pageIndex+1);
+//                    MWLog(@"Pre-loading image at index %lu", (unsigned long)pageIndex+1);
                 }
             }
         }
@@ -722,7 +722,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
             [page.playButton removeFromSuperview];
             [page prepareForReuse];
 			[page removeFromSuperview];
-			MWLog(@"Removed page at index %lu", (unsigned long)pageIndex);
+//			MWLog(@"Removed page at index %lu", (unsigned long)pageIndex);
 		}
 	}
 	[_visiblePages minusSet:_recycledPages];
@@ -742,7 +742,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 			[self configurePage:page forIndex:index];
 
 			[_pagingScrollView addSubview:page];
-			MWLog(@"Added page at index %lu", (unsigned long)index);
+//			MWLog(@"Added page at index %lu", (unsigned long)index);
             
             // Add caption
             MWCaptionView *captionView = [self captionViewForPhotoAtIndex:index];
@@ -843,7 +843,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
             if (photo != [NSNull null]) {
                 [photo unloadUnderlyingImage];
                 [_photos replaceObjectAtIndex:i withObject:[NSNull null]];
-                MWLog(@"Released underlying image at index %lu", (unsigned long)i);
+//                MWLog(@"Released underlying image at index %lu", (unsigned long)i);
             }
         }
     }
@@ -854,7 +854,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
             if (photo != [NSNull null]) {
                 [photo unloadUnderlyingImage];
                 [_photos replaceObjectAtIndex:i withObject:[NSNull null]];
-                MWLog(@"Released underlying image at index %lu", (unsigned long)i);
+//                MWLog(@"Released underlying image at index %lu", (unsigned long)i);
             }
         }
     }
@@ -973,7 +973,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [self didStartViewingPageAtIndex:index];
     }
 	
-    DLog(@"%f",scrollView.contentOffset.x);
+//    DLog(@"%f",scrollView.contentOffset.x);
     
     self.contentOffSet = scrollView.contentOffset.x;
 }

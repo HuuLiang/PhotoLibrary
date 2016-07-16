@@ -104,6 +104,9 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
     [super viewWillDisappear:animated];
     [_photoBrowser.pagingScrollView removeObserver:self forKeyPath:@"contentOffset" context:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.Allphoto.count != 0) {
+        [self.Allphoto removeAllObjects];
+    }
     
 }
 #pragma mark - 照片浏览器即将显示的时候下载数据
@@ -157,7 +160,7 @@ DefineLazyPropertyInitialization(NSMutableArray, Allphoto)
             }
         }];
         
-        if (!self.payed) {
+        if (![PLUtil isPictureVip]) {
             NSMutableArray <MWPhoto *> *photo = [NSMutableArray array];
             
             for (int i = 0; i<3; ++i) {

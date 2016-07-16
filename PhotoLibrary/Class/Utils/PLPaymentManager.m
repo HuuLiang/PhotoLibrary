@@ -212,13 +212,13 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
             //                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
             //                }
             //            }];
-            PLPaymentViewController *paymentVC = [PLPaymentViewController sharedPaymentVC];
+//            PLPaymentViewController *paymentVC = [PLPaymentViewController sharedPaymentVC];
             [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
                 if ([trade_state isEqualToString:@"SUCCESS"]) {
                     
-                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
+//                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
                 }else {
-                    [paymentVC notifyPaymentResult:PAYRESULT_FAIL withPaymentInfo:obj];
+//                    [paymentVC notifyPaymentResult:PAYRESULT_FAIL withPaymentInfo:obj];
                 }
             }];
         }else {

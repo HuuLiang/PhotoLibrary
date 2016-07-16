@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E7191C12321BBD3A2FB1628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 131FE8C3406C9435454CC243 /* libPods.a */; };
 		B3349CCD1D378413000DD6D7 /* PLApplePay.m in Sources */ = {isa = PBXBuildFile; fileRef = B3349CCC1D378413000DD6D7 /* PLApplePay.m */; };
+		B33C2BD91D3A1C3A00016592 /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = B33C2BD81D3A1C3A00016592 /* NSArray+Log.m */; };
 		B36820471D361F57008D90B0 /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = B36820401D361F57008D90B0 /* ApiXml.mm */; };
 		B36820481D361F57008D90B0 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = B36820421D361F57008D90B0 /* payRequsestHandler.mm */; };
 		B36820491D361F57008D90B0 /* WeChatPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B36820441D361F57008D90B0 /* WeChatPayManager.m */; };
@@ -179,6 +180,8 @@
 		6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B3349CCB1D378413000DD6D7 /* PLApplePay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLApplePay.h; sourceTree = "<group>"; };
 		B3349CCC1D378413000DD6D7 /* PLApplePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLApplePay.m; sourceTree = "<group>"; };
+		B33C2BD71D3A1C3A00016592 /* NSArray+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Log.h"; sourceTree = "<group>"; };
+		B33C2BD81D3A1C3A00016592 /* NSArray+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Log.m"; sourceTree = "<group>"; };
 		B368203F1D361F57008D90B0 /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
 		B36820401D361F57008D90B0 /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
 		B36820411D361F57008D90B0 /* payRequsestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payRequsestHandler.h; sourceTree = "<group>"; };
@@ -531,6 +534,15 @@
 			name = ApplePay;
 			sourceTree = "<group>";
 		};
+		B33C2BD61D3A1C3A00016592 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				B33C2BD71D3A1C3A00016592 /* NSArray+Log.h */,
+				B33C2BD81D3A1C3A00016592 /* NSArray+Log.m */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
 		B368203E1D361F57008D90B0 /* WeChatPay */ = {
 			isa = PBXGroup;
 			children = (
@@ -788,6 +800,7 @@
 		B93E81C31C7F001B00C38211 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B33C2BD61D3A1C3A00016592 /* Log */,
 				B368204B1D362104008D90B0 /* NSMutableDictionary+Safety.h */,
 				B368204C1D362104008D90B0 /* NSMutableDictionary+Safety.m */,
 				B9B948271CEC6B5E00854D3C /* UIImage+Blur.h */,
@@ -1148,6 +1161,7 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = BTTZYVST3G;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1337,6 +1351,7 @@
 				B93E82331C7F001B00C38211 /* PLUtil.m in Sources */,
 				B36820741D365CA8008D90B0 /* openssl_wrapper.m in Sources */,
 				B93E82271C7F001B00C38211 /* NSObject+Properties.m in Sources */,
+				B33C2BD91D3A1C3A00016592 /* NSArray+Log.m in Sources */,
 				B368206B1D365CA8008D90B0 /* AlipayManager.m in Sources */,
 				B93E82121C7F001B00C38211 /* PLUserAccessModel.m in Sources */,
 				B93E821C1C7F001B00C38211 /* PLPhotoChannelModel.m in Sources */,
@@ -1530,7 +1545,7 @@
 			baseConfigurationReference = 6190DA3EA12EE267700612AB /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1554,7 +1569,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d64261f1-b7bb-4c06-bd94-4a59f4a70608";
+				PROVISIONING_PROFILE = "4e7abbd1-77d9-4794-8ace-a56bf50964e8";
 			};
 			name = Debug;
 		};
@@ -1563,7 +1578,7 @@
 			baseConfigurationReference = 363CED1C18E7752E94C8DE41 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1587,7 +1602,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d64261f1-b7bb-4c06-bd94-4a59f4a70608";
+				PROVISIONING_PROFILE = "4e7abbd1-77d9-4794-8ace-a56bf50964e8";
 			};
 			name = Release;
 		};
