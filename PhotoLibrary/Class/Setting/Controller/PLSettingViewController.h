@@ -7,6 +7,8 @@
 
 #import "PLLayoutTableViewController.h"
 
-@interface PLSettingViewController : PLLayoutTableViewController
+@interface PLSettingViewController : PLLayoutTableViewController<RESideMenuDelegate>
+
+- (void)initCells;
 
 @end

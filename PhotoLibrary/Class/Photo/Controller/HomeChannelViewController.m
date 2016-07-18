@@ -39,12 +39,17 @@ DefineLazyPropertyInitialization(PLPhotoChannel, currentPhotoChannel);
 DefineLazyPropertyInitialization(NSMutableArray, channelDataArray);
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    
-    
     [self setCollectionView];
     
     [self loadPhotoChannels];
+    
+    @weakify(self);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] bk_initWithImage:[UIImage imageNamed:@"sideMenu"] style:UIBarButtonItemStylePlain handler:^(id sender) {
+        @strongify(self);
+        [self.sideMenuViewController presentLeftMenuViewController];
+        
+    }];
+    
 }
 
 - (void)setCollectionView{

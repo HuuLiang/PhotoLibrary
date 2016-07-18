@@ -42,6 +42,7 @@ PODS:
   - MBProgressHUD (0.9.2)
   - MJRefresh (2.4.12)
   - OpenSSL (1.0.208)
+  - RESideMenu (4.0.7)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 2.4.7)
   - OpenSSL (~> 1.0.204)
+  - RESideMenu (~> 4.0.7)
   - SDWebImage (~> 3.7.3)
   - SFHFKeychainUtils (~> 0.0.1)
   - UIImage-Helpers (~> 0.0.3)
@@ -72,8 +74,11 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: ca8e9589895977df32d379d46e6b8a5450b3ff44
   OpenSSL: b187269d386b07452f56af273764ea0636dd5da8
+  RESideMenu: f24c508404b49c667344c54aba7e590883533958
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
   UIImage-Helpers: 06b04a42bdd222844035602e87e936765c80f620
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 181b97dd6fc7b56d1de04d83a3598a3939ea4c03
+
+COCOAPODS: 1.0.1

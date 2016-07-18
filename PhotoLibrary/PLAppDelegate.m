@@ -18,6 +18,7 @@
 #import "PLPaymentManager.h"
 #import "HomeChannelViewController.h"
 @interface PLAppDelegate ()
+@property (nonatomic,retain) PLSettingViewController *settingVC;
 
 @end
 
@@ -52,6 +53,7 @@
     
     
     PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
+    _settingVC = settingVC;
     settingVC.title = @"设置";
     
     settingVC.bottomAdBanner = YES;
@@ -61,13 +63,27 @@
                                                                        image:[UIImage imageNamed:@"normal_setting_bar"]
                                                                selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
-    tabBarController.tabBar.translucent  = NO;
-    //设置tabbar选中的渲染效果
-    tabBarController.tabBar.tintColor = [UIColor blackColor];
-    _window.rootViewController           = tabBarController;
+    RESideMenu *sideMenu = [[RESideMenu alloc] initWithContentViewController:photoNav leftMenuViewController:settingNav rightMenuViewController:nil];
+    sideMenu.delegate = settingVC;
+    sideMenu.scaleContentView = NO;
+    sideMenu.scaleBackgroundImageView = NO;
+    sideMenu.scaleMenuView = NO;
+    sideMenu.fadeMenuView = NO;
+    sideMenu.parallaxEnabled = NO;
+    sideMenu.bouncesHorizontally = NO;
+    sideMenu.contentViewShadowEnabled = NO;
+    sideMenu.contentViewInPortraitOffsetCenterX = kScreenWidth/2;
+    _window.rootViewController = sideMenu;
     return _window;
+    
+    
+//    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+//    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
+//    tabBarController.tabBar.translucent  = NO;
+//    //设置tabbar选中的渲染效果
+//    tabBarController.tabBar.tintColor = [UIColor blackColor];
+//    _window.rootViewController           = tabBarController;
+//    return _window;
 }
 
 #pragma mark - 设置控制器共有的规格
@@ -147,9 +163,11 @@
 
 #pragma mark - Appdelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    @weakify(self);
     [[PLSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        @strongify(self);
         if (success) {
+            [self.settingVC initCells];
             if ([PLUtil isApplePay]) {
                 [[PLApplePay shareApplePay] getProdructionInfo];
                 [PLApplePay shareApplePay].isGettingPriceInfo = YES;

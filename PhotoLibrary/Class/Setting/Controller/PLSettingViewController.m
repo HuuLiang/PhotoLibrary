@@ -32,6 +32,9 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] bk_initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain handler:^(id sender) {
+        [self.sideMenuViewController hideMenuViewController];
+    }];
     
     self.layoutTableView.hasRowSeparator = YES;
     self.layoutTableView.hasSectionBorder = NO;
@@ -60,7 +63,9 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     };
     
     [self initCells];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification) name:kPaymentNotificationName object:nil];    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification) name:kPaymentNotificationName object:nil];
+  
+    
 }
 
 - (void)onPaidNotification {
@@ -74,7 +79,7 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     [self initBannerCell:section++];
     [self initPhotoVipCell:section++];
     [self setHeaderHeight:1 inSection:section];
-    [self initVideoVipCell:section++];
+//    [self initVideoVipCell:section++];
     [self setHeaderHeight:2 inSection:section];
     [self initProtocolCell:section];
     [self.layoutTableView reloadData];
@@ -99,7 +104,7 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     _photoCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
     _photoCell.bgImg = @"setting_photo_icon";
     NSInteger price = [PLSystemConfigModel sharedModel].photoPrice/100.;
-    _photoCell.price = [PLUtil isPictureVip]? @"" : [NSString stringWithFormat:@"%ld",price];
+    _photoCell.price = [PLUtil isPictureVip]? @"" : [NSString stringWithFormat:@"%ld",(long)price];
     id<PLPayable> payable = self.photo;
     @weakify(self);
     _photoCell.payBtnblock = ^(){
@@ -115,7 +120,7 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     _videoCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
     _videoCell.bgImg = @"setting_video_icon";
     NSInteger price = [PLSystemConfigModel sharedModel].videoPrice/100.;
-    _videoCell.price = [PLUtil isVideoVip]? @"" : [NSString stringWithFormat:@"%ld",price];
+    _videoCell.price = [PLUtil isVideoVip]? @"" : [NSString stringWithFormat:@"%ld",(long)price];
    
 //    PLVideo *video = [[PLVideo alloc] init];
     id<PLPayable> payable = self.video;
@@ -141,7 +146,7 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
             make.edges.equalTo(_protocolCell.contentView);
         }];
     }
-    [self setLayoutCell:_protocolCell cellHeight:kScreenHeight-30-49-64-180-80 inRow:0 andSection:section];
+    [self setLayoutCell:_protocolCell cellHeight:kScreenHeight-30-64-180 inRow:0 andSection:section];
     
 }
 
