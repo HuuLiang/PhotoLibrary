@@ -1162,7 +1162,6 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = BTTZYVST3G;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1546,6 +1545,7 @@
 			baseConfigurationReference = B8D8B98862EE28FDF3BFA173 /* Pods-PhotoLibrary.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1570,7 +1570,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cca83dda-2a34-4891-870f-06af9df18b5f";
+				PROVISIONING_PROFILE = "4e7abbd1-77d9-4794-8ace-a56bf50964e8";
 			};
 			name = Debug;
 		};
@@ -1579,6 +1579,7 @@
 			baseConfigurationReference = 1AEC28416D9E4F0B811F4529 /* Pods-PhotoLibrary.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1603,7 +1604,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cca83dda-2a34-4891-870f-06af9df18b5f";
+				PROVISIONING_PROFILE = "4e7abbd1-77d9-4794-8ace-a56bf50964e8";
 			};
 			name = Release;
 		};

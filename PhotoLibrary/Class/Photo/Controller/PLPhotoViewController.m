@@ -278,7 +278,7 @@ DefineLazyPropertyInitialization(NSMutableArray, photoPrograms)
 
     if(self.photoPrograms.count&&self.photoPrograms.count>= self.channelProgramModel.fetchedPrograms.items.integerValue){//刷新到最后一个时候
         
-        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
+//        [[PLHudManager manager] showHudWithText:@"已经翻到最后一页"];
         
         [_layoutCollectionView PL_endPullToRefresh];
         
