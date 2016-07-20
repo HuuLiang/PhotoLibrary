@@ -18,9 +18,9 @@
 #define PL_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
 
 #define PL_PAYMENT_RESERVE_DATA [NSString stringWithFormat:@"%@$%@", PL_REST_APP_ID, PL_CHANNEL_NO]
-#define PL_PAYMENT_CONFIG_URL          @"http://pay.iqu8.net/paycenter/payConfig.json"//@"http://120.24.252.114:8084/paycenter/payConfig.json"//
+#define PL_PAYMENT_CONFIG_URL         @"http://pay.iqu8.net/paycenter/payConfig.json"// @"http://120.24.252.114:8084/paycenter/payConfig.json"//
 #define PL_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
-#define PL_PAYMENT_COMMIT_URL          @"http://pay.iqu8.net/paycenter/qubaPr.json"//@"http://120.24.252.114:8084/paycenter/qubaPr.json" //
+#define PL_PAYMENT_COMMIT_URL          /@"http://pay.iqu8.net/paycenter/qubaPr.json"//@"http://120.24.252.114:8084/paycenter/qubaPr.json" /
 #define PL_BASE_URL                         @"http://tuku.ihuiyx.com"
 //#define PL_BASE_URL                         @"http://120.24.252.114:8096"
 #define PL_PHOTO_CHANNEL_URL                @"/gallery/column.htm"
@@ -32,7 +32,7 @@
 #define PL_SYSTEM_CONFIG_URL                @"/gallery/systemConfig.htm"
 #define PL_ACTIVATE_URL                     @"/gallery/activat.htm"
 #define PL_USER_ACCESS_URL                  @"/gallery/userAccess.htm"
-#define PL_AGREEMENT_URL                    @"/gallery/agreement.html"
+#define PL_AGREEMENT_URL                    @"/gallery/lequ-agreement.html"
 
 #define PL_SYSTEM_CONFIG_PAY_IMG              @"IS_APPLE_PAY_IMG"
 #define PL_SYSTEM_CONFIG_PAY_TYPE              @"IS_APPLE_PAY"

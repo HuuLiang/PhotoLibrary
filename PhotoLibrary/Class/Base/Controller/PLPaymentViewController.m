@@ -144,7 +144,9 @@
     _payableObject = payableObject;
     
 //    self.popView.showPrice = @([payableObject payableFee].doubleValue / 100.);
-    self.popView.showPrice = self.payPointType == PLPayPointTypePictureVIP ? @([PLSystemConfigModel sharedModel].photoPrice/100.) :@([PLSystemConfigModel sharedModel].videoPrice/100.);
+//    self.popView.showPrice = self.payPointType == PLPayPointTypePictureVIP ? @([PLSystemConfigModel sharedModel].photoPrice/100.) :@([PLSystemConfigModel sharedModel].videoPrice/100.);
+    
+    self.popView.showPrice = [PLUtil isAppleStore] ? nil : @([PLSystemConfigModel sharedModel].photoPrice/100.);
     
     NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_channel",
                                    @(PLPaymentForPhotoAlbum):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_album",

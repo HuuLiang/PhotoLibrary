@@ -131,6 +131,9 @@ DefineLazyPropertyInitialization(NSMutableDictionary, cells)
 }
 
 - (void)priceLabelSetPrice:(NSNumber *)priceNumber {
+    if (!priceNumber) {
+        return;
+    }
     double price = priceNumber.doubleValue;
     BOOL showInteger = (NSUInteger)(price * 100) % 100 == 0;
     _priceLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", (NSUInteger)price] : [NSString stringWithFormat:@"%.2f", price];
