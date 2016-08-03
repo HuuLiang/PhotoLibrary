@@ -119,8 +119,6 @@
 		B99543D71CE5AB2A004F9881 /* UIImage+MWPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B99543AF1CE5AB2A004F9881 /* UIImage+MWPhotoBrowser.m */; };
 		B99543DA1CE5B242004F9881 /* HomeChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B99543D91CE5B242004F9881 /* HomeChannelViewController.m */; };
 		B9B04A581CE96E180054FE46 /* NSObject+PropertyAccessInspecting.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A571CE96E180054FE46 /* NSObject+PropertyAccessInspecting.m */; };
-		B9B04A5D1CE96E490054FE46 /* YYKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A5A1CE96E490054FE46 /* YYKApplication.m */; };
-		B9B04A5E1CE96E490054FE46 /* YYKApplicationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B04A5C1CE96E490054FE46 /* YYKApplicationManager.m */; };
 		B9B948291CEC6B5E00854D3C /* UIImage+Blur.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B948281CEC6B5E00854D3C /* UIImage+Blur.m */; };
 		B9F0C1611CB6901C00B6413E /* PLPaymentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1601CB6901C00B6413E /* PLPaymentConfig.m */; };
 		B9F0C1641CB6905500B6413E /* PLPaymentConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F0C1631CB6905500B6413E /* PLPaymentConfigModel.m */; };
@@ -132,9 +130,6 @@
 		BC3FD6B51CB798D70049B018 /* libBaiduMobAdSdk64bit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC3FD6B31CB798D70049B018 /* libBaiduMobAdSdk64bit.a */; };
 		BC3FD6C81CB79C050049B018 /* PLPaymentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3FD6C71CB79C050049B018 /* PLPaymentManager.m */; };
 		BC3FD6CD1CB7AD120049B018 /* UITableView+Separator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3FD6CC1CB7AD120049B018 /* UITableView+Separator.m */; };
-		BC3FD6D81CB7AEC50049B018 /* payment_album.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC3FD6D51CB7AEC50049B018 /* payment_album.jpg */; };
-		BC3FD6D91CB7AEC50049B018 /* payment_channel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC3FD6D61CB7AEC50049B018 /* payment_channel.jpg */; };
-		BC3FD6DA1CB7AEC50049B018 /* payment_video.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC3FD6D71CB7AEC50049B018 /* payment_video.jpg */; };
 		BC5A6E741C326880006AD77A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5A6E731C326880006AD77A /* StoreKit.framework */; };
 		BCB1AF521C0D51E6008AA006 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB1AF511C0D51E6008AA006 /* main.m */; };
 		BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCB1AF5C1C0D51E6008AA006 /* Assets.xcassets */; };
@@ -151,8 +146,6 @@
 		BCB1B0511C0D9488008AA006 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB1B0501C0D9488008AA006 /* config.plist */; };
 		EC8753DD1D2B531300EC6DB5 /* appstore_banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */; };
 		EC8753DE1D2B531300EC6DB5 /* appstore_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */; };
-		EC8753DF1D2B531300EC6DB5 /* channel_banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */; };
-		EC8753E01D2B531300EC6DB5 /* channel_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */; };
 		EC8E2DE71D261FBB0034DCDF /* PLLayoutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC8E2DE61D261FBB0034DCDF /* PLLayoutTableViewController.m */; };
 		EC8E2DEA1D264ED90034DCDF /* PLVipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC8E2DE91D264ED90034DCDF /* PLVipCell.m */; };
 /* End PBXBuildFile section */
@@ -377,10 +370,6 @@
 		B99543D91CE5B242004F9881 /* HomeChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeChannelViewController.m; sourceTree = "<group>"; };
 		B9B04A561CE96E180054FE46 /* NSObject+PropertyAccessInspecting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PropertyAccessInspecting.h"; sourceTree = "<group>"; };
 		B9B04A571CE96E180054FE46 /* NSObject+PropertyAccessInspecting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertyAccessInspecting.m"; sourceTree = "<group>"; };
-		B9B04A591CE96E490054FE46 /* YYKApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYKApplication.h; sourceTree = "<group>"; };
-		B9B04A5A1CE96E490054FE46 /* YYKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYKApplication.m; sourceTree = "<group>"; };
-		B9B04A5B1CE96E490054FE46 /* YYKApplicationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYKApplicationManager.h; sourceTree = "<group>"; };
-		B9B04A5C1CE96E490054FE46 /* YYKApplicationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYKApplicationManager.m; sourceTree = "<group>"; };
 		B9B948271CEC6B5E00854D3C /* UIImage+Blur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Blur.h"; sourceTree = "<group>"; };
 		B9B948281CEC6B5E00854D3C /* UIImage+Blur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Blur.m"; sourceTree = "<group>"; };
 		B9F0C15F1CB6901C00B6413E /* PLPaymentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPaymentConfig.h; sourceTree = "<group>"; };
@@ -412,9 +401,6 @@
 		BC3FD6CA1CB79C490049B018 /* PLCommonDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCommonDef.h; sourceTree = "<group>"; };
 		BC3FD6CB1CB7AD120049B018 /* UITableView+Separator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+Separator.h"; sourceTree = "<group>"; };
 		BC3FD6CC1CB7AD120049B018 /* UITableView+Separator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Separator.m"; sourceTree = "<group>"; };
-		BC3FD6D51CB7AEC50049B018 /* payment_album.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = payment_album.jpg; sourceTree = "<group>"; };
-		BC3FD6D61CB7AEC50049B018 /* payment_channel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = payment_channel.jpg; sourceTree = "<group>"; };
-		BC3FD6D71CB7AEC50049B018 /* payment_video.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = payment_video.jpg; sourceTree = "<group>"; };
 		BC5A6E731C326880006AD77A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		BCB1AF4D1C0D51E6008AA006 /* PhotoLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB1AF511C0D51E6008AA006 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -439,8 +425,6 @@
 		BCB1B0501C0D9488008AA006 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = appstore_banner.jpg; sourceTree = "<group>"; };
 		EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = appstore_image.jpg; sourceTree = "<group>"; };
-		EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = channel_banner.jpg; sourceTree = "<group>"; };
-		EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = channel_image.jpg; sourceTree = "<group>"; };
 		EC8E2DE51D261FBB0034DCDF /* PLLayoutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLLayoutTableViewController.h; sourceTree = "<group>"; };
 		EC8E2DE61D261FBB0034DCDF /* PLLayoutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLLayoutTableViewController.m; sourceTree = "<group>"; };
 		EC8E2DE81D264ED90034DCDF /* PLVipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVipCell.h; sourceTree = "<group>"; };
@@ -519,8 +503,6 @@
 			children = (
 				EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */,
 				EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */,
-				EC8753DB1D2B531300EC6DB5 /* channel_banner.jpg */,
-				EC8753DC1D2B531300EC6DB5 /* channel_image.jpg */,
 			);
 			name = banner;
 			sourceTree = "<group>";
@@ -829,10 +811,6 @@
 				B93E81E01C7F001B00C38211 /* PLStatistics.m */,
 				BC3FD6C61CB79C050049B018 /* PLPaymentManager.h */,
 				BC3FD6C71CB79C050049B018 /* PLPaymentManager.m */,
-				B9B04A591CE96E490054FE46 /* YYKApplication.h */,
-				B9B04A5A1CE96E490054FE46 /* YYKApplication.m */,
-				B9B04A5B1CE96E490054FE46 /* YYKApplicationManager.h */,
-				B9B04A5C1CE96E490054FE46 /* YYKApplicationManager.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1017,9 +995,6 @@
 			isa = PBXGroup;
 			children = (
 				B3349CC91D376444000DD6D7 /* banner */,
-				BC3FD6D51CB7AEC50049B018 /* payment_album.jpg */,
-				BC3FD6D61CB7AEC50049B018 /* payment_channel.jpg */,
-				BC3FD6D71CB7AEC50049B018 /* payment_video.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1162,6 +1137,7 @@
 				TargetAttributes = {
 					BCB1AF4C1C0D51E6008AA006 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = BTTZYVST3G;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1205,8 +1181,6 @@
 			files = (
 				B368206C1D365CA8008D90B0 /* AlipaySDK.bundle in Resources */,
 				B99543C11CE5AB2A004F9881 /* PlayButtonOverlayLarge@3x.png in Resources */,
-				BC3FD6DA1CB7AEC50049B018 /* payment_video.jpg in Resources */,
-				BC3FD6D91CB7AEC50049B018 /* payment_channel.jpg in Resources */,
 				EC8753DD1D2B531300EC6DB5 /* appstore_banner.jpg in Resources */,
 				B99543C51CE5AB2A004F9881 /* UIBarButtonItemArrowLeft.png in Resources */,
 				BC3FD6B41CB798D70049B018 /* baidumobadsdk.bundle in Resources */,
@@ -1231,18 +1205,15 @@
 				B99543C71CE5AB2A004F9881 /* UIBarButtonItemArrowLeft@3x.png in Resources */,
 				B99543C21CE5AB2A004F9881 /* PlayButtonOverlayLargeTap.png in Resources */,
 				B99543CE1CE5AB2A004F9881 /* VideoOverlay.png in Resources */,
-				EC8753DF1D2B531300EC6DB5 /* channel_banner.jpg in Resources */,
 				B99543B21CE5AB2A004F9881 /* ImageError@3x.png in Resources */,
 				BCB1AF601C0D51E6008AA006 /* LaunchScreen.storyboard in Resources */,
 				B99543BA1CE5AB2A004F9881 /* ImageSelectedSmallOff@2x.png in Resources */,
 				B99543B41CE5AB2A004F9881 /* ImageSelectedOff@2x.png in Resources */,
-				BC3FD6D81CB7AEC50049B018 /* payment_album.jpg in Resources */,
 				B99543B91CE5AB2A004F9881 /* ImageSelectedSmallOff.png in Resources */,
 				B99543BB1CE5AB2A004F9881 /* ImageSelectedSmallOff@3x.png in Resources */,
 				B99543BD1CE5AB2A004F9881 /* ImageSelectedSmallOn@2x.png in Resources */,
 				B99543CF1CE5AB2A004F9881 /* VideoOverlay@2x.png in Resources */,
 				B99543B51CE5AB2A004F9881 /* ImageSelectedOff@3x.png in Resources */,
-				EC8753E01D2B531300EC6DB5 /* channel_image.jpg in Resources */,
 				B99543B71CE5AB2A004F9881 /* ImageSelectedOn@2x.png in Resources */,
 				B99543C91CE5AB2A004F9881 /* UIBarButtonItemArrowRight@2x.png in Resources */,
 				BCB1AF5D1C0D51E6008AA006 /* Assets.xcassets in Resources */,
@@ -1326,7 +1297,6 @@
 				B93E82171C7F001B00C38211 /* PLPhotoViewController.m in Sources */,
 				B93E82301C7F001B00C38211 /* PLHudManager.m in Sources */,
 				B93E821B1C7F001B00C38211 /* PLPhotoChannel.m in Sources */,
-				B9B04A5E1CE96E490054FE46 /* YYKApplicationManager.m in Sources */,
 				B36820701D365CA8008D90B0 /* DataSigner.m in Sources */,
 				B36820471D361F57008D90B0 /* ApiXml.mm in Sources */,
 				B99543D41CE5AB2A004F9881 /* MWTapDetectingImageView.m in Sources */,
@@ -1403,7 +1373,6 @@
 				B36820501D362642008D90B0 /* PLWeChatPayQueryOrderRequest.m in Sources */,
 				B995437A1CE5AAB3004F9881 /* UIImage+ZFFilter.m in Sources */,
 				B93E82251C7F001B00C38211 /* NSDictionary+PLSign.m in Sources */,
-				B9B04A5D1CE96E490054FE46 /* YYKApplication.m in Sources */,
 				BC3FD6CD1CB7AD120049B018 /* UITableView+Separator.m in Sources */,
 				B93E82321C7F001B00C38211 /* PLStatistics.m in Sources */,
 			);
@@ -1546,7 +1515,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1570,7 +1539,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e7abbd1-77d9-4794-8ace-a56bf50964e8";
+				PROVISIONING_PROFILE = "cca83dda-2a34-4891-870f-06af9df18b5f";
 			};
 			name = Debug;
 		};
@@ -1580,7 +1549,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yanping Wu (Q5THSUD98X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yanping Wu (BTTZYVST3G)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1604,7 +1573,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iqu8.photolibapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e7abbd1-77d9-4794-8ace-a56bf50964e8";
+				PROVISIONING_PROFILE = "cca83dda-2a34-4891-870f-06af9df18b5f";
 			};
 			name = Release;
 		};

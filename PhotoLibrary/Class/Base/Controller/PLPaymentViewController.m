@@ -148,10 +148,19 @@
     
     self.popView.showPrice = [PLUtil isAppleStore] ? nil : @([PLSystemConfigModel sharedModel].photoPrice/100.);
     
-    NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_channel",
-                                   @(PLPaymentForPhotoAlbum):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_album",
-                                   @(PLPaymentForVideo):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_video"};
-    self.popView.headerImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:headerImages[@(payableObject.payableUsage)] ofType:@"jpg"]];
+//    NSDictionary *headerImages = @{@(PLPaymentForPhotoChannel):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_channel",
+//                                   @(PLPaymentForPhotoAlbum):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_album",
+//                                   @(PLPaymentForVideo):[PLUtil isAppleStore] ? @"appstore_image" : @"payment_video"};
+//    self.popView.headerImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:headerImages[@(payableObject.payableUsage)] ofType:@"jpg"]];
+    
+//    NSString *imageName = [PLUtil isAppleStore] ? @"appstore_image.jpg" : @"payment_album.jpg";
+    if ([PLUtil isAppleStore] ) {
+        
+        self.popView.headerImage =  @"appstore_image.jpg";
+    }else {
+    
+        self.popView.headerImage = [PLSystemConfigModel sharedModel].payImage;
+    }
     self.popView.priceColor = [payableObject payableUsage] == PLPaymentForPhotoChannel ? [UIColor yellowColor] : [UIColor redColor];
 }
 

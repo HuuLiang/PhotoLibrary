@@ -88,7 +88,15 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
 - (void)initBannerCell:(NSUInteger)section {
     _bannerCell = [[UITableViewCell alloc] init];
     _bannerCell.backgroundColor = [UIColor colorWithHexString:@"#666aaa"];
-    UIImageView *_imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[PLUtil isAppleStore] ?  @"appstore_banner.jpg" : @"channel_banner.jpg"]];
+    UIImageView *_imageView = [[UIImageView alloc] init];
+    
+    if ([PLUtil isAppleStore]) {
+        _imageView.image = [UIImage imageNamed:@"appstore_banner.jpg"];
+    }else {
+        
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:[PLSystemConfigModel sharedModel].ChannelBannerImgUrl]];
+    }
+    
     _imageView.frame = CGRectMake(0, 0, kScreenWidth, 100.);
     _imageView.contentMode = UIViewContentModeScaleToFill;
     //    _imageView.clipsToBounds = YES;

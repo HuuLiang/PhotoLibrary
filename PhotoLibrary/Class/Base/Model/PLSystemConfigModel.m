@@ -55,8 +55,10 @@
                     [PLSystemConfigModel sharedModel].ChannelBannerImgUrl = config.value;
                 } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_SPREAD_TOP_IMG]) {
                     [PLSystemConfigModel sharedModel].channelPopImgUrl = config.value;
-                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_PAY_IMG]){
+                } else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_ISAPPLE_PAY]){
                     [PLSystemConfigModel sharedModel].isAppleStore = config.value;
+                }else if ([config.name isEqualToString:PL_SYSTEM_CONFIG_PAYMENT_IMG]){
+                    [PLSystemConfigModel sharedModel].payImage = config.value;
                 }
             }];
         }

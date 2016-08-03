@@ -49,7 +49,7 @@ DefineLazyPropertyInitialization(NSMutableDictionary, cells)
 
 - (CGFloat)viewHeightRelativeToWidth:(CGFloat)width {
     const CGFloat headerImageHeight = width / kHeaderImageScale;
-//    const CGFloat footerImageHeight = kCellHeight;
+    //    const CGFloat footerImageHeight = kCellHeight;
     
     __block CGFloat cellHeights = headerImageHeight;//+footerImageHeight;
     [self.cells enumerateKeysAndObjectsUsingBlock:^(NSIndexPath * _Nonnull key, UITableViewCell * _Nonnull obj, BOOL * _Nonnull stop) {
@@ -119,9 +119,14 @@ DefineLazyPropertyInitialization(NSMutableDictionary, cells)
     [self.cells setObject:cell forKey:indexPath];
 }
 
-- (void)setHeaderImage:(UIImage *)headerImage {
+- (void)setHeaderImage:(NSString *)headerImage {
     _headerImage = headerImage;
-    _headerImageView.image = headerImage;
+//    if ([PLUtil isAppleStore]) {
+//        
+//        _headerImageView.image = [UIImage imageNamed:@"appstore_image.jpg"];
+//    }else {
+//        [_headerImageView sd_setImageWithURL:[NSURL URLWithString:headerImage]];
+//    }
     
 }
 
@@ -155,7 +160,15 @@ DefineLazyPropertyInitialization(NSMutableDictionary, cells)
             _headerCell = [[UITableViewCell alloc] init];
             _headerCell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            _headerImageView = [[UIImageView alloc] initWithImage:_headerImage];
+            _headerImageView = [[UIImageView alloc] init];//WithImage:[UIImage imageNamed:_headerImage]
+            
+            if ([PLUtil isAppleStore]) {
+                _headerImageView.image = [UIImage imageNamed:_headerImage];
+            }else {
+            
+                [_headerImageView sd_setImageWithURL:[NSURL URLWithString:_headerImage]];
+            }
+            
             [_headerCell addSubview:_headerImageView];
             {
                 [_headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -199,22 +212,22 @@ DefineLazyPropertyInitialization(NSMutableDictionary, cells)
             } forControlEvents:UIControlEventTouchUpInside];
         }
         return _headerCell;
-//    } else if (indexPath.section == 2) {
-//        if (!_footerCell) {
-//            _footerCell = [[UITableViewCell alloc] init];
-//            _footerCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            
-//            _footerImageView = [[UIImageView alloc] initWithImage:_footerImage];
-//            [_footerCell addSubview:_footerImageView];
-//            {
-//                [_footerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                    make.center.equalTo(_footerCell);
-//                    make.height.equalTo(_footerCell).multipliedBy(0.45);
-//                    make.width.equalTo(_footerImageView.mas_height).multipliedBy(kFooterImageScale);
-//                }];
-//            }
-//        }
-//        return _footerCell;
+        //    } else if (indexPath.section == 2) {
+        //        if (!_footerCell) {
+        //            _footerCell = [[UITableViewCell alloc] init];
+        //            _footerCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //            
+        //            _footerImageView = [[UIImageView alloc] initWithImage:_footerImage];
+        //            [_footerCell addSubview:_footerImageView];
+        //            {
+        //                [_footerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        //                    make.center.equalTo(_footerCell);
+        //                    make.height.equalTo(_footerCell).multipliedBy(0.45);
+        //                    make.width.equalTo(_footerImageView.mas_height).multipliedBy(kFooterImageScale);
+        //                }];
+        //            }
+        //        }
+        //        return _footerCell;
     } else {
         return self.cells[indexPath];
     }

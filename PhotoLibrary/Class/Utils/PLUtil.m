@@ -9,7 +9,7 @@
 #import "PLUtil.h"
 #import <SFHFKeychainUtils.h>
 #import <sys/sysctl.h>
-#import "YYKApplicationManager.h"
+//#import "YYKApplicationManager.h"
 #import "PLSystemConfigModel.h"
 //#define USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
 
@@ -255,19 +255,6 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     return ver.floatValue * 100;
 }
 
-+ (void)checkAppInstalledWithBundleId:(NSString *)bundleId completionHandler:(void (^)(BOOL))handler {
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        BOOL installed = [[[YYKApplicationManager defaultManager] allInstalledAppIdentifiers] bk_any:^BOOL(id obj) {
-            return [bundleId isEqualToString:obj];
-        }];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (handler) {
-                handler(installed);
-            }
-        });
-    });
-}
 + (NSString *)currentDateString {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:kDefaultDateFormat];

@@ -12,7 +12,7 @@ typedef void (^PLPaymentAction)(id sender);
 
 @interface PLPaymentPopView : UITableView
 
-@property (nonatomic,retain) UIImage *headerImage;
+@property (nonatomic,retain) NSString *headerImage;
 //@property (nonatomic,retain) UIImage *footerImage;
 @property (nonatomic,copy) PLPaymentAction closeAction;
 @property (nonatomic) NSNumber *showPrice;

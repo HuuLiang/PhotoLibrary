@@ -34,12 +34,13 @@
 #define PL_USER_ACCESS_URL                  @"/gallery/userAccess.htm"
 #define PL_AGREEMENT_URL                    @"/gallery/lequ-agreement.html"
 
-#define PL_SYSTEM_CONFIG_PAY_IMG              @"IS_APPLE_PAY_IMG"
+#define PL_SYSTEM_CONFIG_ISAPPLE_PAY              @"IS_APPLE_PAY_IMG"
 #define PL_SYSTEM_CONFIG_PAY_TYPE              @"IS_APPLE_PAY"
 #define PL_SYSTEM_CONFIG_GALLERY_PAY_AMOUNT    @"GALLERY_PAY_AMOUNT"
 #define PL_SYSTEM_CONFIG_VIDEO_PAY_AMOUNT      @"VIDEO_PAY_AMOUNT"
 #define PL_SYSTEM_CONFIG_CHANNEL_TOP_IMG       @"CHANNEL_TOP_IMG"
 #define PL_SYSTEM_CONFIG_SPREAD_TOP_IMG        @"SPREAD_TOP_IMG"
+#define PL_SYSTEM_CONFIG_PAYMENT_IMG           @"PAY_IMG"
 
 #define PL_BAIDU_AD_APP_ID                     @"d1c5f7d1"
 #define PL_BAIDU_BANNER_ID                     @"2367758"
