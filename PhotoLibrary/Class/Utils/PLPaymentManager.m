@@ -77,8 +77,9 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         }
         return NO;
     }
+#if DEBUG
 //    price = 1;
-    
+#endif
     NSString *channelNo = PL_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
@@ -182,8 +183,8 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
             [[UIApplication sharedApplication].keyWindow pl_endLoading];
         }
     };
-
-
+    
+    
 }
 
 
@@ -212,13 +213,13 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
             //                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
             //                }
             //            }];
-//            PLPaymentViewController *paymentVC = [PLPaymentViewController sharedPaymentVC];
+            PLPaymentViewController *paymentVC = [PLPaymentViewController sharedPaymentVC];
             [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
                 if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    
-//                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
+                    //                          [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
+                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
                 }else {
-//                    [paymentVC notifyPaymentResult:PAYRESULT_FAIL withPaymentInfo:obj];
+                    [paymentVC notifyPaymentResult:PAYRESULT_FAIL withPaymentInfo:obj];
                 }
             }];
         }else {
@@ -233,9 +234,9 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 #pragma mark - WeChat delegate
 
-- (void)onReq:(BaseReq *)req {
-    
-}
+//- (void)onReq:(BaseReq *)req {
+//    
+//}
 
 - (void)onResp:(BaseResp *)resp {
     if([resp isKindOfClass:[PayResp class]]){

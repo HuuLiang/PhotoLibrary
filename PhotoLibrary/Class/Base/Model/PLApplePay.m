@@ -28,7 +28,7 @@
 
 - (void)getProdructionInfo {
     DLog(@"请求商品信息");
-    SKProductsRequest *productReq = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:@[@"VIDEO_VIP",@"PICTURE_VIP"]]];
+    SKProductsRequest *productReq = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:@[@"PICTURES_VIP"]]];
     productReq.delegate = self;
     [productReq start];
 }
@@ -67,7 +67,8 @@
     if (array.count == 0) {
         return;
     }
-    [PLPaymentConfig sharedConfig].vipPointInfo = [NSString stringWithFormat:@"%ld:1|%ld:3",[_priceArray[0] integerValue]*100,[_priceArray[1] integerValue]*100];
+    [PLPaymentConfig sharedConfig].vipPointInfo = [NSString stringWithFormat:@"%@",_priceArray.firstObject];
+//    [NSString stringWithFormat:@"%ld:1|%ld:3",[_priceArray[0] integerValue]*100,[_priceArray[1] integerValue]*100];
     DLog("-----vipInfo-%@---",[PLPaymentConfig sharedConfig].vipPointInfo);
     _isGettingPriceInfo = NO;
 }

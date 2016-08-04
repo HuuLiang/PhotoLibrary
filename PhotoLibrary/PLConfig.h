@@ -50,7 +50,7 @@
 
 #define PL_ALIPAY_SCHEME               @"comphotolibrary2016appalipayurlscheme"
 
-#define PL_APPLEPAY_PICTURE_PRODUCTID           @"PICTURE_VIP"//内购
+#define PL_APPLEPAY_PICTURE_PRODUCTID           @"PICTURES_VIP"//内购
 #define PL_APPLEPAY_VIDEO_PRODUCTID             @"VIDEO_VIP"
 
 #endif /* PLConfig_h */
