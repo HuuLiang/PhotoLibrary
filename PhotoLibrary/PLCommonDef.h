@@ -79,6 +79,8 @@ return _##propertyName; \
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
+#define KWidth(width) kScreenWidth*(width)/375.
+
 #define kAutoPopupPaymentInScrollingPage (2)
 
 //－－－－－－－－－－－－－－－－－－－－－－－

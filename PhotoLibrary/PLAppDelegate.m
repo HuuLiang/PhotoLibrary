@@ -17,9 +17,11 @@
 #import "PLSystemConfigModel.h"
 #import "PLPaymentManager.h"
 #import "HomeChannelViewController.h"
+#import "PLRegisterViewController.h"
+#import "PLLoginViewController.h"
 @interface PLAppDelegate ()
 @property (nonatomic,retain) PLSettingViewController *settingVC;
-
+@property (nonatomic,weak)RESideMenu *sideMenu;
 @end
 
 @implementation PLAppDelegate
@@ -64,6 +66,7 @@
                                                                selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
     
     RESideMenu *sideMenu = [[RESideMenu alloc] initWithContentViewController:photoNav leftMenuViewController:settingNav rightMenuViewController:nil];
+    self.sideMenu = sideMenu;
     sideMenu.delegate = settingVC;
     sideMenu.scaleContentView = NO;
     sideMenu.scaleBackgroundImageView = NO;
@@ -77,13 +80,13 @@
     return _window;
     
     
-//    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-//    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
-//    tabBarController.tabBar.translucent  = NO;
-//    //设置tabbar选中的渲染效果
-//    tabBarController.tabBar.tintColor = [UIColor blackColor];
-//    _window.rootViewController           = tabBarController;
-//    return _window;
+    //    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    //    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
+    //    tabBarController.tabBar.translucent  = NO;
+    //    //设置tabbar选中的渲染效果
+    //    tabBarController.tabBar.tintColor = [UIColor blackColor];
+    //    _window.rootViewController           = tabBarController;
+    //    return _window;
 }
 
 #pragma mark - 设置控制器共有的规格
@@ -188,24 +191,38 @@
     //设置控制器通用的风格
     [self setupCommonStyles];
     
-    [self.window makeKeyAndVisible];
+//    [self.window makeKeyAndVisible];
     
+    [self registApp];
     
-    if (![PLUtil isRegistered]) {
-        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
-            if (success) {
-                [PLUtil setRegisteredWithUserId:userId];
-                [[PLUserAccessModel sharedModel] requestUserAccess];
-            }
-        }];
-    } else {
-        [[PLUserAccessModel sharedModel] requestUserAccess];
-    }
+//    if (![PLUtil isRegistered]) {
+//        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+//            if (success) {
+//                [PLUtil setRegisteredWithUserId:userId];
+//                [[PLUserAccessModel sharedModel] requestUserAccess];
+//            }
+//        }];
+//    } else {
+//        [[PLUserAccessModel sharedModel] requestUserAccess];
+//    }
     //提交订单
     [[PLPaymentModel sharedModel] startRetryingToCommitUnprocessedOrders];
     return YES;
 }
 
+- (void)registApp {
+    if (![PLUtil isRegistered]) {
+        PLLoginViewController *loginVC = [[PLLoginViewController alloc] init];
+        UINavigationController *loginNav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        self.window.rootViewController = loginNav;
+        [self.window makeKeyAndVisible];
+    }else {
+        [[PLUserAccessModel sharedModel] requestUserAccess];
+        self.window.rootViewController = self.sideMenu;
+        [self.window makeKeyAndVisible];
+    }
+    
+}
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.

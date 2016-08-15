@@ -32,6 +32,11 @@
 		B379A0A01D3C7807004D4454 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A0991D3C7807004D4454 /* PLVideo.m */; };
 		B379A0A11D3C7807004D4454 /* PLVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A09B1D3C7807004D4454 /* PLVideoModel.m */; };
 		B379A0A21D3C7807004D4454 /* PLVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A09E1D3C7807004D4454 /* PLVideoCell.m */; };
+		B3DDBDC71D619771009EC0D8 /* PLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDC61D619771009EC0D8 /* PLLoginViewController.m */; };
+		B3DDBDCA1D619F69009EC0D8 /* PLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDC91D619F69009EC0D8 /* PLRegisterViewController.m */; };
+		B3DDBDCD1D61B3DF009EC0D8 /* PLUserBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDCC1D61B3DF009EC0D8 /* PLUserBaseController.m */; };
+		B3DDBDD11D61B544009EC0D8 /* PLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDD01D61B544009EC0D8 /* PLTextField.m */; };
+		B3DDBDD41D61CD8F009EC0D8 /* PLChangePasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDD31D61CD8F009EC0D8 /* PLChangePasswordVC.m */; };
 		B93E82081C7F001B00C38211 /* PLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E817D1C7F001A00C38211 /* PLBaseViewController.m */; };
 		B93E82091C7F001B00C38211 /* PLPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E817F1C7F001A00C38211 /* PLPaymentViewController.m */; };
 		B93E820A1C7F001B00C38211 /* PLActivateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B93E81821C7F001A00C38211 /* PLActivateModel.m */; };
@@ -218,6 +223,16 @@
 		B379A09B1D3C7807004D4454 /* PLVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoModel.m; sourceTree = "<group>"; };
 		B379A09D1D3C7807004D4454 /* PLVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideoCell.h; sourceTree = "<group>"; };
 		B379A09E1D3C7807004D4454 /* PLVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoCell.m; sourceTree = "<group>"; };
+		B3DDBDC51D619771009EC0D8 /* PLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLLoginViewController.h; sourceTree = "<group>"; };
+		B3DDBDC61D619771009EC0D8 /* PLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLLoginViewController.m; sourceTree = "<group>"; };
+		B3DDBDC81D619F69009EC0D8 /* PLRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLRegisterViewController.h; sourceTree = "<group>"; };
+		B3DDBDC91D619F69009EC0D8 /* PLRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLRegisterViewController.m; sourceTree = "<group>"; };
+		B3DDBDCB1D61B3DF009EC0D8 /* PLUserBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLUserBaseController.h; sourceTree = "<group>"; };
+		B3DDBDCC1D61B3DF009EC0D8 /* PLUserBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLUserBaseController.m; sourceTree = "<group>"; };
+		B3DDBDCF1D61B544009EC0D8 /* PLTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLTextField.h; sourceTree = "<group>"; };
+		B3DDBDD01D61B544009EC0D8 /* PLTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLTextField.m; sourceTree = "<group>"; };
+		B3DDBDD21D61CD8F009EC0D8 /* PLChangePasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLChangePasswordVC.h; sourceTree = "<group>"; };
+		B3DDBDD31D61CD8F009EC0D8 /* PLChangePasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLChangePasswordVC.m; sourceTree = "<group>"; };
 		B8D8B98862EE28FDF3BFA173 /* Pods-PhotoLibrary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoLibrary.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoLibrary/Pods-PhotoLibrary.debug.xcconfig"; sourceTree = "<group>"; };
 		B93E817C1C7F001A00C38211 /* PLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLBaseViewController.h; sourceTree = "<group>"; };
 		B93E817D1C7F001A00C38211 /* PLBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLBaseViewController.m; sourceTree = "<group>"; };
@@ -619,6 +634,21 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		B3DDBDCE1D61B3E5009EC0D8 /* UserAccout */ = {
+			isa = PBXGroup;
+			children = (
+				B3DDBDC51D619771009EC0D8 /* PLLoginViewController.h */,
+				B3DDBDC61D619771009EC0D8 /* PLLoginViewController.m */,
+				B3DDBDC81D619F69009EC0D8 /* PLRegisterViewController.h */,
+				B3DDBDC91D619F69009EC0D8 /* PLRegisterViewController.m */,
+				B3DDBDD21D61CD8F009EC0D8 /* PLChangePasswordVC.h */,
+				B3DDBDD31D61CD8F009EC0D8 /* PLChangePasswordVC.m */,
+				B3DDBDCB1D61B3DF009EC0D8 /* PLUserBaseController.h */,
+				B3DDBDCC1D61B3DF009EC0D8 /* PLUserBaseController.m */,
+			);
+			name = UserAccout;
+			sourceTree = "<group>";
+		};
 		B93E81791C7F001A00C38211 /* Class */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,6 +682,7 @@
 				EC8E2DE61D261FBB0034DCDF /* PLLayoutTableViewController.m */,
 				B93E817E1C7F001A00C38211 /* PLPaymentViewController.h */,
 				B93E817F1C7F001A00C38211 /* PLPaymentViewController.m */,
+				B3DDBDCE1D61B3E5009EC0D8 /* UserAccout */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -694,6 +725,8 @@
 			children = (
 				B93E81971C7F001B00C38211 /* PLPaymentPopView.h */,
 				B93E81981C7F001B00C38211 /* PLPaymentPopView.m */,
+				B3DDBDCF1D61B544009EC0D8 /* PLTextField.h */,
+				B3DDBDD01D61B544009EC0D8 /* PLTextField.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1307,6 +1340,7 @@
 				B93E820D1C7F001B00C38211 /* PLProgram.m in Sources */,
 				B379A0A11D3C7807004D4454 /* PLVideoModel.m in Sources */,
 				B93E82291C7F001B00C38211 /* NSString+md5.m in Sources */,
+				B3DDBDD41D61CD8F009EC0D8 /* PLChangePasswordVC.m in Sources */,
 				B93E820C1C7F001B00C38211 /* PLPaymentModel.m in Sources */,
 				B36820711D365CA8008D90B0 /* DataVerifier.m in Sources */,
 				B93E82341C7F001B00C38211 /* RACEXTRuntimeExtensions.m in Sources */,
@@ -1318,6 +1352,7 @@
 				B379A09F1D3C7807004D4454 /* PLVideoViewController.m in Sources */,
 				B99543D31CE5AB2A004F9881 /* MWPhotoBrowser.m in Sources */,
 				B93E820A1C7F001B00C38211 /* PLActivateModel.m in Sources */,
+				B3DDBDCA1D619F69009EC0D8 /* PLRegisterViewController.m in Sources */,
 				B93E82331C7F001B00C38211 /* PLUtil.m in Sources */,
 				B36820741D365CA8008D90B0 /* openssl_wrapper.m in Sources */,
 				B93E82271C7F001B00C38211 /* NSObject+Properties.m in Sources */,
@@ -1333,7 +1368,9 @@
 				B93E822D1C7F001B00C38211 /* UIView+PLLoading.m in Sources */,
 				B368206E1D365CA8008D90B0 /* Order.m in Sources */,
 				B93E820F1C7F001B00C38211 /* PLSystemConfigModel.m in Sources */,
+				B3DDBDCD1D61B3DF009EC0D8 /* PLUserBaseController.m in Sources */,
 				B379A0A21D3C7807004D4454 /* PLVideoCell.m in Sources */,
+				B3DDBDD11D61B544009EC0D8 /* PLTextField.m in Sources */,
 				B9F0C1641CB6905500B6413E /* PLPaymentConfigModel.m in Sources */,
 				EC8E2DEA1D264ED90034DCDF /* PLVipCell.m in Sources */,
 				B93E822F1C7F001B00C38211 /* PLErrorHandler.m in Sources */,
@@ -1346,6 +1383,7 @@
 				B36820731D365CA8008D90B0 /* NSDataEx.m in Sources */,
 				B93E82161C7F001B00C38211 /* PLPhotoChannelPopupMenuController.m in Sources */,
 				B93E821E1C7F001B00C38211 /* PLPhotoCell.m in Sources */,
+				B3DDBDC71D619771009EC0D8 /* PLLoginViewController.m in Sources */,
 				B36820761D365CA8008D90B0 /* RSADataVerifier.m in Sources */,
 				B93E82141C7F001B00C38211 /* PLPaymentPopView.m in Sources */,
 				B36820721D365CA8008D90B0 /* MD5DataSigner.m in Sources */,
