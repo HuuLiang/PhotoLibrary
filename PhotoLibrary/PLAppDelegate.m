@@ -35,6 +35,61 @@
     _window                              = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor              = [UIColor whiteColor];
     
+    //    HomeChannelViewController *channelVC       = [[HomeChannelViewController alloc] init];
+    //    channelVC.title = @"图库";
+    //    channelVC.bottomAdBanner = YES;
+    //    
+    //    UINavigationController *photoNav     = [[UINavigationController alloc] initWithRootViewController:channelVC];
+    //    photoNav.tabBarItem                  = [[UITabBarItem alloc] initWithTitle:channelVC.title
+    //                                                                         image:[UIImage imageNamed:@"normal_photo_bar"]
+    //                                                                 selectedImage:[UIImage imageNamed:@"selected_photo_bar"]];
+    //    
+    //    PLVideoViewController *videoVC     = [[PLVideoViewController alloc] init];
+    //    videoVC.title = @"视频";
+    //    videoVC.bottomAdBanner = YES;
+    //    
+    //    UINavigationController *videoNav   = [[UINavigationController alloc] initWithRootViewController:videoVC];
+    //    videoNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:videoVC.title
+    //                                                                       image:[UIImage imageNamed:@"normal_video_bar"]
+    //                                                               selectedImage:[UIImage imageNamed:@"selected_video_bar"]];
+    //    
+    //    
+    //    PLSettingViewController *settingVC = [[PLSettingViewController alloc] init];
+    //    _settingVC = settingVC;
+    //    settingVC.title = @"设置";
+    //    
+    //    settingVC.bottomAdBanner = YES;
+    //    
+    //    UINavigationController *settingNav = [[UINavigationController alloc] initWithRootViewController:settingVC];
+    //    settingNav.tabBarItem              = [[UITabBarItem alloc] initWithTitle:settingVC.title
+    //                                                                       image:[UIImage imageNamed:@"normal_setting_bar"]
+    //                                                               selectedImage:[UIImage imageNamed:@"selected_setting_bar"]];
+    //    
+    //    RESideMenu *sideMenu = [[RESideMenu alloc] initWithContentViewController:photoNav leftMenuViewController:settingNav rightMenuViewController:nil];
+    //    self.sideMenu = sideMenu;
+    //    sideMenu.delegate = settingVC;
+    //    sideMenu.scaleContentView = NO;
+    //    sideMenu.scaleBackgroundImageView = NO;
+    //    sideMenu.scaleMenuView = NO;
+    //    sideMenu.fadeMenuView = NO;
+    //    sideMenu.parallaxEnabled = NO;
+    //    sideMenu.bouncesHorizontally = NO;
+    //    sideMenu.contentViewShadowEnabled = NO;
+    //    sideMenu.contentViewInPortraitOffsetCenterX = kScreenWidth/2;
+    //    _window.rootViewController = sideMenu;
+    return _window;
+    
+    
+    //    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    //    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
+    //    tabBarController.tabBar.translucent  = NO;
+    //    //设置tabbar选中的渲染效果
+    //    tabBarController.tabBar.tintColor = [UIColor blackColor];
+    //    _window.rootViewController           = tabBarController;
+    //    return _window;
+}
+
+- (RESideMenu *)sideMenus {
     HomeChannelViewController *channelVC       = [[HomeChannelViewController alloc] init];
     channelVC.title = @"图库";
     channelVC.bottomAdBanner = YES;
@@ -76,17 +131,9 @@
     sideMenu.bouncesHorizontally = NO;
     sideMenu.contentViewShadowEnabled = NO;
     sideMenu.contentViewInPortraitOffsetCenterX = kScreenWidth/2;
-    _window.rootViewController = sideMenu;
-    return _window;
+    sideMenu.panGestureEnabled = NO;
+    return sideMenu;
     
-    
-    //    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    //    tabBarController.viewControllers     = @[photoNav,videoNav,settingNav];
-    //    tabBarController.tabBar.translucent  = NO;
-    //    //设置tabbar选中的渲染效果
-    //    tabBarController.tabBar.tintColor = [UIColor blackColor];
-    //    _window.rootViewController           = tabBarController;
-    //    return _window;
 }
 
 #pragma mark - 设置控制器共有的规格
@@ -191,37 +238,65 @@
     //设置控制器通用的风格
     [self setupCommonStyles];
     
-//    [self.window makeKeyAndVisible];
+    //    [self.window makeKeyAndVisible];
     
-    [self registApp];
+    [self registAppUserAccount];
     
-//    if (![PLUtil isRegistered]) {
-//        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
-//            if (success) {
-//                [PLUtil setRegisteredWithUserId:userId];
-//                [[PLUserAccessModel sharedModel] requestUserAccess];
-//            }
-//        }];
-//    } else {
-//        [[PLUserAccessModel sharedModel] requestUserAccess];
-//    }
+    //    if (![PLUtil isRegistered]) {
+    //        [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+    //            if (success) {
+    //                [PLUtil setRegisteredWithUserId:userId];
+    //                [[PLUserAccessModel sharedModel] requestUserAccess];
+    //            }
+    //        }];
+    //    } else {
+    //        [[PLUserAccessModel sharedModel] requestUserAccess];
+    //    }
     //提交订单
     [[PLPaymentModel sharedModel] startRetryingToCommitUnprocessedOrders];
     return YES;
 }
 
-- (void)registApp {
-    if (![PLUtil isRegistered]) {
+- (void)registAppUserAccount {
+    @weakify(self);
+    NSString *userAccount = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAccount];
+    NSString *userPassword = [[NSUserDefaults standardUserDefaults] objectForKey:kUserPassword];
+    if (userAccount.length>0 && userPassword.length>0) {
+        //登录
+        [[NSUserDefaults standardUserDefaults] setObject:@"yes" forKey:kUserLogin];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (![PLUtil isRegistered]) {
+            [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+                if (success) {
+                    [PLUtil setRegisteredWithUserId:userId];
+                    @strongify(self);
+                    [self registAppId];
+                }
+            }];
+        }else {
+            [self registAppId];
+        }
+        return;
+    }
+    
+    if (![PLUtil isLogin]) {
         PLLoginViewController *loginVC = [[PLLoginViewController alloc] init];
         UINavigationController *loginNav = [[UINavigationController alloc] initWithRootViewController:loginVC];
         self.window.rootViewController = loginNav;
         [self.window makeKeyAndVisible];
     }else {
-        [[PLUserAccessModel sharedModel] requestUserAccess];
-        self.window.rootViewController = self.sideMenu;
-        [self.window makeKeyAndVisible];
+        //        [[PLUserAccessModel sharedModel] requestUserAccess];
+        [self registAppId];
     }
     
+}
+
+- (void)registAppId {
+    [[PLUserAccessModel sharedModel] requestUserAccess];
+    RESideMenu *sideMenu = [self sideMenus];
+    
+    self.window.rootViewController = sideMenu;
+    [self.window makeKeyAndVisible ];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -247,4 +322,5 @@
     [[PLPaymentManager sharedManager] handleOpenURL:url];
     return YES;
 }
+
 @end

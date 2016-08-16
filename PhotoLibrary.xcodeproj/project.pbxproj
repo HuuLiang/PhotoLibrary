@@ -28,6 +28,9 @@
 		B36820741D365CA8008D90B0 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B36820661D365CA8008D90B0 /* openssl_wrapper.m */; };
 		B36820751D365CA8008D90B0 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = B36820681D365CA8008D90B0 /* RSADataSigner.m */; };
 		B36820761D365CA8008D90B0 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B368206A1D365CA8008D90B0 /* RSADataVerifier.m */; };
+		B37960611D62F24600BE948E /* PLAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B37960601D62F24600BE948E /* PLAccountViewController.m */; };
+		B37960631D62F55200BE948E /* isvip.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B37960621D62F55200BE948E /* isvip.jpg */; };
+		B37960651D62F5E900BE948E /* ktvip.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B37960641D62F5E900BE948E /* ktvip.jpg */; };
 		B379A09F1D3C7807004D4454 /* PLVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A0961D3C7807004D4454 /* PLVideoViewController.m */; };
 		B379A0A01D3C7807004D4454 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A0991D3C7807004D4454 /* PLVideo.m */; };
 		B379A0A11D3C7807004D4454 /* PLVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A09B1D3C7807004D4454 /* PLVideoModel.m */; };
@@ -215,6 +218,10 @@
 		B36820681D365CA8008D90B0 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		B36820691D365CA8008D90B0 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		B368206A1D365CA8008D90B0 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
+		B379605F1D62F24600BE948E /* PLAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLAccountViewController.h; sourceTree = "<group>"; };
+		B37960601D62F24600BE948E /* PLAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLAccountViewController.m; sourceTree = "<group>"; };
+		B37960621D62F55200BE948E /* isvip.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = isvip.jpg; sourceTree = "<group>"; };
+		B37960641D62F5E900BE948E /* ktvip.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ktvip.jpg; sourceTree = "<group>"; };
 		B379A0951D3C7807004D4454 /* PLVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideoViewController.h; sourceTree = "<group>"; };
 		B379A0961D3C7807004D4454 /* PLVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoViewController.m; sourceTree = "<group>"; };
 		B379A0981D3C7807004D4454 /* PLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideo.h; sourceTree = "<group>"; };
@@ -516,6 +523,8 @@
 		B3349CC91D376444000DD6D7 /* banner */ = {
 			isa = PBXGroup;
 			children = (
+				B37960641D62F5E900BE948E /* ktvip.jpg */,
+				B37960621D62F55200BE948E /* isvip.jpg */,
 				EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */,
 				EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */,
 			);
@@ -811,6 +820,8 @@
 			children = (
 				B93E81BB1C7F001B00C38211 /* PLSettingViewController.h */,
 				B93E81BC1C7F001B00C38211 /* PLSettingViewController.m */,
+				B379605F1D62F24600BE948E /* PLAccountViewController.h */,
+				B37960601D62F24600BE948E /* PLAccountViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1243,7 +1254,9 @@
 				B99543BA1CE5AB2A004F9881 /* ImageSelectedSmallOff@2x.png in Resources */,
 				B99543B41CE5AB2A004F9881 /* ImageSelectedOff@2x.png in Resources */,
 				B99543B91CE5AB2A004F9881 /* ImageSelectedSmallOff.png in Resources */,
+				B37960651D62F5E900BE948E /* ktvip.jpg in Resources */,
 				B99543BB1CE5AB2A004F9881 /* ImageSelectedSmallOff@3x.png in Resources */,
+				B37960631D62F55200BE948E /* isvip.jpg in Resources */,
 				B99543BD1CE5AB2A004F9881 /* ImageSelectedSmallOn@2x.png in Resources */,
 				B99543CF1CE5AB2A004F9881 /* VideoOverlay@2x.png in Resources */,
 				B99543B51CE5AB2A004F9881 /* ImageSelectedOff@3x.png in Resources */,
@@ -1412,6 +1425,7 @@
 				B995437A1CE5AAB3004F9881 /* UIImage+ZFFilter.m in Sources */,
 				B93E82251C7F001B00C38211 /* NSDictionary+PLSign.m in Sources */,
 				BC3FD6CD1CB7AD120049B018 /* UITableView+Separator.m in Sources */,
+				B37960611D62F24600BE948E /* PLAccountViewController.m in Sources */,
 				B93E82321C7F001B00C38211 /* PLStatistics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

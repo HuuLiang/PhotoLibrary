@@ -11,7 +11,7 @@
 #import "PLSystemConfigModel.h"
 #import "PLVideo.h"
 #import "PLPhotoChannel.h"
-
+#import "PLAccountViewController.h"
 
 @interface PLSettingViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -45,28 +45,42 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     }];
     
     @weakify(self);
-    self.layoutTableViewAction = ^(NSIndexPath *indexPath, UITableViewCell *cell) {
+//    self.layoutTableViewAction = ^(NSIndexPath *indexPath, UITableViewCell *cell) {
+//        @strongify(self);
+//        if (cell == self->_bannerCell) {
+//            
+//        } else if (cell == self->_photoCell) {
+//            id<PLPayable> payable = self.photo;
+//            [self payForPayable:payable appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP withCompletionHandler:nil];
+//            
+//        } else if (cell == self->_videoCell) {
+//            id<PLPayable> payable = self.video;
+//            [self payForPayable:payable appleProductId:PL_APPLEPAY_VIDEO_PRODUCTID payPointType:PLPayPointTypeVideoVIP withCompletionHandler:nil];
+//            
+//        } else if (cell == self->_protocolCell) {
+//            
+//        }
+//    };
+    
+    [self initCells];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification) name:kPaymentNotificationName object:nil];
+    
+    self.layoutTableViewAction = ^(NSIndexPath *indexPath, UITableViewCell *cell){
         @strongify(self);
-        if (cell == self->_bannerCell) {
-            
-        } else if (cell == self->_photoCell) {
-            id<PLPayable> payable = self.photo;
-            [self payForPayable:payable appleProductId:PL_APPLEPAY_PICTURE_PRODUCTID payPointType:PLPayPointTypePictureVIP withCompletionHandler:nil];
-            
-        } else if (cell == self->_videoCell) {
-            id<PLPayable> payable = self.video;
-            [self payForPayable:payable appleProductId:PL_APPLEPAY_VIDEO_PRODUCTID payPointType:PLPayPointTypeVideoVIP withCompletionHandler:nil];
-            
-        } else if (cell == self->_protocolCell) {
+        if (indexPath.section == 1) {
+            PLAccountViewController *accountVC = [[PLAccountViewController alloc] init];
+            accountVC.photo = self.photo;
+            [self.navigationController pushViewController:accountVC animated:YES];
             
         }
     };
     
-    [self initCells];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification) name:kPaymentNotificationName object:nil];
-  
-    
 }
+
+//- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//}
+
 
 - (void)onPaidNotification {
     [self initCells];
@@ -77,9 +91,10 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     NSUInteger section = 0;
     
     [self initBannerCell:section++];
-    [self initPhotoVipCell:section++];
+    //    [self initPhotoVipCell:section++];
+    [self initAccountCell:section++];
     [self setHeaderHeight:1 inSection:section];
-//    [self initVideoVipCell:section++];
+    //    [self initVideoVipCell:section++];
     [self setHeaderHeight:2 inSection:section];
     [self initProtocolCell:section];
     [self.layoutTableView reloadData];
@@ -106,6 +121,19 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     [self setLayoutCell:_bannerCell cellHeight:100 inRow:0 andSection:section];
 }
 
+- (void)initAccountCell:(NSInteger)section {
+    UITableViewCell *accountCell = [[UITableViewCell alloc] init];
+//    accountCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    accountCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"av_volumeon"]];
+//    [accountCell addSubview:imageView];
+    accountCell.imageView.image = [UIImage imageNamed:@"popup_menu_marked"];
+    accountCell.textLabel.text = @"我的账号";
+    accountCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [self setLayoutCell:accountCell cellHeight:KWidth(64.) inRow:0 andSection:section];
+}
+
+
 - (void)initPhotoVipCell:(NSUInteger)section {
     _photoCell = [[PLVipCell alloc] init];
     _photoCell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -129,8 +157,8 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     _videoCell.bgImg = @"setting_video_icon";
     NSInteger price = [PLSystemConfigModel sharedModel].videoPrice/100.;
     _videoCell.price = [PLUtil isVideoVip]? @"" : [NSString stringWithFormat:@"%ld",(long)price];
-   
-//    PLVideo *video = [[PLVideo alloc] init];
+    
+    //    PLVideo *video = [[PLVideo alloc] init];
     id<PLPayable> payable = self.video;
     @weakify(self);
     _videoCell.payBtnblock = ^(){

@@ -22,6 +22,8 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 @interface PLUtil : NSObject
 
 + (BOOL)isRegistered;
++ (BOOL)isLogin;
+
 + (void)setRegisteredWithUserId:(NSString *)userId;
 
 + (NSArray<PLPaymentInfo *> *)payingPaymentInfos;
@@ -32,7 +34,6 @@ typedef NS_ENUM(NSUInteger, PLPendingOrderItem) {
 + (NSString *)userId;
 + (NSString *)deviceName;
 + (NSUInteger)appVersion;
-
 
 + (BOOL)isApplePay;//是否是苹果内购
 + (BOOL) isAppleStore;//是否需要切换素版bannner和支付图片

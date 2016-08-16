@@ -78,7 +78,7 @@ DefineLazyPropertyInitialization(PLWeChatPayQueryOrderRequest, wechatPayOrderQue
         return NO;
     }
 #if DEBUG
-//    price = 1;
+    price = 1;
 #endif
     NSString *channelNo = PL_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];

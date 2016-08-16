@@ -277,7 +277,7 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
 }
 
 + (BOOL)isAllVip {
-
+    
     return [PLUtil isVideoVip] && [PLUtil isPictureVip];
 }
 
@@ -287,7 +287,7 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
         PLPaymentInfo *paymentInfo = obj;
         return paymentInfo.payPointType.integerValue == PLPayPointTypePictureVIP;
     }];
-
+    
     return pictureVipInfo != nil;
 }
 
@@ -299,7 +299,7 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
     }];
     
     return pictureVipInfo != nil;
-
+    
 }
 
 + (NSArray<PLPaymentInfo *> *)allSuccessfulPaymentInfos {
@@ -311,4 +311,14 @@ static NSString *const kPaymentForVideoUsageKeyName = @"photolib_payment_for_vid
         return NO;
     }];
 }
+
++ (BOOL)isLogin {
+    NSString *login = [[NSUserDefaults standardUserDefaults] objectForKey:kUserLogin];
+    if ([login isEqualToString:@"yes"]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end

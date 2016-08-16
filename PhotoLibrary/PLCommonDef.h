@@ -98,6 +98,10 @@ typedef UIView BaiduMobAdView;
 #define SafelyCallBlock2(block, arg1, arg2) if (block) block(arg1, arg2);
 #define SafelyCallBlock3(block, arg1, arg2, arg3) if (block) block(arg1, arg2, arg3);
 
+#define kUserAccount            @"kplphotouseraccount"
+#define kUserPassword           @"kplphotouserpassword"
+#define kUserLogin              @"kplphotouserlogin"
+
 
 typedef void (^PLCompletionHandler)(BOOL success, id obj);
 typedef void (^PLAction)(id obj);

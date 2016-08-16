@@ -10,8 +10,10 @@
 #import "PLRegisterViewController.h"
 #import "PLChangePasswordVC.h"
 #import "PLTextField.h"
+#import "PLActivateModel.h"
+#import "PLAppDelegate.h"
 
-@interface PLLoginViewController ()<UITextFieldDelegate>
+@interface PLLoginViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 {
     PLTextField *_accountField;
     PLTextField *_passwordField;
@@ -60,6 +62,7 @@
     
     _passwordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"popup_menu_marked"];
     _passwordField.delegate = self;
+    _passwordField.secureTextEntry = YES;
     _passwordField.font = [UIFont systemFontOfSize:KWidth(18.)];
     [self.view addSubview:_passwordField];
     {
@@ -95,6 +98,48 @@
     [_loginBtn bk_addEventHandler:^(id sender) {
         DLog(@"%@---密码:%@",_accountField.text,_passwordField.text);
         
+        
+        if (_accountField.text.length >=4 && _passwordField.text.length >=6 &&_accountField.text.length<=12 && _passwordField.text.length<= 12 ) {
+            
+            
+            if ([self isHaveNoneChineseWithText:_accountField.text] && [self isHaveNoneChineseWithText:_passwordField.text]) {
+                
+                [self.view pl_beginLoading];
+                
+                //需要先判断登录是否成功
+                [[NSUserDefaults standardUserDefaults] setObject:_accountField.text forKey:kUserAccount];
+                [[NSUserDefaults standardUserDefaults] setObject:_passwordField.text forKey:kUserPassword];
+                [[NSUserDefaults standardUserDefaults ] setObject:@"yes" forKey:kUserLogin];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                if ([PLUtil isRegistered]) {
+                    PLAppDelegate *app = (PLAppDelegate *)[UIApplication sharedApplication].delegate;
+                    [app registAppId];
+                }else{
+                    
+                    [[PLActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+                        [self.view pl_endLoading];
+                        if (success) {
+                            
+                            [PLUtil setRegisteredWithUserId:userId];
+                            PLAppDelegate *app = (PLAppDelegate *)[UIApplication sharedApplication].delegate;
+                            [app registAppId];
+                            
+                        }else {
+                            [[PLHudManager manager] showHudWithText:@"登录失败"];
+                        }
+                    }];
+                }
+                
+            }else {
+                [[PLHudManager manager] showHudWithText:@"只能输入字母和数字"];
+            }
+            
+        } else {
+            
+            [[PLHudManager manager] showHudWithText:@"账号密码长度分别在4-12和6-12个字符之间"];
+        }
+        
     } forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:_loginBtn];
@@ -114,8 +159,13 @@
     changePasswordBtn.backgroundColor = [UIColor clearColor];
     [changePasswordBtn bk_addEventHandler:^(id sender) {
         @strongify(self);
-        PLChangePasswordVC *changePasswordVC = [[PLChangePasswordVC alloc] init];
-        [self.navigationController pushViewController:changePasswordVC animated:YES];
+        
+        //        PLChangePasswordVC *changePasswordVC = [[PLChangePasswordVC alloc] init];
+        //        [self.navigationController pushViewController:changePasswordVC animated:YES];
+        
+        UIAlertView *aleterView = [[UIAlertView alloc] initWithTitle:@"联系客服" message:@"如果忘记密码请联系客服:QQ1243345345或电联" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打电话", nil];
+        [aleterView show];
+        
         
     } forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:changePasswordBtn];
@@ -159,6 +209,31 @@
 }
 
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel:12432434435"]];
+    }
+    
+}
+
+
+/**
+ *  使用正则表达式提示用户只能输入字母和数字
+ */
+- (BOOL)isHaveNoneChineseWithText:(NSString *)text {
+    
+    NSString *patten = @"^[A-Za-z0-9]+$";
+    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:patten options:NSRegularExpressionCaseInsensitive error:nil];
+    NSTextCheckingResult *result = [regular firstMatchInString:text options:NSMatchingReportCompletion range:NSMakeRange(0, text.length)];
+    
+    NSString *resultStr = [text substringWithRange:result.range];
+    
+    if (resultStr.length > 0) {
+        return YES;
+    }
+    
+    return NO;
+}
 
 
 - (void)didReceiveMemoryWarning {

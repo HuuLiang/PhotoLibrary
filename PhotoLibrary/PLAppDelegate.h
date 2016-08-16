@@ -11,6 +11,7 @@
 @interface PLAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+- (void)registAppId;
 
 @end
 
