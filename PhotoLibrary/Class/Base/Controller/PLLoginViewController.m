@@ -32,7 +32,7 @@
 
 - (void)setUpUI {
     @weakify(self);
-    _accountField = [[PLTextField alloc] initWithPlaceholder:@"账号" leftImage:@"popup_menu_marked"];
+    _accountField = [[PLTextField alloc] initWithPlaceholder:@"账号" leftImage:@"account"];
     _accountField.delegate = self;
     _accountField.font = [UIFont systemFontOfSize:KWidth(18.)];
     [self.view addSubview:_accountField];
@@ -60,7 +60,7 @@
         }];
     }
     
-    _passwordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"popup_menu_marked"];
+    _passwordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"password"];
     _passwordField.delegate = self;
     _passwordField.secureTextEntry = YES;
     _passwordField.font = [UIFont systemFontOfSize:KWidth(18.)];
@@ -96,8 +96,9 @@
     _loginBtn.clipsToBounds = YES;
     
     [_loginBtn bk_addEventHandler:^(id sender) {
-        DLog(@"%@---密码:%@",_accountField.text,_passwordField.text);
-        
+//        DLog(@"%@---密码:%@",_accountField.text,_passwordField.text);
+        @strongify(self);
+        [self resignAllFirstResponder];
         
         if (_accountField.text.length >=4 && _passwordField.text.length >=6 &&_accountField.text.length<=12 && _passwordField.text.length<= 12 ) {
             
@@ -147,7 +148,7 @@
         [_loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(_accountField);
             make.top.mas_equalTo(_passwordField.mas_bottom).mas_offset(KWidth(15.));
-            make.size.mas_equalTo(CGSizeMake(kScreenWidth*0.75, KWidth(45.)));
+            make.size.mas_equalTo(CGSizeMake(kScreenWidth*0.75, KWidth(35.)));
         }];
     }
     
@@ -163,7 +164,7 @@
         //        PLChangePasswordVC *changePasswordVC = [[PLChangePasswordVC alloc] init];
         //        [self.navigationController pushViewController:changePasswordVC animated:YES];
         
-        UIAlertView *aleterView = [[UIAlertView alloc] initWithTitle:@"联系客服" message:@"如果忘记密码请联系客服:QQ1243345345或电联" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拨打电话", nil];
+        UIAlertView *aleterView = [[UIAlertView alloc] initWithTitle:@"咨询客服QQ:2686229951\n投诉客服QQ:3153715820" message:@"工作时间:每周一至周五10:00-18:00" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
         [aleterView show];
         
         
@@ -188,7 +189,7 @@
     [registBtn bk_addEventHandler:^(id sender) {
         @strongify(self);
         PLRegisterViewController *registVC = [[PLRegisterViewController alloc] init];
-        [self.navigationController pushViewController:registVC animated:YES];
+        [self presentViewController:registVC animated:YES completion:nil];
         
     } forControlEvents:UIControlEventTouchUpInside];
     
@@ -202,17 +203,17 @@
     }
     
     [self.view bk_whenTapped:^{
-        [_accountField resignFirstResponder];
-        [_passwordField resignFirstResponder];
+        @strongify(self);
+        [self resignAllFirstResponder];
     }];
     
 }
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel:12432434435"]];
-    }
+//    if (buttonIndex == 1) {
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel:12432434435"]];
+//    }
     
 }
 
@@ -234,7 +235,10 @@
     
     return NO;
 }
-
+- (void)resignAllFirstResponder{
+    [_accountField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

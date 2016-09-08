@@ -35,6 +35,7 @@
 		B379A0A01D3C7807004D4454 /* PLVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A0991D3C7807004D4454 /* PLVideo.m */; };
 		B379A0A11D3C7807004D4454 /* PLVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A09B1D3C7807004D4454 /* PLVideoModel.m */; };
 		B379A0A21D3C7807004D4454 /* PLVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B379A09E1D3C7807004D4454 /* PLVideoCell.m */; };
+		B39ABFAA1D63FFDA006C7D49 /* login.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B39ABFA91D63FFDA006C7D49 /* login.jpg */; };
 		B3DDBDC71D619771009EC0D8 /* PLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDC61D619771009EC0D8 /* PLLoginViewController.m */; };
 		B3DDBDCA1D619F69009EC0D8 /* PLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDC91D619F69009EC0D8 /* PLRegisterViewController.m */; };
 		B3DDBDCD1D61B3DF009EC0D8 /* PLUserBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DDBDCC1D61B3DF009EC0D8 /* PLUserBaseController.m */; };
@@ -230,6 +231,7 @@
 		B379A09B1D3C7807004D4454 /* PLVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoModel.m; sourceTree = "<group>"; };
 		B379A09D1D3C7807004D4454 /* PLVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLVideoCell.h; sourceTree = "<group>"; };
 		B379A09E1D3C7807004D4454 /* PLVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLVideoCell.m; sourceTree = "<group>"; };
+		B39ABFA91D63FFDA006C7D49 /* login.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = login.jpg; sourceTree = "<group>"; };
 		B3DDBDC51D619771009EC0D8 /* PLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLLoginViewController.h; sourceTree = "<group>"; };
 		B3DDBDC61D619771009EC0D8 /* PLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLLoginViewController.m; sourceTree = "<group>"; };
 		B3DDBDC81D619F69009EC0D8 /* PLRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLRegisterViewController.h; sourceTree = "<group>"; };
@@ -527,6 +529,7 @@
 				B37960621D62F55200BE948E /* isvip.jpg */,
 				EC8753D91D2B531300EC6DB5 /* appstore_banner.jpg */,
 				EC8753DA1D2B531300EC6DB5 /* appstore_image.jpg */,
+				B39ABFA91D63FFDA006C7D49 /* login.jpg */,
 			);
 			name = banner;
 			sourceTree = "<group>";
@@ -1246,6 +1249,7 @@
 				B99543B61CE5AB2A004F9881 /* ImageSelectedOn.png in Resources */,
 				B99543B01CE5AB2A004F9881 /* ImageError.png in Resources */,
 				B99543BC1CE5AB2A004F9881 /* ImageSelectedSmallOn.png in Resources */,
+				B39ABFAA1D63FFDA006C7D49 /* login.jpg in Resources */,
 				B99543C71CE5AB2A004F9881 /* UIBarButtonItemArrowLeft@3x.png in Resources */,
 				B99543C21CE5AB2A004F9881 /* PlayButtonOverlayLargeTap.png in Resources */,
 				B99543CE1CE5AB2A004F9881 /* VideoOverlay.png in Resources */,

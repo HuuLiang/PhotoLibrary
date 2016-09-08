@@ -70,6 +70,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         PLLoginViewController *loginVC = [[PLLoginViewController alloc] init];
+//        UINavigationController *loginNav = [[UINavigationController alloc] initWithRootViewController:loginVC];
         [self presentViewController:loginVC animated:YES completion:nil];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserAccount];
         [[NSUserDefaults standardUserDefaults ] removeObjectForKey:kUserPassword];
@@ -108,7 +109,7 @@
         self.changePasswordCell = changePasswordCell;
         changePasswordCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         changePasswordCell.selectionStyle = UITableViewCellSelectionStyleGray;
-        changePasswordCell.imageView.image = [UIImage imageNamed:@"mine_vip_icon"];
+        changePasswordCell.imageView.image = [UIImage imageNamed:@"changepaaword"];
         changePasswordCell.textLabel.text = @"修改密码";
         [self setLayoutCell:changePasswordCell cellHeight:KWidth(54) inRow:0 andSection:section++];
         
@@ -121,7 +122,7 @@
     self.outAccountCell = outAccount;
     outAccount.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     outAccount.selectionStyle = UITableViewCellSelectionStyleGray;
-    outAccount.imageView.image = [UIImage imageNamed:@"mine_vip_icon"];
+    outAccount.imageView.image = [UIImage imageNamed:@"loginout"];
     outAccount.textLabel.text = [PLUtil isLogin] ? @"退出登录" : @"登录";
     [self setLayoutCell:outAccount cellHeight:KWidth(54) inRow:0 andSection:section++];
     

@@ -25,19 +25,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStylePlain target:self action:@selector(popToLoginView)];
+    //    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStylePlain target:self action:@selector(popToLoginView)];
     
     [self setUpUI];
 }
 
-- (void)popToLoginView {
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
+//- (void)popToLoginView {
+//    [self.navigationController popViewControllerAnimated:YES];
+//    
+//}
 
 - (void)setUpUI {
     @weakify(self);
-    _accountField = [[PLTextField alloc] initWithPlaceholder:@"账号" leftImage:@"popup_menu_marked"];
+    _accountField = [[PLTextField alloc] initWithPlaceholder:@"账号" leftImage:@"account"];
     _accountField.delegate = self;
     _accountField.font = [UIFont systemFontOfSize:KWidth(18.)];
     [self.view addSubview:_accountField];
@@ -65,7 +65,7 @@
         }];
     }
     
-    _passwordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"popup_menu_marked"];
+    _passwordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"password"];
     _passwordField.delegate = self;
     _passwordField.secureTextEntry = YES;
     _passwordField.font = [UIFont systemFontOfSize:KWidth(18.)];
@@ -91,7 +91,7 @@
             
         }];
     }
-    _nextPasswordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"popup_menu_marked"];
+    _nextPasswordField = [[PLTextField alloc] initWithPlaceholder:@"密码" leftImage:@"password"];
     _nextPasswordField.delegate = self;
     _nextPasswordField.secureTextEntry = YES;
     _nextPasswordField.font = [UIFont systemFontOfSize:KWidth(18.)];
@@ -125,7 +125,9 @@
     _registBtn.clipsToBounds = YES;
     
     [_registBtn bk_addEventHandler:^(id sender) {
-        DLog(@"%@---密码:%@",_accountField.text,_passwordField.text);
+        //        DLog(@"%@---密码:%@",_accountField.text,_passwordField.text);
+        @strongify(self);
+        [self resignAllFirstResponder];
         
         if (_accountField.text.length >=4 && _passwordField.text.length >=6 && _nextPasswordField.text.length >= 6 &&_accountField.text.length<=12 && _passwordField.text.length<= 12 && _nextPasswordField.text.length<=12) {
             
@@ -146,7 +148,7 @@
                             [PLUtil setRegisteredWithUserId:userId];
                             PLAppDelegate *app = (PLAppDelegate *)[UIApplication sharedApplication].delegate;
                             [app registAppId];
-                              [[PLHudManager manager] showHudWithText:@"注册完成"];
+                            [[PLHudManager manager] showHudWithText:@"注册完成"];
                         }else {
                             [[PLHudManager manager] showHudWithText:@"注册失败"];
                         }
@@ -172,7 +174,7 @@
         [_registBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(_accountField);
             make.top.mas_equalTo(_nextPasswordField.mas_bottom).mas_offset(KWidth(15.));
-            make.size.mas_equalTo(CGSizeMake(kScreenWidth*0.75, KWidth(45.)));
+            make.size.mas_equalTo(CGSizeMake(kScreenWidth*0.75, KWidth(35.)));
         }];
     }
     
@@ -184,7 +186,7 @@
     loginBtn.backgroundColor = [UIColor clearColor];
     [loginBtn bk_addEventHandler:^(id sender) {
         @strongify(self);
-        [self popToLoginView];
+        [self dismissViewControllerAnimated:YES completion:nil];
         
     } forControlEvents:UIControlEventTouchUpInside];
     
@@ -198,8 +200,8 @@
     }
     
     [self.view bk_whenTapped:^{
-        [_accountField resignFirstResponder];
-        [_passwordField resignFirstResponder];
+        @strongify(self);
+        [self resignAllFirstResponder];
     }];
     
 }
@@ -220,6 +222,12 @@
     }
     
     return NO;
+}
+
+- (void)resignAllFirstResponder{
+    [_accountField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [_nextPasswordField resignFirstResponder];
 }
 
 

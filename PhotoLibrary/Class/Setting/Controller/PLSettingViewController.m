@@ -121,16 +121,17 @@ DefineLazyPropertyInitialization(PLPhotoChannel, photo)
     [self setLayoutCell:_bannerCell cellHeight:100 inRow:0 andSection:section];
 }
 
+
 - (void)initAccountCell:(NSInteger)section {
     UITableViewCell *accountCell = [[UITableViewCell alloc] init];
 //    accountCell.selectionStyle = UITableViewCellSelectionStyleNone;
     accountCell.backgroundColor = [UIColor colorWithHexString:@"#ffffff"];
 //    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"av_volumeon"]];
 //    [accountCell addSubview:imageView];
-    accountCell.imageView.image = [UIImage imageNamed:@"popup_menu_marked"];
+    accountCell.imageView.image = [UIImage imageNamed:@"myaccount"];
     accountCell.textLabel.text = @"我的账号";
     accountCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [self setLayoutCell:accountCell cellHeight:KWidth(64.) inRow:0 andSection:section];
+    [self setLayoutCell:accountCell cellHeight:KWidth(54.) inRow:0 andSection:section];
 }
 
 

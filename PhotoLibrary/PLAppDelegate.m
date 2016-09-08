@@ -281,8 +281,8 @@
     
     if (![PLUtil isLogin]) {
         PLLoginViewController *loginVC = [[PLLoginViewController alloc] init];
-        UINavigationController *loginNav = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        self.window.rootViewController = loginNav;
+//        UINavigationController *loginNav = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        self.window.rootViewController = loginVC;
         [self.window makeKeyAndVisible];
     }else {
         //        [[PLUserAccessModel sharedModel] requestUserAccess];

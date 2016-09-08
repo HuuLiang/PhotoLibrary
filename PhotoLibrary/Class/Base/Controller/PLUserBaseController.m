@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"appstore_image.jpg"]];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login.jpg"]];
     backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     backgroundImageView.clipsToBounds = YES;
     [self.view addSubview:backgroundImageView];
@@ -25,6 +25,17 @@
             make.edges.equalTo(self.view);
         }];
     }
+    UIView *coverView = [[UIView alloc] init];
+    coverView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.3];
+    [backgroundImageView addSubview:coverView];
+    {
+    [coverView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(backgroundImageView);
+    }];
+    
+    }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
